@@ -20,10 +20,14 @@ onready var collision_2_body_part := {
 	$"root/Skeleton/Physical Bone upperarmr" : Global.BodyPart.UpperArm,
 	$"root/Skeleton/Physical Bone lowerarml" : Global.BodyPart.LowerArm,
 	$"root/Skeleton/Physical Bone lowerarmr" : Global.BodyPart.LowerArm,
+	$"root/Skeleton/Physical Bone handr" : Global.BodyPart.LowerArm,
+	$"root/Skeleton/Physical Bone handl" : Global.BodyPart.LowerArm,
 	$"root/Skeleton/Physical Bone thighl" : Global.BodyPart.UpperLeg,
 	$"root/Skeleton/Physical Bone thighr" : Global.BodyPart.UpperLeg,
 	$"root/Skeleton/Physical Bone calfl" : Global.BodyPart.LowerLeg,
 	$"root/Skeleton/Physical Bone calfr" : Global.BodyPart.LowerLeg,
+	$"root/Skeleton/Physical Bone footl" : Global.BodyPart.LowerLeg,
+	$"root/Skeleton/Physical Bone footr" : Global.BodyPart.LowerLeg,
 }
 
 func _ready() -> void:
