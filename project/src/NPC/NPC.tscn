@@ -20,4 +20,9 @@ transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1, 0 )
 shape = SubResource( 5 )
 
+[node name="TimerDie" type="Timer" parent="."]
+wait_time = 7.0
+one_shot = true
+
 [connection signal="hit_body_part" from="." to="." method="_on_hit_body_part"]
+[connection signal="timeout" from="TimerDie" to="." method="_on_timer_die_timeout"]

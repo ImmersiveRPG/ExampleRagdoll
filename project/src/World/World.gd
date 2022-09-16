@@ -4,6 +4,7 @@
 
 extends Spatial
 
+signal npc_died()
 
 func _ready() -> void:
 	Global._root_node = self
@@ -18,9 +19,14 @@ func _input(_event) -> void:
 	elif Input.is_action_just_released("ToggleFullScreen"):
 		OS.window_fullscreen = not OS.window_fullscreen
 	elif Input.is_action_just_pressed("MoveNPC"):
-		var positions := []
-		for child in Global._root_node.get_children():
-			if child is Position3D:
-				positions.append(child)
-		var position = Global.array_random_value(positions)
-		$NPC._position = position
+		# Pick random destination
+		var destinations := $Positions.get_children()
+		var destination = Global.array_random_value(destinations)
+
+		# Give the NPC the destination
+		var npcs := $NPCs.get_children()
+		if not npcs.empty():
+			npcs[0]._destination = destination
+
+func _on_world_npc_died() -> void:
+	Global.create_npc()

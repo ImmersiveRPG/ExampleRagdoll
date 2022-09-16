@@ -18,7 +18,11 @@ var _hp := HP_MAX
 var _velocity := Vector3.ZERO
 var _extra_velocity := Vector3.ZERO
 var _snap_vector := Vector3.ZERO
-var _position : Position3D = null
+var _destination : Position3D = null
+
+func _notification(what : int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		Global._root_node.emit_signal("npc_died")
 
 func _ready() -> void:
 	_animation_player.play("idle")
@@ -29,6 +33,7 @@ func die() -> void:
 
 	$CollisionShape.disabled = true
 	self._start_ragdoll()
+	$TimerDie.start()
 
 	var scene_file := "res://src/NPC/DeathDebris/DeathDebris.tscn"
 	#SceneLoader.load_scene_async_with_cb(self, scene_file, Vector3.ZERO, true, funcref(self, "_on_die"), {})
@@ -49,12 +54,12 @@ func _process(_delta : float) -> void:
 
 	# Update the velocity
 	var prev_velocity = _velocity
-	#print(_position)
-	if _position != null:
-		var direction = _position.global_transform.origin - self.transform.origin
+	#print(_destination)
+	if _destination != null:
+		var direction = _destination.global_transform.origin - self.transform.origin
 		var threshold := 2.0
 		if abs(direction.length()) < threshold:
-			_position = null
+			_destination = null
 			_velocity = Vector3.ZERO
 		else:
 			_velocity = direction.normalized() * 2.0
@@ -137,3 +142,7 @@ func _on_spray_loaded(_path : String, node : Node, _pos : Vector3, _is_pos_globa
 	node.global_transform.origin = pos
 	node._set_color(Color.red)
 	node._set_enable_particles(true)
+
+
+func _on_timer_die_timeout() -> void:
+	self.queue_free()

@@ -22,6 +22,7 @@ var _root_node : Node
 onready var _scene_bullet := ResourceLoader.load("res://src/Bullet/Bullet.tscn")
 onready var _scene_bullet_glow := ResourceLoader.load("res://src/BulletGlow/BulletGlow.tscn")
 onready var _scene_bullet_spark := ResourceLoader.load("res://src/BulletSpark/BulletSpark.tscn")
+var _scene_npc = preload("res://src/NPC/NPC.tscn")
 
 func _ready() -> void:
 	# Setup random number generator
@@ -40,6 +41,19 @@ func create_bullet_spark(pos : Vector3) -> void:
 	Global._root_node.add_child(spark)
 	spark.global_transform.origin = pos
 
+func create_npc() -> void:
+	# Create NPC and add to world
+	var npc = _scene_npc.instance()
+	self._root_node.get_node("NPCs").add_child(npc)
+
+	# Move the NPC to a random position near center
+	var r := 5.0
+	npc.transform.origin = Vector3(
+		Global._rng.randf_range(-r, r),
+		0.0,
+		Global._rng.randf_range(-r, r)
+	)
+
 func array_random_index(array : Array) -> int:
 	var i : int = _rng.randi_range(0, array.size() - 1)
 	return i
@@ -47,10 +61,6 @@ func array_random_index(array : Array) -> int:
 func array_random_value(array : Array):
 	var i : int = array_random_index(array)
 	return array[i]
-
-func array_pop_random_value(array : Array):
-	var i : int = array_random_index(array)
-	return array.pop_at(i)
 
 enum BodyPart {
 	Head,
