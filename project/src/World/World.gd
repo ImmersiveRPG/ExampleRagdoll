@@ -17,3 +17,10 @@ func _input(_event) -> void:
 		self.get_tree().quit()
 	elif Input.is_action_just_released("ToggleFullScreen"):
 		OS.window_fullscreen = not OS.window_fullscreen
+	elif Input.is_action_just_pressed("MoveNPC"):
+		var positions := []
+		for child in Global._root_node.get_children():
+			if child is Position3D:
+				positions.append(child)
+		var position = Global.array_random_value(positions)
+		$NPC._position = position

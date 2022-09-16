@@ -17,6 +17,7 @@ var _hp := HP_MAX
 var _velocity := Vector3.ZERO
 var _extra_velocity := Vector3.ZERO
 var _snap_vector := Vector3.ZERO
+var _position : Position3D = null
 
 func _ready() -> void:
 	_animation_player.play("idle")
@@ -47,7 +48,17 @@ func _process(_delta : float) -> void:
 
 	# Update the velocity
 	var prev_velocity = _velocity
-	_velocity = Vector3.ZERO
+	#print(_position)
+	if _position != null:
+		var direction = _position.global_transform.origin - self.transform.origin
+		var threshold := 2.0
+		if abs(direction.length()) < threshold:
+			_position = null
+			_velocity = Vector3.ZERO
+		else:
+			_velocity = direction.normalized() * 2.0
+	else:
+		_velocity = Vector3.ZERO
 
 	# Update the animation
 	if prev_velocity != _velocity:
@@ -65,7 +76,9 @@ func _physics_process(delta : float) -> void:
 	# Snap to floor plane if close enough
 	_snap_vector = -get_floor_normal() if is_on_floor() else Vector3.DOWN
 
-	self.rotation.y = lerp_angle(self.rotation.y, atan2(-_velocity.x, -_velocity.z), ROTATION_SPEED * delta)
+	# Face direction moving in
+	if not is_equal_approx(_velocity.x, 0.0) and not is_equal_approx(_velocity.y, 0.0):
+		self.rotation.y = lerp_angle(self.rotation.y, atan2(-_velocity.x, -_velocity.z), ROTATION_SPEED * delta)
 
 	# Actually move
 	_velocity = move_and_slide_with_snap(_velocity + _extra_velocity, _snap_vector, Vector3.UP, true, 4, Global.FLOOR_SLOPE_MAX_THRESHOLD, false)
