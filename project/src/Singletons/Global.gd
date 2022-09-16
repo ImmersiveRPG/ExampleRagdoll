@@ -51,3 +51,13 @@ func array_random_value(array : Array):
 func array_pop_random_value(array : Array):
 	var i : int = array_random_index(array)
 	return array.pop_at(i)
+
+enum BodyPart {
+	Head,
+	Torso,
+	Pelvis,
+	UpperArm,
+	LowerArm,
+	UpperLeg,
+	LowerLeg,
+}

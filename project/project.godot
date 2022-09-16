@@ -18,6 +18,11 @@ config/icon="res://icon.png"
 
 Global="*res://src/Singletons/Global.gd"
 
+[display]
+
+window/size/width=1280
+window/size/height=800
+
 [input]
 
 MoveForward={
@@ -62,6 +67,7 @@ ToggleFullScreen={
 3d_physics/layer_2="item"
 3d_physics/layer_3="player"
 3d_physics/layer_4="npc"
+3d_physics/layer_5="body_part"
 
 [physics]
 

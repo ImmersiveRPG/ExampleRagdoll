@@ -53,8 +53,9 @@ func _physics_process(delta : float) -> void:
 		Global.create_bullet_spark(self.global_transform.origin)
 
 		if collider.is_in_group("body_part"):
+			#print("Hit body part %s" % [collider.name])
 			var force := _mass * _velocity.length()
-			collider.emit_signal("hit", -self.transform.basis.z, force)
+			collider.owner.emit_signal("hit", self.global_transform.origin, collider)
 
 			self.queue_free()
 

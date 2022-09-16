@@ -2,15 +2,29 @@
 # This file is licensed under the MIT License
 # https://github.com/ImmersiveRPG/ExampleRagdoll
 
-#tool
+tool
 extends Spatial
 
-signal hit(origin, bullet_type, collider)
-signal hit_body_part(origin, body_part, bullet_type)
+signal hit(origin, collider)
+signal hit_body_part(origin, body_part)
 
 var is_ragdoll := false
 var _bone_names := []
 var _skeleton : Skeleton = null
+
+onready var collision_2_body_part := {
+	$"root/Skeleton/Physical Bone neck_1" : Global.BodyPart.Head,
+	$"root/Skeleton/Physical Bone spine_2" : Global.BodyPart.Torso,
+	$"root/Skeleton/Physical Bone pelvis" : Global.BodyPart.Pelvis,
+	$"root/Skeleton/Physical Bone upperarml" : Global.BodyPart.UpperArm,
+	$"root/Skeleton/Physical Bone upperarmr" : Global.BodyPart.UpperArm,
+	$"root/Skeleton/Physical Bone lowerarml" : Global.BodyPart.LowerArm,
+	$"root/Skeleton/Physical Bone lowerarmr" : Global.BodyPart.LowerArm,
+	$"root/Skeleton/Physical Bone thighl" : Global.BodyPart.UpperLeg,
+	$"root/Skeleton/Physical Bone thighr" : Global.BodyPart.UpperLeg,
+	$"root/Skeleton/Physical Bone calfl" : Global.BodyPart.LowerLeg,
+	$"root/Skeleton/Physical Bone calfr" : Global.BodyPart.LowerLeg,
+}
 
 func _ready() -> void:
 	_skeleton = $root/Skeleton
@@ -22,28 +36,17 @@ func _ready() -> void:
 		if _skeleton.has_node("Physical Bone %s" % [name]):
 			_bone_names.append(name)
 
-func _on_hit(origin : Vector3, bullet_type : int, collider : Area) -> void:
-	#print("?? _on_hit(%s, %s)" % [bullet_type, collider])
-	var collision_2_body_part := {
-		$"root/Skeleton/Physical Bone neck_1/Head" : Global.BodyPart.Head,
-		$"root/Skeleton/Physical Bone spine_2/Chest" : Global.BodyPart.Torso,
-		$"root/Skeleton/Physical Bone pelvis/Pelvis" : Global.BodyPart.Pelvis,
-		$"root/Skeleton/Physical Bone upperarml/ArmUpperLeft" : Global.BodyPart.UpperArm,
-		$"root/Skeleton/Physical Bone upperarmr/ArmUpperRight" : Global.BodyPart.UpperArm,
-		$"root/Skeleton/Physical Bone lowerarml/ArmLowerLeft" : Global.BodyPart.LowerArm,
-		$"root/Skeleton/Physical Bone lowerarmr/ArmLowerRight" : Global.BodyPart.LowerArm,
-		$"root/Skeleton/Physical Bone thighl/LegUpperLeft" : Global.BodyPart.UpperLeg,
-		$"root/Skeleton/Physical Bone thighr/LegUpperRight" : Global.BodyPart.UpperLeg,
-		$"root/Skeleton/Physical Bone calfl/LegLowerLeft" : Global.BodyPart.LowerLeg,
-		$"root/Skeleton/Physical Bone calfr/LegLowerRight" : Global.BodyPart.LowerLeg,
-	}
+func _on_hit(origin : Vector3, collider : Node) -> void:
+	#print("?? _on_hit(%s)" % [collider.name])
+	if not collision_2_body_part.has(collider): return
 
 	var body_part = collision_2_body_part[collider]
-	self.emit_signal("hit_body_part", origin, body_part, bullet_type)
+	self.emit_signal("hit_body_part", origin, body_part)
 
 func _on_skeleton_updated() -> void:
 	var parent_rotation = Vector3(0.0, deg2rad(180.0), 0.0)
-	parent_rotation = self.get_parent().get_parent().rotation
+	if not Engine.editor_hint:
+		parent_rotation = self.get_parent().get_parent().rotation
 
 	# Join the animation bones and physical bones
 	for entry in _bone_names:

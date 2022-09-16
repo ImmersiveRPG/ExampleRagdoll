@@ -31,8 +31,7 @@ func die() -> void:
 	#SceneLoader.load_scene_async_with_cb(self, scene_file, Vector3.ZERO, true, funcref(self, "_on_die"), {})
 
 func _on_die(_path : String, instance : Node, _pos : Vector3, _is_pos_global : bool, _data : Dictionary) -> void:
-	var terrain = Global.get_parent_terrain(self)
-	terrain.add_child(instance)
+	Global._root_node.add_child(instance)
 	instance._setup(self)
 
 func set_hp(value : float) -> void:
@@ -94,56 +93,32 @@ func _on_thrown(impact : RigidBody) -> void:
 	self.set_hp(_hp - damage)
 
 
-func _on_hit_body_part(origin : Vector3, body_part : int, bullet_type : int) -> void:
-	var power := 0.0
-	match bullet_type:
-		Global.BulletType._50BMG:
-			power = 80.0
-		Global.BulletType._308:
-			power = 60.0
-		Global.BulletType._556:
-			power = 40.0
-		Global.BulletType._45:
-			power = 30.0
-		Global.BulletType._9MM:
-			power = 20.0
-		Global.BulletType._22LR:
-			power = 10.0
-		Global.BulletType._12Gauge:
-			power = 40.0
-		_:
-			Global.crash_game("Unexpected BulletType: %s" % bullet_type)
-			return
+func _on_hit_body_part(origin : Vector3, body_part : int) -> void:
+	var power := 60.0
+	print(["_on_hit_body_part", body_part])
 
 	match body_part:
 		Global.BodyPart.Head:
 			self.set_hp(0.0)
-			print("!!! hit Head with %s" % [bullet_type])
 		Global.BodyPart.Torso:
 			self.set_hp(_hp - power)
-			print("!!! hit Torso with %s" % [bullet_type])
 		Global.BodyPart.Pelvis:
 			self.set_hp(_hp - power)
-			print("!!! hit Pelvis with %s" % [bullet_type])
 		Global.BodyPart.UpperArm:
 			self.set_hp(_hp - power)
-			print("!!! hit UpperArm with %s" % [bullet_type])
 		Global.BodyPart.LowerArm:
 			self.set_hp(_hp - power)
-			print("!!! hit LowerArm with %s" % [bullet_type])
 		Global.BodyPart.UpperLeg:
 			self.set_hp(_hp - power)
-			print("!!! hit UpperLeg with %s" % [bullet_type])
 		Global.BodyPart.LowerLeg:
 			self.set_hp(_hp - power)
-			print("!!! hit LowerLeg with %s" % [bullet_type])
 		_:
 			Global.crash_game("Unexpected BodyPart: %s" % body_part)
 			return
 
 	var scene_file := "res://src/Effects/LiquidSpray/LiquidSpray.tscn"
 	var data := {
-		"terrain" : Global.get_parent_terrain(self),
+		"terrain" : Global._root_node,
 		"color" : Color.red,
 		"is_pos_global" : true,
 		"pos" : origin,

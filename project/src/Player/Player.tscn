@@ -72,7 +72,7 @@ shape = SubResource( 5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )
 
 [node name="Camera" type="ClippedCamera" parent="CameraMount/v"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.15834 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00735521, -1.00567, 0.128361 )
 near = 0.5
 far = 2000.0
 process_mode = 1
