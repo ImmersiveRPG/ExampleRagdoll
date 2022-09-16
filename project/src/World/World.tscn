@@ -82,8 +82,8 @@ skeleton = NodePath("../../Position3D")
 [node name="NPC" parent="NPCs" instance=ExtResource( 4 )]
 
 [node name="UI" type="Control" parent="."]
-margin_right = 279.0
-margin_bottom = 108.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="ColorRect" type="ColorRect" parent="UI"]
 margin_left = 8.0
@@ -109,10 +109,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 482.5
-margin_top = 339.0
-margin_right = 483.5
-margin_bottom = 344.0
+margin_left = -0.5
+margin_top = -2.5
+margin_right = 0.5
+margin_bottom = 2.5
 color = Color( 1, 0.937255, 0, 1 )
 
 [node name="Target2" type="ColorRect" parent="UI"]
@@ -120,10 +120,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 480.5
-margin_top = 341.0
-margin_right = 485.5
-margin_bottom = 342.0
+margin_left = -2.5
+margin_top = -0.5
+margin_right = 2.5
+margin_bottom = 0.5
 color = Color( 1, 0.937255, 0, 1 )
 
 [connection signal="npc_died" from="." to="." method="_on_world_npc_died"]
