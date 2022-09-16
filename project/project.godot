@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "BulletSpark",
 "language": "GDScript",
 "path": "res://src/BulletSpark/BulletSpark.gd"
+}, {
+"base": "Spatial",
+"class": "PathMarker",
+"language": "GDScript",
+"path": "res://src/PathMarker/PathMarker.gd"
 } ]
 _global_script_class_icons={
 "BulletGlow": "",
-"BulletSpark": ""
+"BulletSpark": "",
+"PathMarker": ""
 }
 
 [application]
@@ -33,6 +39,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Global="*res://src/Singletons/Global.gd"
+Palette="*res://src/Singletons/Palette.gd"
 
 [input]
 
@@ -77,6 +84,7 @@ ToggleFullScreen={
 3d_physics/layer_1="terrain"
 3d_physics/layer_2="item"
 3d_physics/layer_3="player"
+3d_physics/layer_4="npc"
 
 [physics]
 

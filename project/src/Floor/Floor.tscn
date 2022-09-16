@@ -14,7 +14,7 @@ material = SubResource( 4 )
 size = Vector3( 1000, 50, 1000 )
 
 [node name="Floor" type="StaticBody"]
-collision_mask = 4
+collision_mask = 126
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 0 )
