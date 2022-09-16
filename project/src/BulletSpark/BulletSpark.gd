@@ -3,7 +3,6 @@
 # https://github.com/ImmersiveRPG/ExampleRagdoll
 
 extends MeshInstance
-class_name BulletSpark
 
 
 

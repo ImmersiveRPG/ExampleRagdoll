@@ -10,9 +10,7 @@ const JUMP_IMPULSE := 20.0
 const ROTATION_SPEED := 10.0
 
 var _is_thrown := false
-var _is_nuked := false
 var _is_dead := false
-signal nuke(nuke_origin)
 signal thrown(impact)
 
 onready var _animation_player = self.get_node("Pivot/Mannequiny/AnimationPlayer")
@@ -21,13 +19,6 @@ var _hp := HP_MAX
 var _velocity := Vector3.ZERO
 var _extra_velocity := Vector3.ZERO
 var _snap_vector := Vector3.ZERO
-var _path_marker : PathMarker = null
-
-func _notification(what : int) -> void:
-	if what == NOTIFICATION_PREDELETE:
-		if _path_marker != null and is_instance_valid(_path_marker):
-			_path_marker.queue_free()
-			_path_marker = null
 
 func _ready() -> void:
 	_animation_player.play("idle")
@@ -35,10 +26,6 @@ func _ready() -> void:
 func die() -> void:
 	if _is_dead: return
 	_is_dead = true
-
-	if _path_marker != null and is_instance_valid(_path_marker):
-		_path_marker.queue_free()
-		_path_marker = null
 
 	var scene_file := "res://src/NPC/DeathDebris/DeathDebris.tscn"
 	#SceneLoader.load_scene_async_with_cb(self, scene_file, Vector3.ZERO, true, funcref(self, "_on_die"), {})
@@ -54,11 +41,6 @@ func set_hp(value : float) -> void:
 	# Die if has no health
 	if _hp == 0.0:
 		self.die()
-
-	self.update_label()
-
-func update_label() -> void:
-	$NameTag.set_text("(hp: %.2f)" % [_hp])
 
 func _process(_delta : float) -> void:
 	if _is_dead: return
@@ -88,13 +70,6 @@ func _physics_process(delta : float) -> void:
 	# Actually move
 	_velocity = move_and_slide_with_snap(_velocity + _extra_velocity, _snap_vector, Vector3.UP, true, 4, Global.FLOOR_SLOPE_MAX_THRESHOLD, false)
 	_extra_velocity = lerp(_extra_velocity, Vector3.ZERO, 0.1 * delta)
-
-func _on_nuke(nuke_origin : Vector3) -> void:
-	print("Nuked NPC Generic ........................")
-
-	$NameTag.hide()
-
-	Global._apply_nuke_force(nuke_origin, self)
 
 func _start_ragdoll() -> void:
 	_animation_player.stop()

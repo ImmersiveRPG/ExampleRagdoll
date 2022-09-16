@@ -2,7 +2,6 @@
 # This file is licensed under the MIT License
 # https://github.com/ImmersiveRPG/ExampleRagdoll
 
-class_name BulletGlow
 extends ImmediateGeometry
 
 var _points := []

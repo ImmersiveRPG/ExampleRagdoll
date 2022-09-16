@@ -8,28 +8,6 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "ImmediateGeometry",
-"class": "BulletGlow",
-"language": "GDScript",
-"path": "res://src/BulletGlow/BulletGlow.gd"
-}, {
-"base": "MeshInstance",
-"class": "BulletSpark",
-"language": "GDScript",
-"path": "res://src/BulletSpark/BulletSpark.gd"
-}, {
-"base": "Spatial",
-"class": "PathMarker",
-"language": "GDScript",
-"path": "res://src/PathMarker/PathMarker.gd"
-} ]
-_global_script_class_icons={
-"BulletGlow": "",
-"BulletSpark": "",
-"PathMarker": ""
-}
-
 [application]
 
 config/name="ExampleRagdoll"
@@ -39,7 +17,6 @@ config/icon="res://icon.png"
 [autoload]
 
 Global="*res://src/Singletons/Global.gd"
-Palette="*res://src/Singletons/Palette.gd"
 
 [input]
 
