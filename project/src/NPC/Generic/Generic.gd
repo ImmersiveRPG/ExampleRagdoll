@@ -9,9 +9,7 @@ const VELOCITY_MAX := 10.0
 const JUMP_IMPULSE := 20.0
 const ROTATION_SPEED := 10.0
 
-var _is_thrown := false
 var _is_dead := false
-signal thrown(impact)
 
 onready var _animation_player = self.get_node("Pivot/Mannequiny/AnimationPlayer")
 
@@ -79,18 +77,6 @@ func _stop_ragdoll() -> void:
 	#_animation_player.stop()
 	$Pivot/Mannequiny/root/Skeleton.physical_bones_stop_simulation()
 	$Pivot/Mannequiny.is_ragdoll = false
-
-func _on_thrown(impact : RigidBody) -> void:
-	if _is_thrown: return
-
-	# Throw self
-	Global._throw_thing(impact, self)
-
-	# Apply damage
-	var force : float = impact.linear_velocity.length() * impact.mass
-	var damage := force / 10.0
-	#print(damage, " ", force)
-	self.set_hp(_hp - damage)
 
 
 func _on_hit_body_part(origin : Vector3, body_part : int) -> void:

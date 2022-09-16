@@ -8,7 +8,7 @@ var _points := []
 var _prev_pos := Vector3.ZERO
 var _parent_bullet : Node = null
 
-func _physics_process(delta : float) -> void:
+func _physics_process(_delta : float) -> void:
 	# If the parent bullet still exists, add a point when it moves at least a meter
 	if _parent_bullet != null and is_instance_valid(_parent_bullet):
 		var position = _parent_bullet.global_transform.origin
@@ -28,7 +28,7 @@ func _physics_process(delta : float) -> void:
 		else:
 			self.queue_free()
 
-func _process(delta : float) -> void:
+func _process(_delta : float) -> void:
 	# Draw the line
 	clear()
 	begin(1, null)
