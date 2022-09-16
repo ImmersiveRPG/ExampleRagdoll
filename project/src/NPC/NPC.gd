@@ -115,7 +115,7 @@ func _on_hit_body_part(origin : Vector3, body_part : int) -> void:
 		Global.BodyPart.LowerLeg:
 			self.set_hp(_hp - power)
 		_:
-			Global.crash_game("Unexpected BodyPart: %s" % body_part)
+			push_error("Unexpected BodyPart: %s" % [body_part])
 			return
 
 	var scene_file := "res://src/Effects/LiquidSpray/LiquidSpray.tscn"
