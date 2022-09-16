@@ -18,6 +18,7 @@ const MOUSE_Y_MIN := -60.0
 
 var _rng : RandomNumberGenerator
 var _root_node : Node
+var _player  = null
 
 onready var _scene_bullet := ResourceLoader.load("res://src/Bullet/Bullet.tscn")
 onready var _scene_bullet_glow := ResourceLoader.load("res://src/BulletGlow/BulletGlow.tscn")

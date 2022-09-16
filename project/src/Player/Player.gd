@@ -18,7 +18,8 @@ var _camera_x := 0.0
 var _camera_x_new := 0.0
 var _camera_y := 0.0
 
-
+func _ready() -> void:
+	Global._player = self
 
 func _input(event : InputEvent) -> void:
 	# Rotate camera with mouse

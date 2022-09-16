@@ -12,6 +12,7 @@ const ROTATION_SPEED := 10.0
 signal hit_body_part(origin, body_part)
 var _is_dead := false
 
+var _scene_blood_spray := preload("res://src/BloodSpray/BloodSpray.tscn")
 onready var _animation_player = self.get_node("Pivot/Mannequiny/AnimationPlayer")
 
 var _hp := HP_MAX
@@ -35,12 +36,6 @@ func die() -> void:
 	self._start_ragdoll()
 	$TimerDie.start()
 
-	var scene_file := "res://src/NPC/DeathDebris/DeathDebris.tscn"
-	#SceneLoader.load_scene_async_with_cb(self, scene_file, Vector3.ZERO, true, funcref(self, "_on_die"), {})
-
-func _on_die(_path : String, instance : Node, _pos : Vector3, _is_pos_global : bool, _data : Dictionary) -> void:
-	Global._root_node.add_child(instance)
-	instance._setup(self)
 
 func set_hp(value : float) -> void:
 	_hp = clamp(value, 0, HP_MAX)
@@ -126,23 +121,10 @@ func _on_hit_body_part(origin : Vector3, body_part : int) -> void:
 	var name = Global.BodyPart.keys()[body_part]
 	print("!!! hit %s" % [name])
 
-	var scene_file := "res://src/Effects/LiquidSpray/LiquidSpray.tscn"
-	var data := {
-		"terrain" : Global._root_node,
-		"color" : Color.red,
-		"is_pos_global" : true,
-		"pos" : origin,
-	}
-	#SceneLoader.load_scene_async_with_cb(Global._root_node, scene_file, Vector3.ZERO, true, funcref(self, "_on_spray_loaded"), data)
-
-func _on_spray_loaded(_path : String, node : Node, _pos : Vector3, _is_pos_global : bool, data : Dictionary) -> void:
-	var terrain = data["terrain"]
-	var pos = data["pos"]
-	terrain.add_child(node)
-	node.global_transform.origin = pos
-	node._set_color(Color.red)
-	node._set_enable_particles(true)
-
+	var spray = _scene_blood_spray.instance()
+	self.add_child(spray)
+	spray.global_transform.origin = origin
+	spray.look_at(Global._player.global_transform.origin, Vector3.UP)
 
 func _on_timer_die_timeout() -> void:
 	self.queue_free()
