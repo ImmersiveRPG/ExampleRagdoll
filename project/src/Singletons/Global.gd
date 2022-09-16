@@ -20,9 +20,9 @@ var _rng : RandomNumberGenerator
 var _root_node : Node
 var _player  = null
 
-onready var _scene_bullet := ResourceLoader.load("res://src/Bullet/Bullet.tscn")
-onready var _scene_bullet_glow := ResourceLoader.load("res://src/BulletGlow/BulletGlow.tscn")
-onready var _scene_bullet_spark := ResourceLoader.load("res://src/BulletSpark/BulletSpark.tscn")
+var _scene_bullet := preload("res://src/Bullet/Bullet.tscn")
+var _scene_bullet_glow := preload("res://src/BulletGlow/BulletGlow.tscn")
+var _scene_bullet_spark := preload("res://src/BulletSpark/BulletSpark.tscn")
 var _scene_npc = preload("res://src/NPC/NPC.tscn")
 
 func _ready() -> void:
