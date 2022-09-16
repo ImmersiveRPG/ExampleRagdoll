@@ -77,7 +77,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.01279, 0 )
 mesh = SubResource( 6 )
 skeleton = NodePath("../../Position3D")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="UI" type="Control" parent="."]
+margin_right = 279.0
+margin_bottom = 108.0
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
 margin_left = 8.0
 margin_top = 5.0
 margin_right = 260.0
@@ -86,7 +90,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0.364706, 0.333333, 0.333333, 0.447059 )
 
-[node name="Label" type="Label" parent="."]
+[node name="Directions" type="Label" parent="UI"]
 margin_left = 21.0
 margin_top = 17.0
 margin_right = 267.0
@@ -96,24 +100,24 @@ WASD to move
 Left Click to shoot
 M to move NPC to random position"
 
-[node name="Target" type="ColorRect" parent="."]
+[node name="Target" type="ColorRect" parent="UI"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -0.5
-margin_top = -0.5
-margin_right = 0.5
-margin_bottom = 4.5
+margin_left = 482.5
+margin_top = 339.0
+margin_right = 483.5
+margin_bottom = 344.0
 color = Color( 1, 0.937255, 0, 1 )
 
-[node name="Target2" type="ColorRect" parent="."]
+[node name="Target2" type="ColorRect" parent="UI"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -2.5
-margin_top = 1.5
-margin_right = 2.5
-margin_bottom = 2.5
+margin_left = 480.5
+margin_top = 341.0
+margin_right = 485.5
+margin_bottom = 342.0
 color = Color( 1, 0.937255, 0, 1 )

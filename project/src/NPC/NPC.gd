@@ -96,7 +96,7 @@ func _stop_ragdoll() -> void:
 
 
 func _on_hit_body_part(origin : Vector3, body_part : int) -> void:
-	var power := 60.0
+	var power := 20.0
 	print(["_on_hit_body_part", body_part])
 
 	match body_part:
