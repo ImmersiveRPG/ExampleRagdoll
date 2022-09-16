@@ -9,6 +9,7 @@ const VELOCITY_MAX := 10.0
 const JUMP_IMPULSE := 20.0
 const ROTATION_SPEED := 10.0
 
+signal hit_body_part(origin, body_part)
 var _is_dead := false
 
 onready var _animation_player = self.get_node("Pivot/Mannequiny/AnimationPlayer")

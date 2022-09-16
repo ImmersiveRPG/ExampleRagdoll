@@ -6,7 +6,6 @@ tool
 extends Spatial
 
 signal hit(origin, collider)
-signal hit_body_part(origin, body_part)
 
 var is_ragdoll := false
 var _bone_names := []
@@ -43,7 +42,7 @@ func _ready() -> void:
 func _on_hit(origin : Vector3, collider : Node) -> void:
 	# Forward hit to NPC with body part info
 	var body_part = collision_2_body_part[collider]
-	self.emit_signal("hit_body_part", origin, body_part)
+	self.owner.emit_signal("hit_body_part", origin, body_part)
 
 func _on_skeleton_updated() -> void:
 	if is_ragdoll: return

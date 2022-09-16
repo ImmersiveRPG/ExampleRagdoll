@@ -20,4 +20,4 @@ transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1, 0 )
 shape = SubResource( 5 )
 
-[connection signal="hit_body_part" from="Pivot/Mannequiny" to="." method="_on_hit_body_part"]
+[connection signal="hit_body_part" from="." to="." method="_on_hit_body_part"]
