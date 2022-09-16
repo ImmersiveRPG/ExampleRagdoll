@@ -25,7 +25,7 @@ script = ExtResource( 3 )
 environment = SubResource( 2 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -0.5, 0.866025, 0, -0.866025, -0.5, 0, 23, 0 )
+transform = Transform( -0.0115364, -0.865968, -0.499967, 0, -0.5, 0.866025, -0.999933, 0.0099908, 0.0057682, 0, 23, 0 )
 light_energy = 0.5
 light_indirect_energy = 0.5
 shadow_enabled = true

@@ -25,6 +25,9 @@ func die() -> void:
 	if _is_dead: return
 	_is_dead = true
 
+	$CollisionShape.disabled = true
+	self._start_ragdoll()
+
 	var scene_file := "res://src/NPC/DeathDebris/DeathDebris.tscn"
 	#SceneLoader.load_scene_async_with_cb(self, scene_file, Vector3.ZERO, true, funcref(self, "_on_die"), {})
 
