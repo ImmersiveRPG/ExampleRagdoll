@@ -97,7 +97,6 @@ func _stop_ragdoll() -> void:
 
 func _on_hit_body_part(origin : Vector3, body_part : int) -> void:
 	var power := 20.0
-	print(["_on_hit_body_part", body_part])
 
 	match body_part:
 		Global.BodyPart.Head:
@@ -117,6 +116,9 @@ func _on_hit_body_part(origin : Vector3, body_part : int) -> void:
 		_:
 			push_error("Unexpected BodyPart: %s" % [body_part])
 			return
+
+	var name = Global.BodyPart.keys()[body_part]
+	print("!!! hit %s" % [name])
 
 	var scene_file := "res://src/Effects/LiquidSpray/LiquidSpray.tscn"
 	var data := {

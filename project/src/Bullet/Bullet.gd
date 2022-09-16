@@ -22,9 +22,6 @@ func _physics_process(delta : float) -> void:
 	var distance := _velocity.length() * delta
 	self.transform.origin -= _velocity * delta
 
-	# Gravity
-	#self.transform.origin.y -= 9.8 * delta
-
 	# Change the ray start position to the bullets's previous position
 	# NOTE: The ray is backwards, so if it is hitting multiple targets, we
 	# get the target closest to the bullet start position.
@@ -44,7 +41,6 @@ func _physics_process(delta : float) -> void:
 	if _ray.is_colliding() and _ignore_collision_distance <= 0.0:
 		_ignore_collision_distance = 2.0
 		var collider = _ray.get_collider()
-		print("Bullet hit %s" % [collider.name])
 
 		# Move the bullet back to the position of the collision
 		self.global_transform.origin = _ray.get_collision_point()
@@ -53,11 +49,12 @@ func _physics_process(delta : float) -> void:
 		Global.create_bullet_spark(self.global_transform.origin)
 
 		if collider.is_in_group("body_part"):
-			#print("Hit body part %s" % [collider.name])
 			var force := _mass * _velocity.length()
 			collider.owner.emit_signal("hit", self.global_transform.origin, collider)
 
 			self.queue_free()
+		else:
+			print("Bullet hit %s" % [collider.name])
 
 	# Delete the bullet if it has gone its max distance
 	_total_distance += distance
@@ -66,7 +63,6 @@ func _physics_process(delta : float) -> void:
 
 func start() -> void:
 	_velocity = self.transform.basis.z * _speed
-	#print("Loaded values for %s" % self.name)
 
 	# Add bullet glow
 	_glow = Global._scene_bullet_glow.instance()
