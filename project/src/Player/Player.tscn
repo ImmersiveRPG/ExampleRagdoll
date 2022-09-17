@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/Player/face_material.tres" type="Material" id=2]
@@ -12,6 +12,9 @@ size = Vector3( 0.1, 0.1, 0.1 )
 
 [sub_resource type="CubeMesh" id=3]
 size = Vector3( 0.1, 1, 0.1 )
+
+[sub_resource type="SpatialMaterial" id=6]
+albedo_color = Color( 1, 0.494118, 0, 1 )
 
 [sub_resource type="CubeMesh" id=4]
 size = Vector3( 0.2, 1.25, 0.2 )
@@ -46,7 +49,7 @@ material/0 = ExtResource( 2 )
 [node name="Nose" type="MeshInstance" parent="Pivot/Body/Face"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.018, -0.0966351 )
 mesh = SubResource( 3 )
-material/0 = ExtResource( 2 )
+material/0 = SubResource( 6 )
 
 [node name="RShoulder" type="Spatial" parent="Pivot/Body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.629226, -2.04193e-08, 0.467139 )
