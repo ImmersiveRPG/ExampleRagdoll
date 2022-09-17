@@ -26,6 +26,7 @@ enum BodyPart {
 	LowerLeg,
 }
 
+var _is_quitting := false
 var _rng : RandomNumberGenerator
 var _root_node : Node
 var _player  = null

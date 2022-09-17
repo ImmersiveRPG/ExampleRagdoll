@@ -15,7 +15,8 @@ func _ready() -> void:
 
 func _input(_event) -> void:
 	if Input.is_action_just_pressed("Quit"):
-		self.get_tree().quit()
+		Global._is_quitting = true
+		self.get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)
 	elif Input.is_action_just_released("ToggleFullScreen"):
 		OS.window_fullscreen = not OS.window_fullscreen
 	elif Input.is_action_just_pressed("MoveNPC"):
