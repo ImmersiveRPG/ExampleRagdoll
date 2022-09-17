@@ -12,7 +12,6 @@ const ROTATION_SPEED := 10.0
 signal hit_body_part(origin, body_part)
 var _is_dead := false
 
-var _scene_blood_spray := preload("res://src/BloodSpray/BloodSpray.tscn")
 onready var _animation_player = self.get_node("Pivot/Mannequiny/AnimationPlayer")
 
 var _hp := HP_MAX
@@ -116,10 +115,7 @@ func _on_hit_body_part(origin : Vector3, body_part : int) -> void:
 	print("!!! hit %s" % [name])
 
 	# Add blood spray
-	var spray = _scene_blood_spray.instance()
-	self.add_child(spray)
-	spray.global_transform.origin = origin
-	spray.look_at(Global._player.global_transform.origin, Vector3.UP)
+	RuntimeInstancer.create_blood_spray(self, origin)
 
 func _on_timer_die_timeout() -> void:
 	self.queue_free()
