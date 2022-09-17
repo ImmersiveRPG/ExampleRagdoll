@@ -9,7 +9,6 @@ var _mass := 0.018
 var _max_distance := 5000.0
 var _speed := 1219.0
 var _ignore_collision_distance := 0.0
-var _glow = null
 var _velocity : Vector3
 
 var _total_distance := 0.0
@@ -65,7 +64,4 @@ func start() -> void:
 	_velocity = self.transform.basis.z * _speed
 
 	# Add bullet glow
-	_glow = RuntimeInstancer._scene_bullet_glow.instance()
-	Global._root_node.add_child(_glow)
-	_glow.global_transform.origin = self.global_transform.origin
-	_glow.start(self)
+	RuntimeInstancer.create_bullet_glow(self)
