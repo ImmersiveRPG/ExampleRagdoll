@@ -13,25 +13,25 @@ const _scene_blood_spray := preload("res://src/BloodSpray/BloodSpray.tscn")
 
 func create_bullet(start_pos : Vector3, target_pos : Vector3) -> void:
 	var bullet = _scene_bullet.instance()
-	Global._root_node.add_child(bullet)
+	Global._world.add_child(bullet)
 	bullet.global_transform.origin = start_pos
 	bullet.look_at(target_pos, Vector3.UP)
 	bullet.start()
 
 func create_bullet_spark(pos : Vector3) -> void:
 	var spark = _scene_bullet_spark.instance()
-	Global._root_node.add_child(spark)
+	Global._world.add_child(spark)
 	spark.global_transform.origin = pos
 
 func create_bullet_glow(parent_bullet : Spatial) -> void:
 	var glow = _scene_bullet_glow.instance()
-	Global._root_node.add_child(glow)
+	Global._world.add_child(glow)
 	glow.global_transform.origin = parent_bullet.global_transform.origin
 	glow.start(parent_bullet)
 
 func create_npc() -> void:
 	# Create NPC and add to world
-	var npcs = Global._root_node.get_node("NPCs")
+	var npcs = Global._world.get_node("NPCs")
 	var npc = _scene_npc.instance()
 	npcs.add_child(npc)
 

@@ -6,9 +6,10 @@ extends Spatial
 
 signal npc_died()
 
-func _ready() -> void:
-	Global._root_node = self
+func _init() -> void:
+	Global._world = self
 
+func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Player.set_process_input(true)
 	$Player.set_process(true)

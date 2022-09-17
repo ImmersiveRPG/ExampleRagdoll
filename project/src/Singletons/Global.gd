@@ -28,8 +28,8 @@ enum BodyPart {
 
 var _is_quitting := false
 var _rng : RandomNumberGenerator
-var _root_node : Node
-var _player  = null
+var _world : Node = null
+var _player : Node = null
 
 func _ready() -> void:
 	# Setup random number generator

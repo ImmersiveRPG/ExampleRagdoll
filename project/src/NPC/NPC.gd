@@ -22,7 +22,7 @@ var _destination : Position3D = null
 func _notification(what : int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		if Global._is_quitting: return
-		Global._root_node.emit_signal("npc_died")
+		Global._world.emit_signal("npc_died")
 
 func _ready() -> void:
 	_animation_player.play("idle")
