@@ -45,7 +45,7 @@ func _process(delta : float) -> void:
 	if thing:
 		if thing != _looking_at:
 			_looking_at = thing
-			print("Looking at %s(%s)" % [thing.name, thing.get_class()])
+			#print("Looking at %s(%s)" % [thing.name, thing.get_class()])
 	elif _looking_at:
 		_looking_at = null
 
