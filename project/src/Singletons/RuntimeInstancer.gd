@@ -5,11 +5,11 @@
 extends Node
 
 
-var _scene_bullet := preload("res://src/Bullet/Bullet.tscn")
-var _scene_bullet_glow := preload("res://src/BulletGlow/BulletGlow.tscn")
-var _scene_bullet_spark := preload("res://src/BulletSpark/BulletSpark.tscn")
-var _scene_npc := preload("res://src/NPC/NPC.tscn")
-var _scene_blood_spray := preload("res://src/BloodSpray/BloodSpray.tscn")
+const _scene_bullet := preload("res://src/Bullet/Bullet.tscn")
+const _scene_bullet_glow := preload("res://src/BulletGlow/BulletGlow.tscn")
+const _scene_bullet_spark := preload("res://src/BulletSpark/BulletSpark.tscn")
+const _scene_npc := preload("res://src/NPC/NPC.tscn")
+const _scene_blood_spray := preload("res://src/BloodSpray/BloodSpray.tscn")
 
 func create_bullet(start_pos : Vector3, target_pos : Vector3) -> void:
 	var bullet = _scene_bullet.instance()
@@ -43,8 +43,8 @@ func create_npc() -> void:
 		Global._rng.randf_range(-r, r)
 	)
 
-func create_blood_spray(parent : Node, origin : Vector3) -> void:
+func create_blood_spray(parent : Node, pos : Vector3) -> void:
 	var spray = _scene_blood_spray.instance()
 	parent.add_child(spray)
-	spray.global_transform.origin = origin
+	spray.global_transform.origin = pos
 	spray.look_at(Global._player.global_transform.origin, Vector3.UP)
