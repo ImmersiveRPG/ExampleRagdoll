@@ -10,7 +10,6 @@ height = 0.2
 
 [node name="BulletSpark" type="MeshInstance"]
 mesh = SubResource( 1 )
-material/0 = null
 script = ExtResource( 2 )
 
 [node name="TimerDie" type="Timer" parent="."]

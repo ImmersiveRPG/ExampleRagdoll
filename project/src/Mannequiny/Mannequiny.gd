@@ -10,6 +10,7 @@ signal hit(origin, collider)
 var is_ragdoll := false
 var _bone_names := []
 var _skeleton : Skeleton = null
+export var is_syncing_bones := true
 
 onready var collision_2_body_part := {
 	$"root/Skeleton/Physical Bone neck_1" : Global.BodyPart.Head,
@@ -45,7 +46,7 @@ func _on_hit(origin : Vector3, collider : Node) -> void:
 	self.owner.emit_signal("hit_body_part", origin, body_part)
 
 func _on_skeleton_updated() -> void:
-	if is_ragdoll: return
+	if not is_syncing_bones or is_ragdoll: return
 
 	var parent_rotation = Vector3(0.0, deg2rad(180.0), 0.0)
 	if not Engine.editor_hint:
