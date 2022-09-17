@@ -47,7 +47,9 @@ func _on_hit(origin : Vector3, collider : Node) -> void:
 func _on_skeleton_updated() -> void:
 	if is_ragdoll: return
 
-	var parent_rotation = self.get_parent().get_parent().rotation
+	var parent_rotation = Vector3(0.0, deg2rad(180.0), 0.0)
+	if not Engine.editor_hint:
+		parent_rotation = self.get_parent().get_parent().rotation
 
 	# Join the animation bones and physical bones
 	for entry in _bone_names:
