@@ -46,7 +46,7 @@ func _physics_process(delta : float) -> void:
 		self.global_transform.origin = _ray.get_collision_point()
 
 		# Add bullet spark
-		Global.create_bullet_spark(self.global_transform.origin)
+		RuntimeInstancer.create_bullet_spark(self.global_transform.origin)
 
 		if collider.is_in_group("body_part"):
 			var force := _mass * _velocity.length()
@@ -65,7 +65,7 @@ func start() -> void:
 	_velocity = self.transform.basis.z * _speed
 
 	# Add bullet glow
-	_glow = Global._scene_bullet_glow.instance()
+	_glow = RuntimeInstancer._scene_bullet_glow.instance()
 	Global._root_node.add_child(_glow)
 	_glow.global_transform.origin = self.global_transform.origin
 	_glow.start(self)

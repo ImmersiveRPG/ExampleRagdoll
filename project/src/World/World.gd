@@ -29,4 +29,4 @@ func _input(_event) -> void:
 			npcs[0]._destination = destination
 
 func _on_world_npc_died() -> void:
-	Global.create_npc()
+	RuntimeInstancer.create_npc()
