@@ -89,7 +89,7 @@ anchor_bottom = 1.0
 margin_left = 8.0
 margin_top = 5.0
 margin_right = 260.0
-margin_bottom = 92.0
+margin_bottom = 116.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0.364706, 0.333333, 0.333333, 0.447059 )
@@ -98,8 +98,9 @@ color = Color( 0.364706, 0.333333, 0.333333, 0.447059 )
 margin_left = 21.0
 margin_top = 17.0
 margin_right = 267.0
-margin_bottom = 82.0
+margin_bottom = 107.0
 text = "ESC to exit
+F11 to toggle full screen
 WASD to move
 Left Click to shoot
 M to move NPC to random position"
