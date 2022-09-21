@@ -21,14 +21,22 @@ func _input(_event) -> void:
 	elif Input.is_action_just_released("ToggleFullScreen"):
 		OS.window_fullscreen = not OS.window_fullscreen
 	elif Input.is_action_just_pressed("MoveNPC"):
-		# Pick random destination
-		var destinations := $Positions.get_children()
-		var destination = Global.array_random_value(destinations)
-
-		# Give the NPC the destination
+		# Get a NPC
 		var npcs := $NPCs.get_children()
-		if not npcs.empty():
-			npcs[0]._destination = destination
+		var npc = null
+		if npcs.empty():
+			return
+		npc = npcs[0]
+
+		# Get all the destinations
+		var destinations := $Positions.get_children()
+
+		# Get the NPC a random destination that is not the previous destination
+		while true:
+			var destination = Global.array_random_value(destinations)
+			if npc._destination != destination:
+				npc._destination = destination
+				break
 
 func _on_world_npc_died() -> void:
 	RuntimeInstancer.create_npc()
