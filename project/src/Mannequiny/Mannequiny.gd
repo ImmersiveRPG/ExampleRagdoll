@@ -10,7 +10,6 @@ signal hit(origin, collider)
 var is_ragdoll := false
 var _bone_names := []
 var _skeleton : Skeleton = null
-var _skeleton_rag_doll : Skeleton = null
 export var is_syncing_bones := true
 
 onready var collision_2_body_part := {
@@ -126,11 +125,8 @@ var arm_bone_names := [
 #	"index_3_l",
 ]
 
-var _is_arm_broken := false
-
 func _ready() -> void:
 	_skeleton = $root/Skeleton
-	#_skeleton_rag_doll = $root/SkeletonRagDoll
 
 	# Get a list of all bone names
 	var total = _skeleton.get_bone_count()
@@ -169,28 +165,27 @@ func shrink(tran : Transform, percent : float) -> Transform:
 	tran.origin = origin
 	return tran
 
-var arm_skeleton : Skeleton = null
 func break_arm() -> void:
-	_is_arm_broken = true
+	# Duplicate the skeleton (without attached signals)
 	var flags := 0
 	#flags += DUPLICATE_SIGNALS
 	flags += DUPLICATE_GROUPS
 	flags += DUPLICATE_SCRIPTS
 	flags += DUPLICATE_USE_INSTANCING
-
-	arm_skeleton = _skeleton.duplicate(flags)
+	var arm_skeleton = _skeleton.duplicate(flags)
 	arm_skeleton.set_script(load("res://src/Mannequiny/skeleton_part.gd"))
 	#arm_skeleton.get_parent().remove_child(arm_skeleton)
 	Global._world.add_child(arm_skeleton)
 	arm_skeleton.global_transform = _skeleton.global_transform
 
-	# Save all bone transforms
-	var transforms := {}
-	for name in all_bone_names:
-		var bone_id : int = arm_skeleton.find_bone(name)
-		var tran : Transform = arm_skeleton.get_bone_global_pose(bone_id)
-		transforms[name] = tran
+#	# Save all bone transforms
+#	var transforms := {}
+#	for name in all_bone_names:
+#		var bone_id : int = arm_skeleton.find_bone(name)
+#		var tran : Transform = arm_skeleton.get_bone_global_pose(bone_id)
+#		transforms[name] = tran
 
+	# Remove all non arm physical bones
 	for name in all_bone_names:
 		if not arm_bone_names.has(name):
 			var physical_bone = arm_skeleton.get_node_or_null("Physical Bone %s" % [name])
@@ -200,14 +195,11 @@ func break_arm() -> void:
 	arm_skeleton.physical_bones_start_simulation()
 	arm_skeleton.is_arm_broken = true
 
-	# Hide arm animation bones
+	# Hide arm animation animation bones by shrinking and tucking them inside torso
 	var spine_id := _skeleton.find_bone("spine_1")
 	var tran := _skeleton.get_bone_global_pose(spine_id)
 	tran = shrink(tran, 0.0001)
 	for name in arm_bone_names:
 		var bone_id := _skeleton.find_bone(name)
 		_skeleton.set_bone_global_pose_override(bone_id, tran, 1.0, true)
-
-func _on_skeleton_rag_doll_skeleton_updated() -> void:
-	pass
 
