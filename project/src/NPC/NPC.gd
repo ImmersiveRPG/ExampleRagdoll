@@ -46,6 +46,17 @@ func set_hp(value : float) -> void:
 func _process(_delta : float) -> void:
 	if _is_dead: return
 
+	if Input.is_action_just_released("BreakRightArm"):
+		$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightArm)
+	elif Input.is_action_just_released("BreakLeftArm"):
+		$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftArm)
+	elif Input.is_action_just_released("BreakRightLeg"):
+		$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightLeg)
+	elif Input.is_action_just_released("BreakLeftLeg"):
+		$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftLeg)
+	elif Input.is_action_just_released("BreakHead"):
+		$Pivot/Mannequiny.break_body_part(Global.BrokenPart.Head)
+
 	# Update the velocity
 	var prev_velocity = _velocity
 	if _destination != null:
