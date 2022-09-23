@@ -64,25 +64,25 @@ func _on_skeleton_updated() -> void:
 			physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y - deg2rad(180.0))
 			physical_bone.global_transform.origin += self.global_transform.origin
 
-func break_arm(broke_part : int) -> void:
+func break_body_part(broke_part : int) -> void:
 	# Duplicate the skeleton (without attached signals)
 	var flags := 0
 	#flags += DUPLICATE_SIGNALS
 	flags += DUPLICATE_GROUPS
 	flags += DUPLICATE_SCRIPTS
 	flags += DUPLICATE_USE_INSTANCING
-	var arm_skeleton = _skeleton.duplicate(flags)
-	arm_skeleton.hide()
-	arm_skeleton.set_script(load("res://src/Mannequiny/skeleton_part.gd"))
-	#arm_skeleton.get_parent().remove_child(arm_skeleton)
-	Global._world.add_child(arm_skeleton)
-	arm_skeleton.global_transform = _skeleton.global_transform
-	arm_skeleton.start(broke_part)
-	arm_skeleton.show()
+	var broken_skeleton = _skeleton.duplicate(flags)
+	broken_skeleton.hide()
+	broken_skeleton.set_script(load("res://src/Mannequiny/skeleton_part.gd"))
+	#broken_skeleton.get_parent().remove_child(broken_skeleton)
+	Global._world.add_child(broken_skeleton)
+	broken_skeleton.global_transform = _skeleton.global_transform
+	broken_skeleton.start(broke_part)
+	broken_skeleton.show()
 
 #	var marker = Global._world.get_node("Marker")
 #	#print([marker, marker.name, marker.get_script()])
-#	marker.target_node = arm_skeleton.get_path()
+#	marker.target_node = broken_skeleton.get_path()
 
 	var to_not_remove := []
 	var mount_id := -1
