@@ -109,6 +109,17 @@ func _ready() -> void:
 #		var bone_id : int = self.find_bone(name)
 #		var tran : Transform = self.get_bone_global_pose(bone_id)
 #		transforms[name] = tran
+	pass
+
+func start() -> void:
+	# Move physical bones to location of animation bones
+	for entry in all_bone_names:
+		var physical_bone = self.get_node_or_null("Physical Bone %s" % [entry])
+		if physical_bone:
+			var bone_id = self.find_bone(entry)
+			physical_bone.global_transform = self.get_bone_global_pose(bone_id)
+			#physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y - deg2rad(180.0))
+			physical_bone.global_transform.origin += self.global_transform.origin
 
 	# Remove all non arm physical bones
 	for name in all_bone_names:
@@ -119,6 +130,7 @@ func _ready() -> void:
 
 	self.physical_bones_start_simulation()
 	self.is_arm_broken = true
+	pass
 
 func shrink(tran : Transform, percent : float) -> Transform:
 	var origin := tran.origin

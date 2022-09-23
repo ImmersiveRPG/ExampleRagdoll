@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/Floor/Floor.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/World/World.gd" type="Script" id=3]
 [ext_resource path="res://src/NPC/NPC.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/Marker/Marker.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ProceduralSky" id=1]
 
@@ -41,7 +42,6 @@ shadow_enabled = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5509, 0.365278, 4.91797 )
 
 [node name="Floor" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="Table" type="StaticBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.5, -10.7684 )
@@ -127,5 +127,9 @@ margin_top = -0.5
 margin_right = 2.5
 margin_bottom = 0.5
 color = Color( 1, 0.937255, 0, 1 )
+
+[node name="Marker" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+target_node = NodePath("../NPCs/NPC")
 
 [connection signal="npc_died" from="." to="." method="_on_world_npc_died"]

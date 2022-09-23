@@ -173,10 +173,17 @@ func break_arm() -> void:
 	flags += DUPLICATE_SCRIPTS
 	flags += DUPLICATE_USE_INSTANCING
 	var arm_skeleton = _skeleton.duplicate(flags)
+	arm_skeleton.hide()
 	arm_skeleton.set_script(load("res://src/Mannequiny/skeleton_part.gd"))
 	#arm_skeleton.get_parent().remove_child(arm_skeleton)
 	Global._world.add_child(arm_skeleton)
 	arm_skeleton.global_transform = _skeleton.global_transform
+	arm_skeleton.start()
+	arm_skeleton.show()
+
+	var marker = Global._world.get_node("Marker")
+	#print([marker, marker.name, marker.get_script()])
+	marker.target_node = arm_skeleton.get_path()
 
 	# Hide arm animation animation bones by shrinking and tucking them inside torso
 	var spine_id := _skeleton.find_bone("spine_1")
