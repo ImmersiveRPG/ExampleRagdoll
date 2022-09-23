@@ -5,7 +5,7 @@
 #tool
 extends Spatial
 
-signal hit(origin, collider)
+signal hit(origin, bullet_type, collider)
 
 var is_ragdoll := false
 var _bone_names := []
@@ -40,10 +40,10 @@ func _ready() -> void:
 		if _skeleton.has_node("Physical Bone %s" % [name]):
 			_bone_names.append(name)
 
-func _on_hit(origin : Vector3, collider : Node) -> void:
+func _on_hit(origin : Vector3, bullet_type : int, collider : Node) -> void:
 	# Forward hit to NPC with body part info
 	var body_part = collision_2_body_part[collider]
-	self.owner.emit_signal("hit_body_part", origin, body_part)
+	self.owner.emit_signal("hit_body_part", origin, body_part, bullet_type)
 
 func _on_skeleton_updated() -> void:
 	if not is_syncing_bones: return

@@ -9,7 +9,7 @@ const VELOCITY_MAX := 10.0
 const JUMP_IMPULSE := 20.0
 const ROTATION_SPEED := 10.0
 
-signal hit_body_part(origin, body_part)
+signal hit_body_part(origin, body_part, bullet_type)
 var _is_dead := false
 
 onready var _animation_player = self.get_node("Pivot/Mannequiny/AnimationPlayer")
@@ -98,7 +98,7 @@ func _start_ragdoll() -> void:
 	$Pivot/Mannequiny/root/Skeleton.physical_bones_start_simulation()
 	$Pivot/Mannequiny.is_ragdoll = true
 
-func _on_hit_body_part(origin : Vector3, body_part : int) -> void:
+func _on_hit_body_part(origin : Vector3, body_part : int, bullet_type : int) -> void:
 	# Get power based on body part
 	var power := 0.0
 	match body_part:
@@ -127,6 +127,27 @@ func _on_hit_body_part(origin : Vector3, body_part : int) -> void:
 
 	# Add blood spray
 	RuntimeInstancer.create_blood_spray(self, origin)
+
+	# if the bullet is powerfull, break off the hit body part
+	if bullet_type == Global.BulletType._308:
+		match body_part:
+			Global.BodyPart.Head:
+				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.Head)
+			Global.BodyPart.Torso:
+				pass
+			Global.BodyPart.Pelvis:
+				pass
+			Global.BodyPart.UpperArm, Global.BodyPart.LowerArm:
+				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightArm)
+			Global.BodyPart.LowerArm:
+				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightArm)
+			Global.BodyPart.UpperLeg:
+				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightLeg)
+			Global.BodyPart.LowerLeg:
+				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightLeg)
+			_:
+				push_error("Unexpected BodyPart: %s" % [body_part])
+				return
 
 func _on_timer_die_timeout() -> void:
 	self.queue_free()
