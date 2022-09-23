@@ -47,15 +47,15 @@ func _process(_delta : float) -> void:
 	if _is_dead: return
 
 	if Input.is_action_just_released("BreakRightArm"):
-		$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightArm)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmR)
 	elif Input.is_action_just_released("BreakLeftArm"):
-		$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftArm)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmL)
 	elif Input.is_action_just_released("BreakRightLeg"):
-		$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightLeg)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegR)
 	elif Input.is_action_just_released("BreakLeftLeg"):
-		$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftLeg)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegL)
 	elif Input.is_action_just_released("BreakHead"):
-		$Pivot/Mannequiny.break_body_part(Global.BrokenPart.Head)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.Head)
 
 	# Update the velocity
 	var prev_velocity = _velocity
@@ -99,6 +99,8 @@ func _start_ragdoll() -> void:
 	$Pivot/Mannequiny.is_ragdoll = true
 
 func _on_hit_body_part(origin : Vector3, body_part : int, bullet_type : int) -> void:
+	var can_break := true
+
 	# Get power based on body part
 	var power := 0.0
 	match body_part:
@@ -106,15 +108,17 @@ func _on_hit_body_part(origin : Vector3, body_part : int, bullet_type : int) -> 
 			power = 100.0
 		Global.BodyPart.Torso:
 			power = 20.0
+			can_break = false
 		Global.BodyPart.Pelvis:
 			power = 20.0
-		Global.BodyPart.UpperArmL, Global.BodyPart.UpperArmR:
+			can_break = false
+		Global.BodyPart.LowerArmR, Global.BodyPart.UpperArmR:
 			power = 20.0
-		Global.BodyPart.LowerArmL, Global.BodyPart.LowerArmR:
+		Global.BodyPart.LowerArmL, Global.BodyPart.UpperArmL:
 			power = 20.0
-		Global.BodyPart.UpperLegL, Global.BodyPart.UpperLegR:
+		Global.BodyPart.LowerLegR, Global.BodyPart.UpperLegR:
 			power = 20.0
-		Global.BodyPart.LowerLegL, Global.BodyPart.LowerLegR:
+		Global.BodyPart.LowerLegL, Global.BodyPart.UpperLegL:
 			power = 20.0
 		_:
 			push_error("Unexpected BodyPart: %s" % [body_part])
@@ -129,33 +133,8 @@ func _on_hit_body_part(origin : Vector3, body_part : int, bullet_type : int) -> 
 	RuntimeInstancer.create_blood_spray(self, origin)
 
 	# if the bullet is powerfull, break off the hit body part
-	if bullet_type == Global.BulletType._308:
-		match body_part:
-			Global.BodyPart.Head:
-				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.Head)
-			Global.BodyPart.Torso:
-				pass
-			Global.BodyPart.Pelvis:
-				pass
-			Global.BodyPart.UpperArmL:
-				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftArm)
-			Global.BodyPart.UpperArmR:
-				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightArm)
-			Global.BodyPart.LowerArmL:
-				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftArm)
-			Global.BodyPart.LowerArmR:
-				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightArm)
-			Global.BodyPart.UpperLegL:
-				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftLeg)
-			Global.BodyPart.UpperLegR:
-				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightLeg)
-			Global.BodyPart.LowerLegL:
-				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftLeg)
-			Global.BodyPart.LowerLegR:
-				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightLeg)
-			_:
-				push_error("Unexpected BodyPart: %s" % [body_part])
-				return
+	if can_break and bullet_type == Global.BulletType._308:
+		$Pivot/Mannequiny.break_body_part(body_part)
 
 func _on_timer_die_timeout() -> void:
 	self.queue_free()

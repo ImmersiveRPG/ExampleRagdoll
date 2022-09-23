@@ -16,23 +16,29 @@ func start(broken_part : int) -> void:
 	var to_not_remove := []
 
 	match _broken_part:
-		Global.BrokenPart.Head:
+		Global.BodyPart.Head:
 			_mount_bone = $"Physical Bone neck_1"
 			to_not_remove = Global.head_bone_names
-		Global.BrokenPart.RightArm:
+
+		Global.BodyPart.Torso:
+			return
+		Global.BodyPart.Pelvis:
+			return
+
+		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
 			_mount_bone = $"Physical Bone upperarmr"
 			to_not_remove = Global.right_arm_bone_names
-		Global.BrokenPart.LeftArm:
+		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
 			_mount_bone = $"Physical Bone upperarml"
 			to_not_remove = Global.left_arm_bone_names
-		Global.BrokenPart.RightLeg:
+		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
 			_mount_bone = $"Physical Bone thighr"
 			to_not_remove = Global.right_leg_bone_names
-		Global.BrokenPart.LeftLeg:
+		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
 			_mount_bone = $"Physical Bone thighl"
 			to_not_remove = Global.left_leg_bone_names
 		_:
-			push_error("Unexpected Global.BrokenPart: %s" % [_broken_part])
+			push_error("Unexpected Global.BodyPart: %s" % [_broken_part])
 			return
 
 	# Move physical bones to location of animation bones
@@ -58,18 +64,24 @@ func _process(_delta : float) -> void:
 	var to_not_remove := []
 
 	match _broken_part:
-		Global.BrokenPart.Head:
+		Global.BodyPart.Head:
 			to_not_remove = Global.head_bone_names
-		Global.BrokenPart.RightArm:
+
+		Global.BodyPart.Torso:
+			return
+		Global.BodyPart.Pelvis:
+			return
+
+		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
 			to_not_remove = Global.right_arm_bone_names
-		Global.BrokenPart.LeftArm:
+		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
 			to_not_remove = Global.left_arm_bone_names
-		Global.BrokenPart.RightLeg:
+		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
 			to_not_remove = Global.right_leg_bone_names
-		Global.BrokenPart.LeftLeg:
+		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
 			to_not_remove = Global.left_leg_bone_names
 		_:
-			push_error("Unexpected Global.BrokenPart: %s" % [_broken_part])
+			push_error("Unexpected Global.BodyPart: %s" % [_broken_part])
 			return
 
 	# Tuck all animation bones that are not removed into mount bone

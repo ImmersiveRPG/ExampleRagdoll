@@ -21,14 +21,6 @@ enum BulletType {
 	_9MM,
 }
 
-enum BrokenPart {
-	Head,
-	RightArm,
-	LeftArm,
-	RightLeg,
-	LeftLeg,
-}
-
 enum BodyPart {
 	Head,
 	Torso,

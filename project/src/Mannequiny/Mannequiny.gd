@@ -87,23 +87,27 @@ func break_body_part(broke_part : int) -> void:
 	var to_not_remove := []
 	var mount_id := -1
 	match broke_part:
-		Global.BrokenPart.Head:
+		Global.BodyPart.Head:
 			mount_id = _skeleton.find_bone("spine_1")
 			to_not_remove = Global.head_bone_names
-		Global.BrokenPart.RightArm:
+		Global.BodyPart.Torso:
+			return
+		Global.BodyPart.Pelvis:
+			return
+		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
 			mount_id = _skeleton.find_bone("spine_1")
 			to_not_remove = Global.right_arm_bone_names
-		Global.BrokenPart.LeftArm:
+		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
 			mount_id = _skeleton.find_bone("spine_1")
 			to_not_remove = Global.left_arm_bone_names
-		Global.BrokenPart.RightLeg:
+		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
 			mount_id = _skeleton.find_bone("spine_1")
 			to_not_remove = Global.right_leg_bone_names
-		Global.BrokenPart.LeftLeg:
+		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
 			mount_id = _skeleton.find_bone("spine_1")
 			to_not_remove = Global.left_leg_bone_names
 		_:
-			push_error("Unexpected Global.BrokenPart: %s" % [broke_part])
+			push_error("Unexpected Global.BodyPart: %s" % [broke_part])
 			return
 
 	# Hide broken animation bones by shrinking and tucking them inside mount
