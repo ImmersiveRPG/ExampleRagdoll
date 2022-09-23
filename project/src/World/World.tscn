@@ -101,9 +101,26 @@ margin_right = 267.0
 margin_bottom = 107.0
 text = "ESC to exit
 F11 to toggle full screen
-WASD to move
-Left Click to shoot
 M to move NPC to random position"
+
+[node name="ColorRect2" type="ColorRect" parent="UI"]
+margin_left = 299.0
+margin_top = 5.0
+margin_right = 564.0
+margin_bottom = 116.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.364706, 0.333333, 0.333333, 0.447059 )
+
+[node name="Directions2" type="Label" parent="UI"]
+margin_left = 314.0
+margin_top = 17.0
+margin_right = 566.0
+margin_bottom = 107.0
+text = "WASD to move
+Left Click to shoot
+1 for Pistol
+2 for Hunting Rifle"
 
 [node name="Target" type="ColorRect" parent="UI"]
 anchor_left = 0.5
