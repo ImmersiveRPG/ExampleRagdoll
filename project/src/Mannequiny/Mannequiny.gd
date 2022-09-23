@@ -31,9 +31,106 @@ onready var collision_2_body_part := {
 	$"root/Skeleton/Physical Bone footr" : Global.BodyPart.LowerLeg,
 }
 
+var all_bone_names := [
+	"pelvis",
+	"thighl",
+	"calfl",
+	"footl",
+	"balll",
+	"thighr",
+	"calfr",
+	"footr",
+	"ballr",
+	"spine_1",
+	"spine_2",
+	"neck_1",
+	"head",
+	"clavicler",
+	"upperarmr",
+	"lowerarmr",
+	"handr",
+	"thumb_1_r",
+	"thumb_2_r",
+	"thumb_3_r",
+	"ring_1_r",
+	"ring_2_r",
+	"ring_3_r",
+	"middle_1_r",
+	"middle_2_r",
+	"middle_3_r",
+	"index_1_r",
+	"index_2_r",
+	"index_3_r",
+	"claviclel",
+	"upperarml",
+	"lowerarml",
+	"handl",
+	"thumb_1_l",
+	"thumb_2_l",
+	"thumb_3_l",
+	"ring_1_l",
+	"ring_2_l",
+	"ring_3_l",
+	"middle_1_l",
+	"middle_2_l",
+	"middle_3_l",
+	"index_1_l",
+	"index_2_l",
+	"index_3_l",
+]
+var arm_bone_names := [
+#	"pelvis",
+#	"thighl",
+#	"calfl",
+#	"footl",
+#	"balll",
+#	"thighr",
+#	"calfr",
+#	"footr",
+#	"ballr",
+#	"spine_1",
+#	"spine_2",
+#	"neck_1",
+#	"head",
+#	"clavicler",
+	"upperarmr",
+	"lowerarmr",
+	"handr",
+	"thumb_1_r",
+	"thumb_2_r",
+	"thumb_3_r",
+	"ring_1_r",
+	"ring_2_r",
+	"ring_3_r",
+	"middle_1_r",
+	"middle_2_r",
+	"middle_3_r",
+	"index_1_r",
+	"index_2_r",
+	"index_3_r",
+#	"claviclel",
+#	"upperarml",
+#	"lowerarml",
+#	"handl",
+#	"thumb_1_l",
+#	"thumb_2_l",
+#	"thumb_3_l",
+#	"ring_1_l",
+#	"ring_2_l",
+#	"ring_3_l",
+#	"middle_1_l",
+#	"middle_2_l",
+#	"middle_3_l",
+#	"index_1_l",
+#	"index_2_l",
+#	"index_3_l",
+]
+
+var _is_arm_broken := false
+
 func _ready() -> void:
 	_skeleton = $root/Skeleton
-	_skeleton_rag_doll = $root/SkeletonRagDoll
+	#_skeleton_rag_doll = $root/SkeletonRagDoll
 
 	# Get a list of all bone names
 	var total = _skeleton.get_bone_count()
@@ -72,92 +169,36 @@ func shrink(tran : Transform, percent : float) -> Transform:
 	tran.origin = origin
 	return tran
 
+var arm_skeleton : Skeleton = null
 func break_arm() -> void:
-	var arm_bone_names := [
-#		"pelvis",
-#		"thighl",
-#		"calfl",
-#		"footl",
-#		"balll",
-#		"thighr",
-#		"calfr",
-#		"footr",
-#		"ballr",
-#		"spine_1",
-#		"spine_2",
-#		"neck_1",
-#		"head",
-#		"clavicler",
-		"upperarmr",
-		"lowerarmr",
-		"handr",
-		"thumb_1_r",
-		"thumb_2_r",
-		"thumb_3_r",
-		"ring_1_r",
-		"ring_2_r",
-		"ring_3_r",
-		"middle_1_r",
-		"middle_2_r",
-		"middle_3_r",
-		"index_1_r",
-		"index_2_r",
-		"index_3_r",
-#		"claviclel",
-#		"upperarml",
-#		"lowerarml",
-#		"handl",
-#		"thumb_1_l",
-#		"thumb_2_l",
-#		"thumb_3_l",
-#		"ring_1_l",
-#		"ring_2_l",
-#		"ring_3_l",
-#		"middle_1_l",
-#		"middle_2_l",
-#		"middle_3_l",
-#		"index_1_l",
-#		"index_2_l",
-#		"index_3_l",
-	]
+	_is_arm_broken = true
+	var flags := 0
+	#flags += DUPLICATE_SIGNALS
+	flags += DUPLICATE_GROUPS
+	flags += DUPLICATE_SCRIPTS
+	flags += DUPLICATE_USE_INSTANCING
 
-	_skeleton_rag_doll.get_parent().remove_child(_skeleton_rag_doll)
-	Global._world.add_child(_skeleton_rag_doll)
-	if true:
-		var reset_id := _skeleton_rag_doll.find_bone("clavicler")
-		var reset_tran := _skeleton_rag_doll.get_bone_global_pose(reset_id)
-		reset_tran = shrink(reset_tran, 0.0001)
+	arm_skeleton = _skeleton.duplicate(flags)
+	arm_skeleton.set_script(load("res://src/Mannequiny/skeleton_part.gd"))
+	#arm_skeleton.get_parent().remove_child(arm_skeleton)
+	Global._world.add_child(arm_skeleton)
+	arm_skeleton.global_transform = _skeleton.global_transform
 
-		# Get all bone names
-		var all_bone_names := []
-		var total = _skeleton_rag_doll.get_bone_count()
-		for i in total:
-			var name = _skeleton_rag_doll.get_bone_name(i)
-			all_bone_names.append(name)
-#			print(name)
+	# Save all bone transforms
+	var transforms := {}
+	for name in all_bone_names:
+		var bone_id : int = arm_skeleton.find_bone(name)
+		var tran : Transform = arm_skeleton.get_bone_global_pose(bone_id)
+		transforms[name] = tran
 
-		# Save all bone transforms
-		var transforms := {}
-		for name in all_bone_names:
-			var bone_id = _skeleton_rag_doll.find_bone(name)
-			var tran := _skeleton_rag_doll.get_bone_global_pose(bone_id)
-			transforms[name] = tran
+	for name in all_bone_names:
+		if not arm_bone_names.has(name):
+			var physical_bone = arm_skeleton.get_node_or_null("Physical Bone %s" % [name])
+			if physical_bone:
+				physical_bone.queue_free()
 
-		# Shrink all bone transforms
-		for name in all_bone_names:
-			var bone_id = _skeleton_rag_doll.find_bone(name)
-			_skeleton_rag_doll.set_bone_global_pose_override(bone_id, reset_tran, 1.0, true)
-
-		# Reset arm bone transforms to normal
-		for name in arm_bone_names:
-			var bone_id = _skeleton_rag_doll.find_bone(name)
-			var tran = transforms[name]
-			_skeleton_rag_doll.set_bone_global_pose_override(bone_id, tran, 1.0, true)
-
-	##arm_bone = _skeleton_rag_doll.get_node("Physical Bone upperarmr")
-	_skeleton_rag_doll.global_transform.origin = _skeleton.global_transform.origin
-	_skeleton_rag_doll.get_node("Physical Bone upperarmr").global_transform.origin = _skeleton.get_node("Physical Bone upperarmr").global_transform.origin
-	_skeleton_rag_doll.physical_bones_start_simulation()
+	arm_skeleton.physical_bones_start_simulation()
+	arm_skeleton.is_arm_broken = true
 
 	# Hide arm animation bones
 	var spine_id := _skeleton.find_bone("spine_1")
