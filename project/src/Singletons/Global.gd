@@ -16,6 +16,11 @@ const MOUSE_ACCELERATION_Y := 10.0
 const MOUSE_Y_MAX := 70.0
 const MOUSE_Y_MIN := -60.0
 
+enum BulletType {
+	_308,
+	_9MM,
+}
+
 enum BrokenPart {
 	Head,
 	RightArm,
@@ -32,6 +37,21 @@ enum BodyPart {
 	LowerArm,
 	UpperLeg,
 	LowerLeg,
+}
+
+var DB = {
+	"Bullets" : {
+		BulletType._308 : {
+			"mass" : 0.018,
+			"speed" : 1219.0,
+			"max_distance" : 5000.0,
+		},
+		BulletType._9MM : {
+			"mass" : 0.0075,
+			"speed" : 400.0,
+			"max_distance" : 2000.0,
+		},
+	}
 }
 
 var all_bone_names := [

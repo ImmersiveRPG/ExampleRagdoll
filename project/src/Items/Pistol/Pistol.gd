@@ -7,4 +7,4 @@ class_name Pistol
 
 func fire(target_pos : Vector3) -> void:
 	var start_pos = $BulletStartPosition.global_transform.origin
-	RuntimeInstancer.create_bullet(start_pos, target_pos)
+	RuntimeInstancer.create_bullet(start_pos, target_pos, Global.BulletType._9MM)

@@ -5,8 +5,9 @@
 extends Spatial
 
 # Get the bullet info
-var _mass := 0.018
-var _max_distance := 5000.0
+var _bullet_type := -1
+var _mass := -1.0
+var _max_distance := -1.0
 var _speed := 1219.0
 var _ignore_collision_distance := 0.0
 var _velocity : Vector3
@@ -60,8 +61,15 @@ func _physics_process(delta : float) -> void:
 	if _total_distance > _max_distance:
 		self.queue_free()
 
-func start() -> void:
-	_velocity = self.transform.basis.z * _speed
+func start(bullet_type : int) -> void:
+	# Get the bullet info from the database
+	_bullet_type = bullet_type
+	var entry = Global.DB["Bullets"][_bullet_type]
+	_mass = entry["mass"]
+	_max_distance = entry["max_distance"]
+	var speed = entry["speed"]
+	_velocity = self.transform.basis.z * speed
+	#print("Loaded values for %s" % self.name)
 
 	# Add bullet glow
 	RuntimeInstancer.create_bullet_glow(self)
