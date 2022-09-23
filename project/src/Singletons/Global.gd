@@ -33,10 +33,14 @@ enum BodyPart {
 	Head,
 	Torso,
 	Pelvis,
-	UpperArm,
-	LowerArm,
-	UpperLeg,
-	LowerLeg,
+	UpperArmL,
+	UpperArmR,
+	LowerArmL,
+	LowerArmR,
+	UpperLegL,
+	UpperLegR,
+	LowerLegL,
+	LowerLegR,
 }
 
 var DB = {

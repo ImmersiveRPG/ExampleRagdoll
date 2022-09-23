@@ -108,13 +108,13 @@ func _on_hit_body_part(origin : Vector3, body_part : int, bullet_type : int) -> 
 			power = 20.0
 		Global.BodyPart.Pelvis:
 			power = 20.0
-		Global.BodyPart.UpperArm:
+		Global.BodyPart.UpperArmL, Global.BodyPart.UpperArmR:
 			power = 20.0
-		Global.BodyPart.LowerArm:
+		Global.BodyPart.LowerArmL, Global.BodyPart.LowerArmR:
 			power = 20.0
-		Global.BodyPart.UpperLeg:
+		Global.BodyPart.UpperLegL, Global.BodyPart.UpperLegR:
 			power = 20.0
-		Global.BodyPart.LowerLeg:
+		Global.BodyPart.LowerLegL, Global.BodyPart.LowerLegR:
 			power = 20.0
 		_:
 			push_error("Unexpected BodyPart: %s" % [body_part])
@@ -137,13 +137,21 @@ func _on_hit_body_part(origin : Vector3, body_part : int, bullet_type : int) -> 
 				pass
 			Global.BodyPart.Pelvis:
 				pass
-			Global.BodyPart.UpperArm, Global.BodyPart.LowerArm:
+			Global.BodyPart.UpperArmL:
+				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftArm)
+			Global.BodyPart.UpperArmR:
 				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightArm)
-			Global.BodyPart.LowerArm:
+			Global.BodyPart.LowerArmL:
+				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftArm)
+			Global.BodyPart.LowerArmR:
 				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightArm)
-			Global.BodyPart.UpperLeg:
+			Global.BodyPart.UpperLegL:
+				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftLeg)
+			Global.BodyPart.UpperLegR:
 				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightLeg)
-			Global.BodyPart.LowerLeg:
+			Global.BodyPart.LowerLegL:
+				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.LeftLeg)
+			Global.BodyPart.LowerLegR:
 				$Pivot/Mannequiny.break_body_part(Global.BrokenPart.RightLeg)
 			_:
 				push_error("Unexpected BodyPart: %s" % [body_part])
