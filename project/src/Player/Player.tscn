@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/Player/face_material.tres" type="Material" id=2]
 [ext_resource path="res://src/Items/HuntingRifle/HuntingRifle.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Items/Pistol/Pistol.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleMesh" id=1]
 radius = 0.25
@@ -64,6 +65,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.338, -0.5 )
 [node name="HuntingRifle" parent="Pivot/Body/RShoulder/ItemMount" instance=ExtResource( 3 )]
 collision_layer = 0
 collision_mask = 0
+
+[node name="Pistol" parent="Pivot/Body/RShoulder/ItemMount" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1, 0 )
