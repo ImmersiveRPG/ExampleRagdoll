@@ -32,6 +32,13 @@ func _input(event : InputEvent) -> void:
 		_latest_mouse_pos = event.position
 
 func _process(delta : float) -> void:
+	if Input.is_action_just_released("EquipPistol"):
+		for item in $Pivot/Body/RShoulder/ItemMount.get_children():
+			item.visible = (item is Pistol)
+	elif Input.is_action_just_released("EquipHuntingRifle"):
+		for item in $Pivot/Body/RShoulder/ItemMount.get_children():
+			item.visible = (item is HuntingRifle)
+
 	# Angle the camera
 	var camera = $CameraMount/v/Camera
 	_camera_x_new = lerp(_camera_x_new, _camera_x, delta * Global.MOUSE_ACCELERATION_X)
@@ -76,7 +83,8 @@ func _process(delta : float) -> void:
 	# Shooting
 	if is_shooting:
 		for weapon in $Pivot/Body/RShoulder/ItemMount.get_children():
-			weapon.fire(target)
+			if weapon.visible:
+				weapon.fire(target)
 
 func _physics_process(delta : float) -> void:
 	# Check if moving

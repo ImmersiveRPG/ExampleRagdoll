@@ -8,6 +8,22 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "RigidBody",
+"class": "HuntingRifle",
+"language": "GDScript",
+"path": "res://src/Items/HuntingRifle/HuntingRifle.gd"
+}, {
+"base": "RigidBody",
+"class": "Pistol",
+"language": "GDScript",
+"path": "res://src/Items/Pistol/Pistol.gd"
+} ]
+_global_script_class_icons={
+"HuntingRifle": "",
+"Pistol": ""
+}
+
 [application]
 
 config/name="ExampleRagdoll"
@@ -98,6 +114,16 @@ BreakHead={
 ToggleCapture={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+EquipPistol={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":49,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+EquipHuntingRifle={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":50,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

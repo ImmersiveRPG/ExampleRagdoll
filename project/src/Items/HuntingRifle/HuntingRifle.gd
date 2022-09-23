@@ -3,6 +3,7 @@
 # https://github.com/ImmersiveRPG/ExampleRagdoll
 
 extends RigidBody
+class_name HuntingRifle
 
 func fire(target_pos : Vector3) -> void:
 	var start_pos = $BulletStartPosition.global_transform.origin
