@@ -65,6 +65,8 @@ func _on_skeleton_updated() -> void:
 			physical_bone.global_transform.origin += self.global_transform.origin
 
 func break_body_part(broke_part : int) -> void:
+	#Engine.time_scale = 0.1
+
 	# Duplicate the skeleton (without attached signals)
 	var flags := 0
 	#flags += DUPLICATE_SIGNALS
@@ -72,13 +74,11 @@ func break_body_part(broke_part : int) -> void:
 	flags += DUPLICATE_SCRIPTS
 	flags += DUPLICATE_USE_INSTANCING
 	var broken_skeleton = _skeleton.duplicate(flags)
-	broken_skeleton.hide()
 	broken_skeleton.set_script(load("res://src/Mannequiny/skeleton_part.gd"))
 	#broken_skeleton.get_parent().remove_child(broken_skeleton)
 	Global._world.add_child(broken_skeleton)
 	broken_skeleton.global_transform = _skeleton.global_transform
 	broken_skeleton.start(broke_part)
-	broken_skeleton.show()
 
 #	var marker = Global._world.get_node("Marker")
 #	#print([marker, marker.name, marker.get_script()])
@@ -109,4 +109,3 @@ func break_body_part(broke_part : int) -> void:
 	for name in to_not_remove:
 		var bone_id := _skeleton.find_bone(name)
 		_skeleton.set_bone_global_pose_override(bone_id, tran, 1.0, true)
-

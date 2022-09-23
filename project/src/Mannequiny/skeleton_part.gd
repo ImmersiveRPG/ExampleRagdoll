@@ -6,8 +6,12 @@ extends Skeleton
 
 var _broken_part := -1
 var _mount_bone : PhysicalBone = null
+var _is_first_show := true
 
 func start(broken_part : int) -> void:
+	# Hide self until after first process event
+	self.hide()
+
 	_broken_part = broken_part
 	var to_not_remove := []
 
@@ -71,3 +75,8 @@ func _process(_delta : float) -> void:
 		if not to_not_remove.has(name):
 			var bone_id = self.find_bone(name)
 			self.set_bone_global_pose_override(bone_id, pos, 1.0, true)
+
+	# Show self if end of first process event
+	if _is_first_show:
+		self.show()
+		_is_first_show = false
