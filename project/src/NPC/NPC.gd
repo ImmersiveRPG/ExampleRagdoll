@@ -50,6 +50,10 @@ func _process(_delta : float) -> void:
 		$Pivot/Mannequiny.break_arm(Global.BrokenPart.RightArm)
 	elif Input.is_action_just_released("BreakLeftArm"):
 		$Pivot/Mannequiny.break_arm(Global.BrokenPart.LeftArm)
+	elif Input.is_action_just_released("BreakRightLeg"):
+		$Pivot/Mannequiny.break_arm(Global.BrokenPart.RightLeg)
+	elif Input.is_action_just_released("BreakLeftLeg"):
+		$Pivot/Mannequiny.break_arm(Global.BrokenPart.LeftLeg)
 
 	# Update the velocity
 	var prev_velocity = _velocity

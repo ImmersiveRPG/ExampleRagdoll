@@ -18,6 +18,12 @@ func start(broken_part : int) -> void:
 		Global.BrokenPart.LeftArm:
 			_mount_bone = $"Physical Bone upperarml"
 			to_not_remove = Global.left_arm_bone_names
+		Global.BrokenPart.RightLeg:
+			_mount_bone = $"Physical Bone thighr"
+			to_not_remove = Global.right_leg_bone_names
+		Global.BrokenPart.LeftLeg:
+			_mount_bone = $"Physical Bone thighl"
+			to_not_remove = Global.left_leg_bone_names
 		_:
 			push_error("Unexpected Global.BrokenPart: %s" % [_broken_part])
 			return
@@ -49,6 +55,10 @@ func _process(_delta : float) -> void:
 			to_not_remove = Global.right_arm_bone_names
 		Global.BrokenPart.LeftArm:
 			to_not_remove = Global.left_arm_bone_names
+		Global.BrokenPart.RightLeg:
+			to_not_remove = Global.right_leg_bone_names
+		Global.BrokenPart.LeftLeg:
+			to_not_remove = Global.left_leg_bone_names
 		_:
 			push_error("Unexpected Global.BrokenPart: %s" % [_broken_part])
 			return

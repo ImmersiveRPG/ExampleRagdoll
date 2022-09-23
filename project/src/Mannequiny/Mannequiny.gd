@@ -93,6 +93,12 @@ func break_arm(broke_part : int) -> void:
 		Global.BrokenPart.LeftArm:
 			mount_id = _skeleton.find_bone("spine_1")
 			to_not_remove = Global.left_arm_bone_names
+		Global.BrokenPart.RightLeg:
+			mount_id = _skeleton.find_bone("spine_1")
+			to_not_remove = Global.right_leg_bone_names
+		Global.BrokenPart.LeftLeg:
+			mount_id = _skeleton.find_bone("spine_1")
+			to_not_remove = Global.left_leg_bone_names
 		_:
 			push_error("Unexpected Global.BrokenPart: %s" % [broke_part])
 			return
