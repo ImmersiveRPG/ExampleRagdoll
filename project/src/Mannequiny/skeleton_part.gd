@@ -140,8 +140,9 @@ func shrink(tran : Transform, percent : float) -> Transform:
 
 func _process(delta : float) -> void:
 	if is_arm_broken:
-		# Tuck all animation bones that are not arm into sholder
+		# Tuck all animation bones that are not arm into shoulder
 		var pos = _right_shoulder.global_transform
+		pos.origin -= self.global_transform.origin
 		pos = shrink(pos, 0.001)
 		for name in all_bone_names:
 			if not right_arm_bone_names.has(name):
