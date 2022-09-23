@@ -77,7 +77,7 @@ var all_bone_names := [
 	"index_2_l",
 	"index_3_l",
 ]
-var arm_bone_names := [
+var right_arm_bone_names := [
 #	"pelvis",
 #	"thighl",
 #	"calfl",
@@ -178,28 +178,11 @@ func break_arm() -> void:
 	Global._world.add_child(arm_skeleton)
 	arm_skeleton.global_transform = _skeleton.global_transform
 
-#	# Save all bone transforms
-#	var transforms := {}
-#	for name in all_bone_names:
-#		var bone_id : int = arm_skeleton.find_bone(name)
-#		var tran : Transform = arm_skeleton.get_bone_global_pose(bone_id)
-#		transforms[name] = tran
-
-	# Remove all non arm physical bones
-	for name in all_bone_names:
-		if not arm_bone_names.has(name):
-			var physical_bone = arm_skeleton.get_node_or_null("Physical Bone %s" % [name])
-			if physical_bone:
-				physical_bone.queue_free()
-
-	arm_skeleton.physical_bones_start_simulation()
-	arm_skeleton.is_arm_broken = true
-
 	# Hide arm animation animation bones by shrinking and tucking them inside torso
 	var spine_id := _skeleton.find_bone("spine_1")
 	var tran := _skeleton.get_bone_global_pose(spine_id)
 	tran = shrink(tran, 0.0001)
-	for name in arm_bone_names:
+	for name in right_arm_bone_names:
 		var bone_id := _skeleton.find_bone(name)
 		_skeleton.set_bone_global_pose_override(bone_id, tran, 1.0, true)
 

@@ -51,7 +51,7 @@ var all_bone_names := [
 	"index_2_l",
 	"index_3_l",
 ]
-var arm_bone_names := [
+var right_arm_bone_names := [
 #	"pelvis",
 #	"thighl",
 #	"calfl",
@@ -100,9 +100,25 @@ var arm_bone_names := [
 ]
 
 var is_arm_broken := false
+onready var _right_shoulder := $"Physical Bone upperarmr"
 
 func _ready() -> void:
-	pass
+#	# Save all bone transforms
+#	var transforms := {}
+#	for name in all_bone_names:
+#		var bone_id : int = self.find_bone(name)
+#		var tran : Transform = self.get_bone_global_pose(bone_id)
+#		transforms[name] = tran
+
+	# Remove all non arm physical bones
+	for name in all_bone_names:
+		if not right_arm_bone_names.has(name):
+			var physical_bone = self.get_node_or_null("Physical Bone %s" % [name])
+			if physical_bone:
+				physical_bone.queue_free()
+
+	self.physical_bones_start_simulation()
+	self.is_arm_broken = true
 
 func shrink(tran : Transform, percent : float) -> Transform:
 	var origin := tran.origin
@@ -113,9 +129,9 @@ func shrink(tran : Transform, percent : float) -> Transform:
 func _process(delta : float) -> void:
 	if is_arm_broken:
 		# Tuck all animation bones that are not arm into sholder
-		var pos = self.get_node("Physical Bone upperarmr").global_transform
-		pos = shrink(pos, 0.1)
+		var pos = _right_shoulder.global_transform
+		pos = shrink(pos, 0.001)
 		for name in all_bone_names:
-			if not arm_bone_names.has(name):
+			if not right_arm_bone_names.has(name):
 				var bone_id = self.find_bone(name)
 				self.set_bone_global_pose_override(bone_id, pos, 1.0, true)
