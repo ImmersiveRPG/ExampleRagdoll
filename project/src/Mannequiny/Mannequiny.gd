@@ -64,7 +64,7 @@ func _on_skeleton_updated() -> void:
 			physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y - deg2rad(180.0))
 			physical_bone.global_transform.origin += self.global_transform.origin
 
-func break_arm() -> void:
+func break_arm(broke_part : int) -> void:
 	# Duplicate the skeleton (without attached signals)
 	var flags := 0
 	#flags += DUPLICATE_SIGNALS
@@ -77,18 +77,30 @@ func break_arm() -> void:
 	#arm_skeleton.get_parent().remove_child(arm_skeleton)
 	Global._world.add_child(arm_skeleton)
 	arm_skeleton.global_transform = _skeleton.global_transform
-	arm_skeleton.start()
+	arm_skeleton.start(broke_part)
 	arm_skeleton.show()
 
 	var marker = Global._world.get_node("Marker")
 	#print([marker, marker.name, marker.get_script()])
 	marker.target_node = arm_skeleton.get_path()
 
-	# Hide arm animation bones by shrinking and tucking them inside torso
-	var spine_id := _skeleton.find_bone("spine_1")
-	var tran := _skeleton.get_bone_global_pose(spine_id)
+	var to_not_remove := []
+	var mount_id := -1
+	match broke_part:
+		Global.BrokenPart.RightArm:
+			mount_id = _skeleton.find_bone("spine_1")
+			to_not_remove = Global.right_arm_bone_names
+		Global.BrokenPart.LeftArm:
+			mount_id = _skeleton.find_bone("spine_1")
+			to_not_remove = Global.left_arm_bone_names
+		_:
+			push_error("Unexpected Global.BrokenPart: %s" % [broke_part])
+			return
+
+	# Hide broken animation bones by shrinking and tucking them inside mount
+	var tran := _skeleton.get_bone_global_pose(mount_id)
 	tran = Global.shrink(tran, 0.0001)
-	for name in Global.right_arm_bone_names:
+	for name in to_not_remove:
 		var bone_id := _skeleton.find_bone(name)
 		_skeleton.set_bone_global_pose_override(bone_id, tran, 1.0, true)
 

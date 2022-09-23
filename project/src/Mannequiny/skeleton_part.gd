@@ -4,19 +4,24 @@
 
 extends Skeleton
 
-var is_arm_broken := false
-onready var _right_shoulder := $"Physical Bone upperarmr"
+var _broken_part := -1
+var _mount_bone : PhysicalBone = null
 
-func _ready() -> void:
-#	# Save all bone transforms
-#	var transforms := {}
-#	for name in Global.all_bone_names:
-#		var bone_id : int = self.find_bone(name)
-#		var tran : Transform = self.get_bone_global_pose(bone_id)
-#		transforms[name] = tran
-	pass
+func start(broken_part : int) -> void:
+	_broken_part = broken_part
+	var to_not_remove := []
 
-func start() -> void:
+	match _broken_part:
+		Global.BrokenPart.RightArm:
+			_mount_bone = $"Physical Bone upperarmr"
+			to_not_remove = Global.right_arm_bone_names
+		Global.BrokenPart.LeftArm:
+			_mount_bone = $"Physical Bone upperarml"
+			to_not_remove = Global.left_arm_bone_names
+		_:
+			push_error("Unexpected Global.BrokenPart: %s" % [_broken_part])
+			return
+
 	# Move physical bones to location of animation bones
 	for entry in Global.all_bone_names:
 		var physical_bone = self.get_node_or_null("Physical Bone %s" % [entry])
@@ -26,24 +31,33 @@ func start() -> void:
 			#physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y - deg2rad(180.0))
 			physical_bone.global_transform.origin += self.global_transform.origin
 
-	# Remove all non arm physical bones
+	# Remove all non broken part physical bones
 	for name in Global.all_bone_names:
-		if not Global.right_arm_bone_names.has(name):
+		if not to_not_remove.has(name):
 			var physical_bone = self.get_node_or_null("Physical Bone %s" % [name])
 			if physical_bone:
 				physical_bone.queue_free()
 
 	self.physical_bones_start_simulation()
-	self.is_arm_broken = true
 	pass
 
-func _process(delta : float) -> void:
-	if is_arm_broken:
-		# Tuck all animation bones that are not arm into shoulder
-		var pos = _right_shoulder.global_transform
-		pos.origin -= self.global_transform.origin
-		pos = Global.shrink(pos, 0.001)
-		for name in Global.all_bone_names:
-			if not Global.right_arm_bone_names.has(name):
-				var bone_id = self.find_bone(name)
-				self.set_bone_global_pose_override(bone_id, pos, 1.0, true)
+func _process(_delta : float) -> void:
+	var to_not_remove := []
+
+	match _broken_part:
+		Global.BrokenPart.RightArm:
+			to_not_remove = Global.right_arm_bone_names
+		Global.BrokenPart.LeftArm:
+			to_not_remove = Global.left_arm_bone_names
+		_:
+			push_error("Unexpected Global.BrokenPart: %s" % [_broken_part])
+			return
+
+	# Tuck all animation bones that are not removed into mount bone
+	var pos = _mount_bone.global_transform
+	pos.origin -= self.global_transform.origin
+	pos = Global.shrink(pos, 0.001)
+	for name in Global.all_bone_names:
+		if not to_not_remove.has(name):
+			var bone_id = self.find_bone(name)
+			self.set_bone_global_pose_override(bone_id, pos, 1.0, true)
