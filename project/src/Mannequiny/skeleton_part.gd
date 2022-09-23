@@ -16,6 +16,9 @@ func start(broken_part : int) -> void:
 	var to_not_remove := []
 
 	match _broken_part:
+		Global.BrokenPart.Head:
+			_mount_bone = $"Physical Bone neck_1"
+			to_not_remove = Global.head_bone_names
 		Global.BrokenPart.RightArm:
 			_mount_bone = $"Physical Bone upperarmr"
 			to_not_remove = Global.right_arm_bone_names
@@ -55,6 +58,8 @@ func _process(_delta : float) -> void:
 	var to_not_remove := []
 
 	match _broken_part:
+		Global.BrokenPart.Head:
+			to_not_remove = Global.head_bone_names
 		Global.BrokenPart.RightArm:
 			to_not_remove = Global.right_arm_bone_names
 		Global.BrokenPart.LeftArm:

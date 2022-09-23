@@ -87,6 +87,9 @@ func break_body_part(broke_part : int) -> void:
 	var to_not_remove := []
 	var mount_id := -1
 	match broke_part:
+		Global.BrokenPart.Head:
+			mount_id = _skeleton.find_bone("spine_1")
+			to_not_remove = Global.head_bone_names
 		Global.BrokenPart.RightArm:
 			mount_id = _skeleton.find_bone("spine_1")
 			to_not_remove = Global.right_arm_bone_names

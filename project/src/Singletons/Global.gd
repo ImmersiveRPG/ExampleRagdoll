@@ -17,6 +17,7 @@ const MOUSE_Y_MAX := 70.0
 const MOUSE_Y_MIN := -60.0
 
 enum BrokenPart {
+	Head,
 	RightArm,
 	LeftArm,
 	RightLeg,
@@ -80,6 +81,12 @@ var all_bone_names := [
 	"index_2_l",
 	"index_3_l",
 ]
+
+var head_bone_names := [
+	"neck_1",
+	"head",
+]
+
 var right_arm_bone_names := [
 #	"pelvis",
 #	"thighl",
