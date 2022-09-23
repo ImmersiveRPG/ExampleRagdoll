@@ -80,9 +80,9 @@ func break_arm(broke_part : int) -> void:
 	arm_skeleton.start(broke_part)
 	arm_skeleton.show()
 
-	var marker = Global._world.get_node("Marker")
-	#print([marker, marker.name, marker.get_script()])
-	marker.target_node = arm_skeleton.get_path()
+#	var marker = Global._world.get_node("Marker")
+#	#print([marker, marker.name, marker.get_script()])
+#	marker.target_node = arm_skeleton.get_path()
 
 	var to_not_remove := []
 	var mount_id := -1
