@@ -18,8 +18,16 @@ var _camera_x := 0.0
 var _camera_x_new := 0.0
 var _camera_y := 0.0
 
+onready var _back_mount := $Pivot/Body/BackMount
+onready var _item_mount := $Pivot/Body/RShoulder/ItemMount
+onready var _hunting_rifle := $Pivot/Body/RShoulder/ItemMount/HuntingRifle
+onready var _pistol := $Pivot/Body/RShoulder/ItemMount/Pistol
+
 func _init() -> void:
 	Global._player = self
+
+func _ready() -> void:
+	self._switch_weapon(_hunting_rifle, _pistol)
 
 func _input(event : InputEvent) -> void:
 	# Rotate camera with mouse
@@ -33,11 +41,9 @@ func _input(event : InputEvent) -> void:
 
 func _process(delta : float) -> void:
 	if Input.is_action_just_released("EquipPistol"):
-		for item in $Pivot/Body/RShoulder/ItemMount.get_children():
-			item.visible = (item is Pistol)
+		self._switch_weapon(_pistol, _hunting_rifle)
 	elif Input.is_action_just_released("EquipHuntingRifle"):
-		for item in $Pivot/Body/RShoulder/ItemMount.get_children():
-			item.visible = (item is HuntingRifle)
+		self._switch_weapon(_hunting_rifle, _pistol)
 
 	# Angle the camera
 	var camera = $CameraMount/v/Camera
@@ -82,9 +88,8 @@ func _process(delta : float) -> void:
 
 	# Shooting
 	if is_shooting:
-		for weapon in $Pivot/Body/RShoulder/ItemMount.get_children():
-			if weapon.visible:
-				weapon.fire(target)
+		for weapon in _item_mount.get_children():
+			weapon.fire(target)
 
 func _physics_process(delta : float) -> void:
 	# Check if moving
@@ -121,4 +126,10 @@ func _physics_process(delta : float) -> void:
 	# Actually move
 	_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.UP, true, 4, Global.FLOOR_SLOPE_MAX_THRESHOLD, false)
 
+func _switch_weapon(front : RigidBody, back : RigidBody) -> void:
+	for item in [front, back]:
+		item.get_parent().remove_child(item)
+
+	_back_mount.add_child(back)
+	_item_mount.add_child(front)
 

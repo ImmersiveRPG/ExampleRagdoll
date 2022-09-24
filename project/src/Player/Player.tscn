@@ -68,7 +68,11 @@ collision_mask = 0
 
 [node name="Pistol" parent="Pivot/Body/RShoulder/ItemMount" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.98023e-08, -0.6271 )
-visible = false
+collision_layer = 0
+collision_mask = 0
+
+[node name="BackMount" type="Spatial" parent="Pivot/Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.399079, 0.31268 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1, 0 )
