@@ -47,15 +47,15 @@ func _process(_delta : float) -> void:
 	if _is_dead: return
 
 	if Input.is_action_just_released("BreakRightArm"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmR)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmR, Vector3.ZERO, Vector3.ZERO)
 	elif Input.is_action_just_released("BreakLeftArm"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmL)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmL, Vector3.ZERO, Vector3.ZERO)
 	elif Input.is_action_just_released("BreakRightLeg"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegR)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegR, Vector3.ZERO, Vector3.ZERO)
 	elif Input.is_action_just_released("BreakLeftLeg"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegL)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegL, Vector3.ZERO, Vector3.ZERO)
 	elif Input.is_action_just_released("BreakHead"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.Head)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.Head, Vector3.ZERO, Vector3.ZERO)
 
 	# Update the velocity
 	var prev_velocity = _velocity
@@ -98,7 +98,7 @@ func _start_ragdoll() -> void:
 	$Pivot/Mannequiny/root/Skeleton.physical_bones_start_simulation()
 	$Pivot/Mannequiny.is_ragdoll = true
 
-func _on_hit_body_part(origin : Vector3, body_part : int, bullet_type : int) -> void:
+func _on_hit_body_part(origin : Vector3, angle : Vector3, body_part : int, bullet_type : int) -> void:
 	var can_break := true
 
 	# Get power based on body part
@@ -134,7 +134,7 @@ func _on_hit_body_part(origin : Vector3, body_part : int, bullet_type : int) -> 
 
 	# if the bullet is powerfull, break off the hit body part
 	if can_break and bullet_type == Global.BulletType._308:
-		$Pivot/Mannequiny.break_body_part(body_part)
+		$Pivot/Mannequiny.break_body_part(body_part, origin, angle)
 
 func _on_timer_die_timeout() -> void:
 	self.queue_free()

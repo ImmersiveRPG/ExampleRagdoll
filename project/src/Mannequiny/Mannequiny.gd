@@ -5,7 +5,7 @@
 #tool
 extends Spatial
 
-signal hit(origin, bullet_type, collider)
+signal hit(origin, angle, bullet_type, collider)
 
 var is_ragdoll := false
 var _bone_names := []
@@ -40,10 +40,10 @@ func _ready() -> void:
 		if _skeleton.has_node("Physical Bone %s" % [name]):
 			_bone_names.append(name)
 
-func _on_hit(origin : Vector3, bullet_type : int, collider : Node) -> void:
+func _on_hit(origin : Vector3, angle : Vector3, bullet_type : int, collider : Node) -> void:
 	# Forward hit to NPC with body part info
 	var body_part = collision_2_body_part[collider]
-	self.owner.emit_signal("hit_body_part", origin, body_part, bullet_type)
+	self.owner.emit_signal("hit_body_part", origin, angle, body_part, bullet_type)
 
 func _on_skeleton_updated() -> void:
 	if not is_syncing_bones: return
@@ -64,7 +64,7 @@ func _on_skeleton_updated() -> void:
 			physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y - deg2rad(180.0))
 			physical_bone.global_transform.origin += self.global_transform.origin
 
-func break_body_part(broke_part : int) -> void:
+func break_body_part(broke_part : int, origin : Vector3, angle : Vector3) -> void:
 	#Engine.time_scale = 0.1
 
 	# Duplicate the skeleton (without attached signals)
@@ -79,6 +79,9 @@ func break_body_part(broke_part : int) -> void:
 	Global._world.add_child(broken_skeleton)
 	broken_skeleton.global_transform = _skeleton.global_transform
 	broken_skeleton.start(broke_part)
+
+	# Apply force at the angle
+	broken_skeleton._mount_bone.apply_central_impulse(angle * 10.0)
 
 #	var marker = Global._world.get_node("Marker")
 #	#print([marker, marker.name, marker.get_script()])
