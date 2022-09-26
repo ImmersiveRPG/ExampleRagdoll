@@ -46,6 +46,7 @@ func set_hp(value : float) -> void:
 func _process(_delta : float) -> void:
 	if _is_dead: return
 
+	# Check for pressing key to pop off parts
 	if Input.is_action_just_released("BreakEverything"):
 		var basis = $Pivot/Mannequiny.global_transform.basis
 		var breaks := {
@@ -59,15 +60,20 @@ func _process(_delta : float) -> void:
 			var angle = breaks[body_part]
 			$Pivot/Mannequiny.break_body_part(body_part, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakRightArm"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmR, Vector3.ZERO, Vector3.ZERO, 0.0)
+		var angle = -$Pivot/Mannequiny.global_transform.basis.x
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmR, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakLeftArm"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmL, Vector3.ZERO, Vector3.ZERO, 0.0)
+		var angle = $Pivot/Mannequiny.global_transform.basis.x
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmL, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakRightLeg"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegR, Vector3.ZERO, Vector3.ZERO, 0.0)
+		var angle = -$Pivot/Mannequiny.global_transform.basis.x
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegR, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakLeftLeg"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegL, Vector3.ZERO, Vector3.ZERO, 0.0)
+		var angle = $Pivot/Mannequiny.global_transform.basis.x
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegL, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakHead"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.Head, Vector3.ZERO, Vector3.ZERO, 0.0)
+		var angle = $Pivot/Mannequiny.global_transform.basis.y
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.Head, Vector3.ZERO, angle, 5.0)
 
 	# Update the velocity
 	var prev_velocity = _velocity
