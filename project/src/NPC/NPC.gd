@@ -98,7 +98,7 @@ func _start_ragdoll() -> void:
 	$Pivot/Mannequiny/root/Skeleton.physical_bones_start_simulation()
 	$Pivot/Mannequiny.is_ragdoll = true
 
-func _on_hit_body_part(origin : Vector3, angle : Vector3, body_part : int, bullet_type : int) -> void:
+func _on_hit_body_part(origin : Vector3, angle : Vector3, force : float, body_part : int, bullet_type : int) -> void:
 	var can_break := true
 
 	# Get power based on body part
@@ -134,7 +134,7 @@ func _on_hit_body_part(origin : Vector3, angle : Vector3, body_part : int, bulle
 
 	# if the bullet is powerfull, break off the hit body part
 	if can_break and bullet_type == Global.BulletType._308:
-		$Pivot/Mannequiny.break_body_part(body_part, origin, angle)
+		$Pivot/Mannequiny.break_body_part(body_part, origin, angle, force)
 
 func _on_timer_die_timeout() -> void:
 	self.queue_free()
