@@ -46,7 +46,19 @@ func set_hp(value : float) -> void:
 func _process(_delta : float) -> void:
 	if _is_dead: return
 
-	if Input.is_action_just_released("BreakRightArm"):
+	if Input.is_action_just_released("BreakEverything"):
+		var basis = $Pivot/Mannequiny.global_transform.basis
+		var breaks := {
+			Global.BodyPart.UpperArmR : -basis.x,
+			Global.BodyPart.UpperArmL : basis.x,
+			Global.BodyPart.UpperLegR : -basis.x,
+			Global.BodyPart.UpperLegL : basis.x,
+			Global.BodyPart.Head : basis.y,
+		}
+		for body_part in breaks:
+			var angle = breaks[body_part]
+			$Pivot/Mannequiny.break_body_part(body_part, Vector3.ZERO, angle, 5.0)
+	elif Input.is_action_just_released("BreakRightArm"):
 		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmR, Vector3.ZERO, Vector3.ZERO, 0.0)
 	elif Input.is_action_just_released("BreakLeftArm"):
 		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmL, Vector3.ZERO, Vector3.ZERO, 0.0)
