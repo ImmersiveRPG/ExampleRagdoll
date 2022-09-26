@@ -47,15 +47,15 @@ func _process(_delta : float) -> void:
 	if _is_dead: return
 
 	if Input.is_action_just_released("BreakRightArm"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmR, Vector3.ZERO, Vector3.ZERO)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmR, Vector3.ZERO, Vector3.ZERO, 0.0)
 	elif Input.is_action_just_released("BreakLeftArm"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmL, Vector3.ZERO, Vector3.ZERO)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmL, Vector3.ZERO, Vector3.ZERO, 0.0)
 	elif Input.is_action_just_released("BreakRightLeg"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegR, Vector3.ZERO, Vector3.ZERO)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegR, Vector3.ZERO, Vector3.ZERO, 0.0)
 	elif Input.is_action_just_released("BreakLeftLeg"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegL, Vector3.ZERO, Vector3.ZERO)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegL, Vector3.ZERO, Vector3.ZERO, 0.0)
 	elif Input.is_action_just_released("BreakHead"):
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.Head, Vector3.ZERO, Vector3.ZERO)
+		$Pivot/Mannequiny.break_body_part(Global.BodyPart.Head, Vector3.ZERO, Vector3.ZERO, 0.0)
 
 	# Update the velocity
 	var prev_velocity = _velocity
