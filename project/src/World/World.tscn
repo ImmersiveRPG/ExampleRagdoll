@@ -104,24 +104,24 @@ F11 - toggle full screen
 Q - toggle mouse lock"
 
 [node name="ColorRect2" type="ColorRect" parent="UI"]
-margin_left = 299.0
+margin_left = 285.0
 margin_top = 5.0
-margin_right = 564.0
+margin_right = 577.0
 margin_bottom = 112.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0.364706, 0.333333, 0.333333, 0.447059 )
 
 [node name="Directions2" type="Label" parent="UI"]
-margin_left = 314.0
+margin_left = 293.0
 margin_top = 17.0
-margin_right = 566.0
+margin_right = 570.0
 margin_bottom = 107.0
 text = "Player:
 WASD - move
 Left Click - shoot
 1 - Pistol
-2 - Hunting Rifle"
+2 - Hunting Rifle (Removes hit body parts)"
 
 [node name="ColorRect3" type="ColorRect" parent="UI"]
 margin_left = 587.0
