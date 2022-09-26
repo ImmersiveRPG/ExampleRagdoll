@@ -9,7 +9,7 @@ const VELOCITY_MAX := 10.0
 const JUMP_IMPULSE := 20.0
 const ROTATION_SPEED := 10.0
 
-signal hit_body_part(origin, body_part, bullet_type)
+signal hit_body_part(body_part, origin, angle, force, bullet_type)
 var _is_dead := false
 
 onready var _animation_player = self.get_node("Pivot/Mannequiny/AnimationPlayer")
@@ -98,7 +98,7 @@ func _start_ragdoll() -> void:
 	$Pivot/Mannequiny/root/Skeleton.physical_bones_start_simulation()
 	$Pivot/Mannequiny.is_ragdoll = true
 
-func _on_hit_body_part(origin : Vector3, angle : Vector3, force : float, body_part : int, bullet_type : int) -> void:
+func _on_hit_body_part(body_part : int, origin : Vector3, angle : Vector3, force : float, bullet_type : int) -> void:
 	var can_break := true
 
 	# Get power based on body part

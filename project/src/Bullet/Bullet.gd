@@ -50,7 +50,7 @@ func _physics_process(delta : float) -> void:
 
 		if collider.is_in_group("body_part"):
 			var force := _mass * _velocity.length()
-			collider.owner.emit_signal("hit", self.global_transform.origin, -self.transform.basis.z, force, _bullet_type, collider)
+			collider.owner.emit_signal("hit", collider, self.global_transform.origin, -self.transform.basis.z, force, _bullet_type)
 
 			self.queue_free()
 		else:
