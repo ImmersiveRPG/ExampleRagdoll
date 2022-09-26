@@ -25,23 +25,6 @@ func _input(_event) -> void:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	elif Input.is_action_just_released("ToggleFullScreen"):
 		OS.window_fullscreen = not OS.window_fullscreen
-	elif Input.is_action_just_pressed("MoveNPC"):
-		# Get a NPC
-		var npcs := $NPCs.get_children()
-		var npc = null
-		if npcs.empty():
-			return
-		npc = npcs[0]
-
-		# Get all the destinations
-		var destinations := $Positions.get_children()
-
-		# Get the NPC a random destination that is not the previous destination
-		while true:
-			var destination = Global.array_random_value(destinations)
-			if npc._destination != destination:
-				npc._destination = destination
-				break
 
 func _on_world_npc_died() -> void:
 	RuntimeInstancer.create_npc()

@@ -74,6 +74,17 @@ func _process(_delta : float) -> void:
 	elif Input.is_action_just_released("BreakHead"):
 		var angle = $Pivot/Mannequiny.global_transform.basis.y
 		$Pivot/Mannequiny.break_body_part(Global.BodyPart.Head, Vector3.ZERO, angle, 5.0)
+	elif Input.is_action_just_pressed("MoveNPC"):
+		# Get all the destinations
+		var destinations := Global._world.get_node("Positions").get_children()
+
+		# Get the NPC a random destination that is not the previous destination
+		while true:
+			var destination = Global.array_random_value(destinations)
+			if _destination != destination:
+				_destination = destination
+				break
+
 
 	# Update the velocity
 	var prev_velocity = _velocity
