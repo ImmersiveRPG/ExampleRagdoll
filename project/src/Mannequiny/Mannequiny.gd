@@ -33,7 +33,7 @@ onready var collision_2_body_part := {
 func _ready() -> void:
 	_skeleton = $root/Skeleton
 
-	# Get a list of all bone names
+	# Get a list of all bone names that have a physical and animation bone
 	var total = _skeleton.get_bone_count()
 	for i in total:
 		var name = _skeleton.get_bone_name(i)
@@ -48,6 +48,7 @@ func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, 
 func _on_skeleton_updated() -> void:
 	if not is_syncing_bones: return
 	if is_ragdoll: return
+	if not _skeleton: return
 
 	var parent_rotation = Vector3(0.0, deg2rad(180.0), 0.0)
 	if not Engine.editor_hint:
@@ -56,9 +57,11 @@ func _on_skeleton_updated() -> void:
 	# Join the animation bones and physical bones
 	for entry in _bone_names:
 		var physical_bone = _skeleton.get_node_or_null("Physical Bone %s" % [entry])
-		var bone_id = _skeleton.find_bone(entry)
+		if not physical_bone:
+			continue
 
 		# Move physical bone to location of animation bone
+		var bone_id = _skeleton.find_bone(entry)
 		if physical_bone:
 			physical_bone.global_transform = _skeleton.get_bone_global_pose(bone_id)
 			physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y - deg2rad(180.0))
