@@ -12,7 +12,7 @@ var _bone_names := []
 var _skeleton : Skeleton = null
 export var is_syncing_bones := true
 
-onready var collision_2_body_part := {
+onready var physical_bone_2_body_part := {
 	$"root/Skeleton/Physical Bone neck_1" : Global.BodyPart.Head,
 	$"root/Skeleton/Physical Bone spine_2" : Global.BodyPart.Torso,
 	$"root/Skeleton/Physical Bone pelvis" : Global.BodyPart.Pelvis,
@@ -30,6 +30,24 @@ onready var collision_2_body_part := {
 	$"root/Skeleton/Physical Bone footr" : Global.BodyPart.LowerLegR,
 }
 
+onready var body_part_2_physical_bone := {
+	Global.BodyPart.Head : $"root/Skeleton/Physical Bone neck_1",
+	Global.BodyPart.Torso : $"root/Skeleton/Physical Bone spine_2",
+	Global.BodyPart.Pelvis : $"root/Skeleton/Physical Bone pelvis",
+	Global.BodyPart.UpperArmL : $"root/Skeleton/Physical Bone upperarml",
+	Global.BodyPart.UpperArmR : $"root/Skeleton/Physical Bone upperarmr",
+	Global.BodyPart.LowerArmL : $"root/Skeleton/Physical Bone lowerarml",
+	Global.BodyPart.LowerArmR : $"root/Skeleton/Physical Bone lowerarmr",
+	Global.BodyPart.LowerArmR : $"root/Skeleton/Physical Bone handr",
+	Global.BodyPart.LowerArmL : $"root/Skeleton/Physical Bone handl",
+	Global.BodyPart.UpperLegL : $"root/Skeleton/Physical Bone thighl",
+	Global.BodyPart.UpperLegR : $"root/Skeleton/Physical Bone thighr",
+	Global.BodyPart.LowerLegL : $"root/Skeleton/Physical Bone calfl",
+	Global.BodyPart.LowerLegR : $"root/Skeleton/Physical Bone calfr",
+	Global.BodyPart.LowerLegL : $"root/Skeleton/Physical Bone footl",
+	Global.BodyPart.LowerLegR : $"root/Skeleton/Physical Bone footr",
+}
+
 func _ready() -> void:
 	_skeleton = $root/Skeleton
 
@@ -42,7 +60,7 @@ func _ready() -> void:
 
 func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, bullet_type : int) -> void:
 	# Forward hit to NPC with body part info
-	var body_part = collision_2_body_part[collider]
+	var body_part = physical_bone_2_body_part[collider]
 	self.owner.emit_signal("hit_body_part", body_part, origin, angle, force, bullet_type)
 
 func _on_skeleton_updated() -> void:

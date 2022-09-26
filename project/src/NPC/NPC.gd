@@ -32,9 +32,10 @@ func die() -> void:
 	_is_dead = true
 
 	$CollisionShape.disabled = true
-	self._start_ragdoll()
+	_animation_player.stop()
+	$Pivot/Mannequiny/root/Skeleton.physical_bones_start_simulation()
+	$Pivot/Mannequiny.is_ragdoll = true
 	$TimerDie.start()
-
 
 func set_hp(value : float) -> void:
 	_hp = clamp(value, 0, HP_MAX)
@@ -122,10 +123,6 @@ func _physics_process(delta : float) -> void:
 	# Actually move
 	_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.UP, true, 4, Global.FLOOR_SLOPE_MAX_THRESHOLD, false)
 
-func _start_ragdoll() -> void:
-	_animation_player.stop()
-	$Pivot/Mannequiny/root/Skeleton.physical_bones_start_simulation()
-	$Pivot/Mannequiny.is_ragdoll = true
 
 func _on_hit_body_part(body_part : int, origin : Vector3, angle : Vector3, force : float, bullet_type : int) -> void:
 	var can_break := true
@@ -157,6 +154,12 @@ func _on_hit_body_part(body_part : int, origin : Vector3, angle : Vector3, force
 	self.set_hp(_hp - power)
 	var name = Global.BodyPart.keys()[body_part]
 	print("!!! hit %s" % [name])
+
+	# If dead, add force to the location hit for ragdoll
+	if _is_dead:
+		var skeleton = $Pivot/Mannequiny/root/Skeleton
+		var bone = $Pivot/Mannequiny.body_part_2_physical_bone[body_part]
+		bone.apply_central_impulse(angle * force)
 
 	# Add blood spray
 	RuntimeInstancer.create_blood_spray(self, origin, angle)
