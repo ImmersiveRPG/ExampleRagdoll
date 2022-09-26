@@ -130,7 +130,7 @@ func _on_hit_body_part(body_part : int, origin : Vector3, angle : Vector3, force
 	print("!!! hit %s" % [name])
 
 	# Add blood spray
-	RuntimeInstancer.create_blood_spray(self, origin)
+	RuntimeInstancer.create_blood_spray(self, origin, angle)
 
 	# if the bullet is powerfull, break off the hit body part
 	if can_break and bullet_type == Global.BulletType._308:

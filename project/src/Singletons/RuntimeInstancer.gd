@@ -43,8 +43,8 @@ func create_npc() -> void:
 		Global._rng.randf_range(-r, r)
 	)
 
-func create_blood_spray(parent : Node, pos : Vector3) -> void:
+func create_blood_spray(parent : Node, pos : Vector3, angle : Vector3) -> void:
 	var spray = _scene_blood_spray.instance()
 	parent.add_child(spray)
 	spray.global_transform.origin = pos
-	spray.look_at(Global._player.global_transform.origin, Vector3.UP)
+	spray.global_transform.basis.z = angle
