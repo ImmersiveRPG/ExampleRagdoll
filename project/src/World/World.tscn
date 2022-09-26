@@ -89,7 +89,7 @@ anchor_bottom = 1.0
 margin_left = 8.0
 margin_top = 5.0
 margin_right = 260.0
-margin_bottom = 116.0
+margin_bottom = 77.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0.364706, 0.333333, 0.333333, 0.447059 )
@@ -98,16 +98,16 @@ color = Color( 0.364706, 0.333333, 0.333333, 0.447059 )
 margin_left = 21.0
 margin_top = 17.0
 margin_right = 267.0
-margin_bottom = 107.0
-text = "ESC to exit
-F11 to toggle full screen
-M to move NPC to random position"
+margin_bottom = 69.0
+text = "ESC - exit
+F11 - toggle full screen
+Q - toggle mouse lock"
 
 [node name="ColorRect2" type="ColorRect" parent="UI"]
 margin_left = 299.0
 margin_top = 5.0
 margin_right = 564.0
-margin_bottom = 116.0
+margin_bottom = 112.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0.364706, 0.333333, 0.333333, 0.447059 )
@@ -117,10 +117,34 @@ margin_left = 314.0
 margin_top = 17.0
 margin_right = 566.0
 margin_bottom = 107.0
-text = "WASD to move
-Left Click to shoot
-1 for Pistol
-2 for Hunting Rifle"
+text = "Player:
+WASD - move
+Left Click - shoot
+1 - Pistol
+2 - Hunting Rifle"
+
+[node name="ColorRect3" type="ColorRect" parent="UI"]
+margin_left = 587.0
+margin_top = 5.0
+margin_right = 855.0
+margin_bottom = 151.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.364706, 0.333333, 0.333333, 0.447059 )
+
+[node name="Directions3" type="Label" parent="UI"]
+margin_left = 597.0
+margin_top = 11.0
+margin_right = 843.0
+margin_bottom = 148.0
+text = "NPC:
+M - move to random location
+E - remove all body parts
+R - remove right arm
+T - remove left arm
+Y - remove right leg
+U - remove left leg
+I - remove head"
 
 [node name="Target" type="ColorRect" parent="UI"]
 anchor_left = 0.5
