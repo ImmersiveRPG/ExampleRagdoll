@@ -92,7 +92,7 @@ func break_off_body_part(body_part : int, origin : Vector3, angle : Vector3, for
 	var broken_skeleton = self.duplicate_body_part_into_own_skeleton(body_part)
 	broken_skeleton._mount_bone.apply_central_impulse(angle * force)
 
-	# Remove the body part
+	# Hide the body part
 	self.hide_body_part(body_part)
 
 func hide_body_part(body_part : int) -> void:
@@ -140,7 +140,7 @@ func duplicate_body_part_into_own_skeleton(body_part : int) -> Skeleton:
 	var skeleton = _skeleton.duplicate(flags)
 
 	# Add script
-	skeleton.set_script(load("res://src/Mannequiny/skeleton_part.gd"))
+	skeleton.set_script(load("res://src/Mannequiny/broken_body_part.gd"))
 	#skeleton.get_parent().remove_child(skeleton)
 	Global._world.add_child(skeleton)
 	skeleton.global_transform = _skeleton.global_transform

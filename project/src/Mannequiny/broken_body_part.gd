@@ -42,10 +42,10 @@ func start(broken_part : int) -> void:
 			return
 
 	# Move physical bones to location of animation bones
-	for entry in Global.all_bone_names:
-		var physical_bone = self.get_node_or_null("Physical Bone %s" % [entry])
+	for name in Global.all_bone_names:
+		var physical_bone = self.get_node_or_null("Physical Bone %s" % [name])
 		if physical_bone:
-			var bone_id = self.find_bone(entry)
+			var bone_id = self.find_bone(name)
 			physical_bone.global_transform = self.get_bone_global_pose(bone_id)
 			#physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y - deg2rad(180.0))
 			physical_bone.global_transform.origin += self.global_transform.origin
@@ -58,7 +58,6 @@ func start(broken_part : int) -> void:
 				physical_bone.queue_free()
 
 	self.physical_bones_start_simulation()
-	pass
 
 func _process(_delta : float) -> void:
 	var to_not_remove := []
