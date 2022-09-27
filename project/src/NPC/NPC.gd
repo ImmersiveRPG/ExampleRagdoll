@@ -59,22 +59,22 @@ func _process(_delta : float) -> void:
 		}
 		for body_part in breaks:
 			var angle = breaks[body_part]
-			$Pivot/Mannequiny.break_body_part(body_part, Vector3.ZERO, angle, 5.0)
+			$Pivot/Mannequiny.break_off_body_part(body_part, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakRightArm"):
 		var angle = -$Pivot/Mannequiny.global_transform.basis.x
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmR, Vector3.ZERO, angle, 5.0)
+		$Pivot/Mannequiny.break_off_body_part(Global.BodyPart.UpperArmR, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakLeftArm"):
 		var angle = $Pivot/Mannequiny.global_transform.basis.x
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperArmL, Vector3.ZERO, angle, 5.0)
+		$Pivot/Mannequiny.break_off_body_part(Global.BodyPart.UpperArmL, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakRightLeg"):
 		var angle = -$Pivot/Mannequiny.global_transform.basis.x
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegR, Vector3.ZERO, angle, 5.0)
+		$Pivot/Mannequiny.break_off_body_part(Global.BodyPart.UpperLegR, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakLeftLeg"):
 		var angle = $Pivot/Mannequiny.global_transform.basis.x
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.UpperLegL, Vector3.ZERO, angle, 5.0)
+		$Pivot/Mannequiny.break_off_body_part(Global.BodyPart.UpperLegL, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakHead"):
 		var angle = $Pivot/Mannequiny.global_transform.basis.y
-		$Pivot/Mannequiny.break_body_part(Global.BodyPart.Head, Vector3.ZERO, angle, 5.0)
+		$Pivot/Mannequiny.break_off_body_part(Global.BodyPart.Head, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_pressed("MoveNPC"):
 		# Get all the destinations
 		var destinations := Global._world.get_node("Positions").get_children()
@@ -166,7 +166,7 @@ func _on_hit_body_part(body_part : int, origin : Vector3, angle : Vector3, force
 
 	# if the bullet is powerfull, break off the hit body part
 	if can_break and bullet_type == Global.BulletType._308:
-		$Pivot/Mannequiny.break_body_part(body_part, origin, angle, force)
+		$Pivot/Mannequiny.break_off_body_part(body_part, origin, angle, force)
 
 func _on_timer_die_timeout() -> void:
 	self.queue_free()

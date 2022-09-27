@@ -87,7 +87,7 @@ func _process(_delta : float) -> void:
 	# Tuck all animation bones that are not removed into mount bone
 	var pos = _mount_bone.global_transform
 	pos.origin -= self.global_transform.origin
-	pos = Global.shrink(pos, 0.001)
+	pos = Global.shrink_transform(pos, 0.001)
 	for name in Global.all_bone_names:
 		if not to_not_remove.has(name):
 			var bone_id = self.find_bone(name)

@@ -305,7 +305,8 @@ func _ready() -> void:
 	_rng = RandomNumberGenerator.new()
 	_rng.randomize()
 
-func shrink(tran : Transform, percent : float) -> Transform:
+# Scales a transform without affecting the origin
+func shrink_transform(tran : Transform, percent : float) -> Transform:
 	var origin := tran.origin
 	tran = tran.scaled(Vector3.ONE * percent)
 	tran.origin = origin

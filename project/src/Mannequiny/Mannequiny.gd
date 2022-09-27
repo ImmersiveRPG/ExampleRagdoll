@@ -85,58 +85,66 @@ func _on_skeleton_updated() -> void:
 			physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y - deg2rad(180.0))
 			physical_bone.global_transform.origin += self.global_transform.origin
 
-func break_body_part(broke_part : int, origin : Vector3, angle : Vector3, force : float) -> void:
+func break_off_body_part(body_part : int, origin : Vector3, angle : Vector3, force : float) -> void:
 	#Engine.time_scale = 0.1
 
-	# Duplicate the skeleton (without attached signals)
-	var flags := 0
-	#flags += DUPLICATE_SIGNALS
-	flags += DUPLICATE_GROUPS
-	flags += DUPLICATE_SCRIPTS
-	flags += DUPLICATE_USE_INSTANCING
-	var broken_skeleton = _skeleton.duplicate(flags)
-	broken_skeleton.set_script(load("res://src/Mannequiny/skeleton_part.gd"))
-	#broken_skeleton.get_parent().remove_child(broken_skeleton)
-	Global._world.add_child(broken_skeleton)
-	broken_skeleton.global_transform = _skeleton.global_transform
-	broken_skeleton.start(broke_part)
-
-	# Apply force at the angle
+	# Duplicate the body part and fling it
+	var broken_skeleton = self.duplicate_body_part_into_own_skeleton(body_part)
 	broken_skeleton._mount_bone.apply_central_impulse(angle * force)
 
-#	var marker = Global._world.get_node("Marker")
-#	#print([marker, marker.name, marker.get_script()])
-#	marker.target_node = broken_skeleton.get_path()
+	# Remove the body part
+	self.hide_body_part(body_part)
 
-	var to_not_remove := []
+func hide_body_part(body_part : int) -> void:
+	# Get the names of all the animation bones for this body part
+	var to_hide := []
 	var mount_id := -1
-	match broke_part:
+	match body_part:
 		Global.BodyPart.Head:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_not_remove = Global.head_bone_names
+			to_hide = Global.head_bone_names
 		Global.BodyPart.Torso:
 			return
 		Global.BodyPart.Pelvis:
 			return
 		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_not_remove = Global.right_arm_bone_names
+			to_hide = Global.right_arm_bone_names
 		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_not_remove = Global.left_arm_bone_names
+			to_hide = Global.left_arm_bone_names
 		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_not_remove = Global.right_leg_bone_names
+			to_hide = Global.right_leg_bone_names
 		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_not_remove = Global.left_leg_bone_names
+			to_hide = Global.left_leg_bone_names
 		_:
-			push_error("Unexpected Global.BodyPart: %s" % [broke_part])
+			push_error("Unexpected Global.BodyPart: %s" % [body_part])
 			return
 
-	# Hide broken animation bones by shrinking and tucking them inside mount
-	var tran := _skeleton.get_bone_global_pose(mount_id)
-	tran = Global.shrink(tran, 0.0001)
-	for name in to_not_remove:
+	# Hide animation bones by shrinking and tucking them inside mount
+	var transform := _skeleton.get_bone_global_pose(mount_id)
+	transform = Global.shrink_transform(transform, 0.0001)
+	for name in to_hide:
 		var bone_id := _skeleton.find_bone(name)
-		_skeleton.set_bone_global_pose_override(bone_id, tran, 1.0, true)
+		_skeleton.set_bone_global_pose_override(bone_id, transform, 1.0, true)
+
+func duplicate_body_part_into_own_skeleton(body_part : int) -> Skeleton:
+	# Duplicate the skeleton without attached signals
+	var flags := 0
+	#flags += DUPLICATE_SIGNALS
+	flags += DUPLICATE_GROUPS
+	flags += DUPLICATE_SCRIPTS
+	flags += DUPLICATE_USE_INSTANCING
+	var skeleton = _skeleton.duplicate(flags)
+
+	# Add script
+	skeleton.set_script(load("res://src/Mannequiny/skeleton_part.gd"))
+	#skeleton.get_parent().remove_child(skeleton)
+	Global._world.add_child(skeleton)
+	skeleton.global_transform = _skeleton.global_transform
+
+	skeleton.start(body_part)
+	return skeleton
+
