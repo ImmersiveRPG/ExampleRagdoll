@@ -96,3 +96,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
 [node name="LookAtRayCast" type="RayCast" parent="CameraMount/v/Camera/RayMount"]
 cast_to = Vector3( 0, 0, -10 )
 collision_mask = 146
+
+[node name="TimerDragNPC" type="Timer" parent="."]
+wait_time = 0.2
+
+[connection signal="timeout" from="TimerDragNPC" to="." method="_on_timer_drag_npc_timeout"]

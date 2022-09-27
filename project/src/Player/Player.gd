@@ -6,9 +6,12 @@ extends KinematicBody
 
 const WALK_ACCELERATION := 70.0
 const WALK_MAX_VELOCITY := 10.0
+const DRAG_MAX_VELOCITY := 2.5
 const ROTATION_SPEED := 10.0
+const MAX_GRAB_DISTANCE := 5.0
 
 
+var _dragging_npc = null
 var _latest_mouse_pos := Vector2.ZERO
 var _input_vector := Vector3.ZERO
 var _velocity := Vector3.ZERO
@@ -44,6 +47,14 @@ func _process(delta : float) -> void:
 		self._switch_weapon(_pistol, _hunting_rifle)
 	elif Input.is_action_just_released("EquipHuntingRifle"):
 		self._switch_weapon(_hunting_rifle, _pistol)
+	elif Input.is_action_just_released("Drag"):
+		for npc in Global._world.get_node("NPCs").get_children():
+			var distance = (self.global_transform.origin - npc.global_transform.origin).length()
+			if npc._is_dead and distance <= MAX_GRAB_DISTANCE:
+				print("Dragging NPC ...")
+				_dragging_npc = npc
+				$TimerDragNPC.start()
+				break
 
 	# Angle the camera
 	var camera = $CameraMount/v/Camera
@@ -97,7 +108,11 @@ func _physics_process(delta : float) -> void:
 	var is_moving : bool = input_direction != Vector3.ZERO
 
 	# Velocity
-	var max_velocity := WALK_MAX_VELOCITY
+	var max_velocity := 0.0
+	if not _dragging_npc:
+		max_velocity = WALK_MAX_VELOCITY
+	else:
+		max_velocity = DRAG_MAX_VELOCITY
 
 	# Acceleration
 	var acceleration := WALK_ACCELERATION
@@ -132,4 +147,38 @@ func _switch_weapon(front : RigidBody, back : RigidBody) -> void:
 
 	_back_mount.add_child(back)
 	_item_mount.add_child(front)
+
+func _on_timer_drag_npc_timeout() -> void:
+	# Forget freed NPC
+	if not _dragging_npc or not is_instance_valid(_dragging_npc):
+		_dragging_npc = null
+		$TimerDragNPC.stop()
+		return
+
+	var arm = _dragging_npc.get_node("Pivot/Mannequiny/root/Skeleton/Physical Bone handr")
+	#arm.global_transform.origin = Global._player.global_transform.origin + Vector3(0, 0, 1.0)
+	var direction = Global._player.global_transform.origin - arm.global_transform.origin
+	var distance = direction.length()
+
+	print("Drag distance: %s" % [distance])
+	if distance > MAX_GRAB_DISTANCE:
+		print("Too far letting go of NPC ...")
+		_dragging_npc = null
+		$TimerDragNPC.stop()
+		return
+
+	var direction_basis = direction.normalized()
+	#print([distance, direction_basis])
+	var power := 0.0
+	if distance > 4.0:
+		power = 30.0
+	elif distance > 3.0:
+		power = 20.0
+	elif distance > 2.0:
+		power = 10.0
+	elif distance > 1.0:
+		power = 5.0
+
+	if power > 0.0:
+		arm.apply_central_impulse(direction_basis * power)
 
