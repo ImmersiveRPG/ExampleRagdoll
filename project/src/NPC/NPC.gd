@@ -154,8 +154,10 @@ func _on_hit_body_part(body_part : int, origin : Vector3, angle : Vector3, force
 
 	# Remove health
 	self.set_hp(_hp - power)
-	var name = Global.BodyPart.keys()[body_part]
-	print("!!! hit %s" % [name])
+	for name in Global.BodyPart:
+		var value = Global.BodyPart[name]
+		if value == body_part:
+			print("!!! hit %s" % [name])
 
 	# If dead, add force to the location hit for ragdoll
 	if _is_dead:

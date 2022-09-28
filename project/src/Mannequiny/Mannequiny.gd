@@ -141,23 +141,23 @@ func hide_body_part(body_part : int) -> void:
 	match body_part:
 		Global.BodyPart.Head:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.head_bone_names
+			to_hide = Global.get_bone_names(Global.BodyPart.Head)
 		Global.BodyPart.Torso:
 			return
 		Global.BodyPart.Pelvis:
 			return
 		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.right_arm_bone_names
+			to_hide = Global.get_bone_names(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR)
 		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.left_arm_bone_names
+			to_hide = Global.get_bone_names(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL)
 		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.right_leg_bone_names
+			to_hide = Global.get_bone_names(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR)
 		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.left_leg_bone_names
+			to_hide = Global.get_bone_names(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL)
 		_:
 			push_error("Unexpected Global.BodyPart: %s" % [body_part])
 			return

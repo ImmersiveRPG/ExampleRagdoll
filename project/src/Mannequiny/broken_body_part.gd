@@ -25,7 +25,7 @@ func start(broken_part : int) -> void:
 	match _broken_part:
 		Global.BodyPart.Head:
 			_mount_bone = $"Physical Bone neck_1"
-			to_not_remove = Global.head_bone_names
+			to_not_remove = Global.get_bone_names(Global.BodyPart.Head)
 
 		Global.BodyPart.Torso:
 			return
@@ -34,22 +34,22 @@ func start(broken_part : int) -> void:
 
 		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
 			_mount_bone = $"Physical Bone upperarmr"
-			to_not_remove = Global.right_arm_bone_names
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR)
 		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
 			_mount_bone = $"Physical Bone upperarml"
-			to_not_remove = Global.left_arm_bone_names
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL)
 		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
 			_mount_bone = $"Physical Bone thighr"
-			to_not_remove = Global.right_leg_bone_names
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR)
 		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
 			_mount_bone = $"Physical Bone thighl"
-			to_not_remove = Global.left_leg_bone_names
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL)
 		_:
 			push_error("Unexpected Global.BodyPart: %s" % [_broken_part])
 			return
 
 	# Move physical bones to location of animation bones
-	for name in Global.all_bone_names:
+	for name in Global.get_bone_names(Global.enum_all_values(Global.BodyPart)):
 		var physical_bone = self.get_node_or_null("Physical Bone %s" % [name])
 		if physical_bone:
 			var bone_id = self.find_bone(name)
@@ -58,7 +58,7 @@ func start(broken_part : int) -> void:
 			physical_bone.global_transform.origin += self.global_transform.origin
 
 	# Remove all non broken part physical bones
-	for name in Global.all_bone_names:
+	for name in Global.get_bone_names(Global.enum_all_values(Global.BodyPart)):
 		if not to_not_remove.has(name):
 			var physical_bone = self.get_node_or_null("Physical Bone %s" % [name])
 			if physical_bone:
@@ -74,7 +74,7 @@ func _process(_delta : float) -> void:
 
 	match _broken_part:
 		Global.BodyPart.Head:
-			to_not_remove = Global.head_bone_names
+			to_not_remove = Global.get_bone_names(Global.BodyPart.Head)
 
 		Global.BodyPart.Torso:
 			return
@@ -82,13 +82,13 @@ func _process(_delta : float) -> void:
 			return
 
 		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
-			to_not_remove = Global.right_arm_bone_names
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR)
 		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
-			to_not_remove = Global.left_arm_bone_names
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL)
 		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
-			to_not_remove = Global.right_leg_bone_names
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR)
 		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
-			to_not_remove = Global.left_leg_bone_names
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL)
 		_:
 			push_error("Unexpected Global.BodyPart: %s" % [_broken_part])
 			return
@@ -97,7 +97,7 @@ func _process(_delta : float) -> void:
 	var pos = _mount_bone.global_transform
 	pos.origin -= self.global_transform.origin
 	pos = Global.shrink_transform(pos, 0.001)
-	for name in Global.all_bone_names:
+	for name in Global.get_bone_names(Global.enum_all_values(Global.BodyPart)):
 		if not to_not_remove.has(name):
 			var bone_id = self.find_bone(name)
 			self.set_bone_global_pose_override(bone_id, pos, 1.0, true)
