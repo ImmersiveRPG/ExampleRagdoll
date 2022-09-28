@@ -12,6 +12,20 @@ var _bone_names := []
 var _skeleton : Skeleton = null
 export var is_syncing_bones := true
 
+var _has_body_part := {
+	Global.BodyPart.Head : true,
+	Global.BodyPart.Torso : true,
+	Global.BodyPart.Pelvis : true,
+	Global.BodyPart.UpperArmL : true,
+	Global.BodyPart.UpperArmR : true,
+	Global.BodyPart.LowerArmL : true,
+	Global.BodyPart.LowerArmR : true,
+	Global.BodyPart.UpperLegL : true,
+	Global.BodyPart.UpperLegR : true,
+	Global.BodyPart.LowerLegL : true,
+	Global.BodyPart.LowerLegR : true,
+}
+
 onready var physical_bone_2_body_part := {
 	$"root/Skeleton/Physical Bone neck_1" : Global.BodyPart.Head,
 	$"root/Skeleton/Physical Bone spine_2" : Global.BodyPart.Torso,
@@ -86,7 +100,32 @@ func _on_skeleton_updated() -> void:
 			physical_bone.global_transform.origin += self.global_transform.origin
 
 func break_off_body_part(body_part : int, origin : Vector3, angle : Vector3, force : float) -> void:
-	#Engine.time_scale = 0.1
+	# Just return if does not have body part
+	if not self._has_body_part[body_part]: return
+
+	# Remove the body part and any connected parts
+	match body_part:
+		Global.BodyPart.Head:
+			self._has_body_part[Global.BodyPart.Head] = false
+		Global.BodyPart.Torso:
+			self._has_body_part[Global.BodyPart.Torso] = false
+		Global.BodyPart.Pelvis:
+			self._has_body_part[Global.BodyPart.Pelvis] = false
+		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
+			self._has_body_part[Global.BodyPart.UpperArmR] = false
+			self._has_body_part[Global.BodyPart.LowerArmR] = false
+		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
+			self._has_body_part[Global.BodyPart.UpperArmL] = false
+			self._has_body_part[Global.BodyPart.LowerArmL] = false
+		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
+			self._has_body_part[Global.BodyPart.UpperLegR] = false
+			self._has_body_part[Global.BodyPart.LowerLegR] = false
+		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
+			self._has_body_part[Global.BodyPart.UpperLegL] = false
+			self._has_body_part[Global.BodyPart.LowerLegL] = false
+		_:
+			push_error("Unexpected Global.BodyPart: %s" % [body_part])
+			return
 
 	# Duplicate the body part and fling it
 	var broken_skeleton = self.duplicate_body_part_into_own_skeleton(body_part)
