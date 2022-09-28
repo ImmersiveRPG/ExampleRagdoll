@@ -319,3 +319,16 @@ func array_random_index(array : Array) -> int:
 func array_random_value(array : Array):
 	var i : int = array_random_index(array)
 	return array[i]
+
+func recursively_get_all_children(target : Node) -> Array:
+	var matches := []
+	var to_search := [target]
+	while not to_search.empty():
+		var entry = to_search.pop_front()
+
+		for child in entry.get_children():
+			to_search.append(child)
+
+		matches.append(entry)
+
+	return matches

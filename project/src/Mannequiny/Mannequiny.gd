@@ -139,8 +139,16 @@ func duplicate_body_part_into_own_skeleton(body_part : int) -> Skeleton:
 	flags += DUPLICATE_USE_INSTANCING
 	var skeleton = _skeleton.duplicate(flags)
 
+	# Set the skeleton to owner of all its child nodes
+	for child in Global.recursively_get_all_children(skeleton):
+		if child != skeleton:
+			child.owner = skeleton
+
 	# Add script
-	skeleton.set_script(load("res://src/Mannequiny/broken_body_part.gd"))
+	var script = load("res://src/Mannequiny/broken_body_part.gd")
+	skeleton.set_script(script)
+
+	# Set position
 	#skeleton.get_parent().remove_child(skeleton)
 	Global._world.add_child(skeleton)
 	skeleton.global_transform = _skeleton.global_transform

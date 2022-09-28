@@ -4,9 +4,16 @@
 
 extends Skeleton
 
+signal hit(collider, origin, angle, force, bullet_type)
+
 var _broken_part := -1
 var _mount_bone : PhysicalBone = null
 var _is_first_show := true
+
+func _ready() -> void:
+	# Hook up signals
+	var err = self.connect("hit", self, "_on_hit")
+	assert(err == OK)
 
 func start(broken_part : int) -> void:
 	# Hide self until after first process event
@@ -58,6 +65,9 @@ func start(broken_part : int) -> void:
 				physical_bone.queue_free()
 
 	self.physical_bones_start_simulation()
+
+func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, bullet_type : int) -> void:
+	collider.apply_central_impulse(angle * force)
 
 func _process(_delta : float) -> void:
 	var to_not_remove := []
