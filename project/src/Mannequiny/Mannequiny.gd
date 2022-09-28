@@ -2,7 +2,7 @@
 # This file is licensed under the MIT License
 # https://github.com/ImmersiveRPG/ExampleRagdoll
 
-#tool
+tool
 extends Spatial
 
 signal hit(collider, origin, angle, force, bullet_type)
@@ -68,7 +68,7 @@ func _on_skeleton_updated() -> void:
 	if is_ragdoll: return
 	if not _skeleton: return
 
-	var parent_rotation = Vector3(0.0, deg2rad(180.0), 0.0)
+	var parent_rotation = Vector3(0.0, 0.0, 0.0)
 	if not Engine.editor_hint:
 		parent_rotation = self.get_parent().get_parent().rotation
 
@@ -82,7 +82,7 @@ func _on_skeleton_updated() -> void:
 		var bone_id = _skeleton.find_bone(entry)
 		if physical_bone:
 			physical_bone.global_transform = _skeleton.get_bone_global_pose(bone_id)
-			physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y - deg2rad(180.0))
+			physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y)
 			physical_bone.global_transform.origin += self.global_transform.origin
 
 func break_off_body_part(body_part : int, origin : Vector3, angle : Vector3, force : float) -> void:
@@ -144,6 +144,7 @@ func duplicate_body_part_into_own_skeleton(body_part : int) -> Skeleton:
 	#skeleton.get_parent().remove_child(skeleton)
 	Global._world.add_child(skeleton)
 	skeleton.global_transform = _skeleton.global_transform
+	skeleton.global_rotation = _skeleton.global_rotation
 
 	skeleton.start(body_part)
 	return skeleton

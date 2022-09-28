@@ -2,16 +2,16 @@
 
 [ext_resource path="res://src/Marker/Marker.gd" type="Script" id=1]
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="CubeMesh" id=2]
-material = SubResource( 1 )
-size = Vector3( 1, 1, 1 )
+[sub_resource type="CylinderMesh" id=1]
+material = SubResource( 2 )
+top_radius = 0.0
 
 [node name="Marker" type="Spatial"]
 script = ExtResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
-mesh = SubResource( 2 )
+transform = Transform( 1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 3, 0 )
+mesh = SubResource( 1 )

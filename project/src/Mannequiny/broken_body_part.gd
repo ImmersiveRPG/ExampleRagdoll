@@ -47,7 +47,7 @@ func start(broken_part : int) -> void:
 		if physical_bone:
 			var bone_id = self.find_bone(name)
 			physical_bone.global_transform = self.get_bone_global_pose(bone_id)
-			#physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y - deg2rad(180.0))
+			#physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y)
 			physical_bone.global_transform.origin += self.global_transform.origin
 
 	# Remove all non broken part physical bones

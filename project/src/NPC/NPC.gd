@@ -118,7 +118,7 @@ func _physics_process(delta : float) -> void:
 
 	# Face direction moving in
 	if not is_equal_approx(_velocity.x, 0.0) and not is_equal_approx(_velocity.y, 0.0):
-		self.rotation.y = lerp_angle(self.rotation.y, atan2(-_velocity.x, -_velocity.z), ROTATION_SPEED * delta)
+		self.rotation.y = lerp_angle(self.rotation.y, atan2(_velocity.x, _velocity.z), ROTATION_SPEED * delta)
 
 	# Actually move
 	_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.UP, true, 4, Global.FLOOR_SLOPE_MAX_THRESHOLD, false)
