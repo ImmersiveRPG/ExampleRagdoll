@@ -44,7 +44,7 @@ func set_hp(value : float) -> void:
 	if _hp == 0.0:
 		self.die()
 
-func _process(_delta : float) -> void:
+func _input(event : InputEvent) -> void:
 	if _is_dead: return
 
 	# Check for pressing key to pop off parts
@@ -86,6 +86,8 @@ func _process(_delta : float) -> void:
 				_destination = destination
 				break
 
+func _process(_delta : float) -> void:
+	if _is_dead: return
 
 	# Update the velocity
 	var prev_velocity = _velocity

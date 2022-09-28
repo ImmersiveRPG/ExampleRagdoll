@@ -14,7 +14,7 @@ func _ready() -> void:
 	$Player.set_process_input(true)
 	$Player.set_process(true)
 
-func _input(_event) -> void:
+func _input(_event : InputEvent) -> void:
 	if Input.is_action_just_pressed("Quit"):
 		Global._is_quitting = true
 		self.get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)
