@@ -154,7 +154,7 @@ func duplicate_body_part_into_own_skeleton(body_part : int) -> Skeleton:
 			child.owner = skeleton
 
 	# Add script
-	var script = load("res://src/Mannequiny/broken_body_part.gd")
+	var script = load("res://src/Mannequiny/BrokenBodyPart.gd")
 	skeleton.set_script(script)
 
 	# Set position
