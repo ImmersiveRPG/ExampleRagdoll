@@ -75,6 +75,9 @@ func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, 
 	collider.apply_central_impulse(angle * force)
 
 func _process(_delta : float) -> void:
+	# Move skeleton position to mount location
+	self.global_transform.origin = _mount_bone.global_transform.origin
+
 	# Tuck all animation bones that are not removed into mount bone
 	var pos = _mount_bone.global_transform
 	pos.origin -= self.global_transform.origin

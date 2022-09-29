@@ -158,11 +158,11 @@ func duplicate_body_part_into_own_skeleton(body_part : int) -> Skeleton:
 	skeleton.set_script(script)
 
 	# Set position
-	#skeleton.get_parent().remove_child(skeleton)
 	Global._world.add_child(skeleton)
 	skeleton.global_transform = _skeleton.global_transform
 	skeleton.global_rotation = _skeleton.global_rotation
 
 	skeleton.start(body_part)
+	#RuntimeInstancer.create_marker(skeleton)
 	return skeleton
 

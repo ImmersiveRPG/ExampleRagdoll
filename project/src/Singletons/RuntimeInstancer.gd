@@ -10,6 +10,7 @@ const _scene_bullet_glow := preload("res://src/BulletGlow/BulletGlow.tscn")
 const _scene_bullet_spark := preload("res://src/BulletSpark/BulletSpark.tscn")
 const _scene_npc := preload("res://src/NPC/NPC.tscn")
 const _scene_blood_spray := preload("res://src/BloodSpray/BloodSpray.tscn")
+const _scene_marker = preload("res://src/Marker/Marker.tscn")
 
 func create_bullet(start_pos : Vector3, target_pos : Vector3, bullet_type : int) -> void:
 	var bullet = _scene_bullet.instance()
@@ -48,3 +49,8 @@ func create_blood_spray(parent : Node, pos : Vector3, angle : Vector3) -> void:
 	parent.add_child(spray)
 	spray.global_transform.origin = pos
 	spray.global_transform.basis.z = angle
+
+func create_marker(target : Node) -> void:
+	var marker = _scene_marker.instance()
+	marker.target_node = target.get_path()
+	Global._world.add_child(marker)
