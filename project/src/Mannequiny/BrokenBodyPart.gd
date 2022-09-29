@@ -59,7 +59,6 @@ func start(broken_part : int) -> void:
 		if physical_bone:
 			var bone_id = self.find_bone(name)
 			physical_bone.global_transform = self.get_bone_global_pose(bone_id)
-			#physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y)
 			physical_bone.global_transform.origin += self.global_transform.origin
 
 	# Remove all non broken part physical bones
@@ -69,13 +68,8 @@ func start(broken_part : int) -> void:
 			if physical_bone:
 				physical_bone.queue_free()
 
+	# Start ragdolling
 	self.physical_bones_start_simulation()
-
-func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, bullet_type : int) -> void:
-	collider.apply_central_impulse(angle * force)
-
-func _process(_delta : float) -> void:
-	# Move skeleton position to mount location
 	self.global_transform.origin = _mount_bone.global_transform.origin
 
 	# Tuck all animation bones that are not removed into mount bone
@@ -86,6 +80,13 @@ func _process(_delta : float) -> void:
 		if not _animation_bones.has(name):
 			var bone_id = self.find_bone(name)
 			self.set_bone_global_pose_override(bone_id, pos, 1.0, true)
+
+func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, bullet_type : int) -> void:
+	collider.apply_central_impulse(angle * force)
+
+func _process(_delta : float) -> void:
+	# Move skeleton position to mount location
+	self.global_transform.origin = _mount_bone.global_transform.origin
 
 	# Show self if end of first process event
 	if _is_first_show:
