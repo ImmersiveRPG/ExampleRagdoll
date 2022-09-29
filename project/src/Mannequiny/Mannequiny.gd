@@ -65,6 +65,10 @@ func start_ragdoll() -> void:
 	_skeleton.physical_bones_start_simulation()
 	self.is_ragdoll = true
 
+func apply_force_to_body_part(body_part : int, angle : Vector3, force : float) -> void:
+	var bone = self.body_part_2_physical_bone[body_part]
+	bone.apply_central_impulse(angle * force)
+
 func break_off_body_part(body_part : int, origin : Vector3, angle : Vector3, force : float) -> void:
 	# Just return if does not have body part
 	if not self._has_body_part[body_part]: return

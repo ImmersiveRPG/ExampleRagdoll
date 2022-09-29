@@ -160,8 +160,7 @@ func _on_hit_body_part(body_part : int, origin : Vector3, angle : Vector3, force
 
 	# If dead, add force to the location hit for ragdoll
 	if _is_dead:
-		var bone = _mannequiny.body_part_2_physical_bone[body_part]
-		bone.apply_central_impulse(angle * force)
+		_mannequiny.apply_force_to_body_part(body_part, angle, force)
 
 	# Add blood spray
 	RuntimeInstancer.create_blood_spray(self, origin, angle)
