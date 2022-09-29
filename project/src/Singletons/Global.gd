@@ -60,8 +60,8 @@ const bone_names := {
 		"head",
 	],
 	BodyPart.Torso : [
-		"spine_1",
 		"spine_2",
+		"spine_1",
 		"clavicler",
 		"claviclel",
 	],

@@ -12,62 +12,21 @@ var _bone_names := []
 var _skeleton : Skeleton = null
 export var is_syncing_bones := true
 
-var _has_body_part := {
-	Global.BodyPart.Head : true,
-	Global.BodyPart.Torso : true,
-	Global.BodyPart.Pelvis : true,
-	Global.BodyPart.UpperArmL : true,
-	Global.BodyPart.UpperArmR : true,
-	Global.BodyPart.LowerArmL : true,
-	Global.BodyPart.LowerArmR : true,
-	Global.BodyPart.HandL : true,
-	Global.BodyPart.HandR : true,
-	Global.BodyPart.UpperLegL : true,
-	Global.BodyPart.UpperLegR : true,
-	Global.BodyPart.LowerLegL : true,
-	Global.BodyPart.LowerLegR : true,
-	Global.BodyPart.FootL : true,
-	Global.BodyPart.FootR : true,
-}
-
-onready var physical_bone_2_body_part := {
-	$"root/Skeleton/Physical Bone neck_1" : Global.BodyPart.Head,
-	$"root/Skeleton/Physical Bone spine_2" : Global.BodyPart.Torso,
-	$"root/Skeleton/Physical Bone pelvis" : Global.BodyPart.Pelvis,
-	$"root/Skeleton/Physical Bone upperarml" : Global.BodyPart.UpperArmL,
-	$"root/Skeleton/Physical Bone upperarmr" : Global.BodyPart.UpperArmR,
-	$"root/Skeleton/Physical Bone lowerarml" : Global.BodyPart.LowerArmL,
-	$"root/Skeleton/Physical Bone lowerarmr" : Global.BodyPart.LowerArmR,
-	$"root/Skeleton/Physical Bone handr" : Global.BodyPart.HandR,
-	$"root/Skeleton/Physical Bone handl" : Global.BodyPart.HandL,
-	$"root/Skeleton/Physical Bone thighl" : Global.BodyPart.UpperLegL,
-	$"root/Skeleton/Physical Bone thighr" : Global.BodyPart.UpperLegR,
-	$"root/Skeleton/Physical Bone calfl" : Global.BodyPart.LowerLegL,
-	$"root/Skeleton/Physical Bone calfr" : Global.BodyPart.LowerLegR,
-	$"root/Skeleton/Physical Bone footl" : Global.BodyPart.FootL,
-	$"root/Skeleton/Physical Bone footr" : Global.BodyPart.FootR,
-}
-
-onready var body_part_2_physical_bone := {
-	Global.BodyPart.Head : $"root/Skeleton/Physical Bone neck_1",
-	Global.BodyPart.Torso : $"root/Skeleton/Physical Bone spine_2",
-	Global.BodyPart.Pelvis : $"root/Skeleton/Physical Bone pelvis",
-	Global.BodyPart.UpperArmL : $"root/Skeleton/Physical Bone upperarml",
-	Global.BodyPart.UpperArmR : $"root/Skeleton/Physical Bone upperarmr",
-	Global.BodyPart.LowerArmL : $"root/Skeleton/Physical Bone lowerarml",
-	Global.BodyPart.LowerArmR : $"root/Skeleton/Physical Bone lowerarmr",
-	Global.BodyPart.HandR : $"root/Skeleton/Physical Bone handr",
-	Global.BodyPart.HandL : $"root/Skeleton/Physical Bone handl",
-	Global.BodyPart.UpperLegL : $"root/Skeleton/Physical Bone thighl",
-	Global.BodyPart.UpperLegR : $"root/Skeleton/Physical Bone thighr",
-	Global.BodyPart.LowerLegL : $"root/Skeleton/Physical Bone calfl",
-	Global.BodyPart.LowerLegR : $"root/Skeleton/Physical Bone calfr",
-	Global.BodyPart.FootL : $"root/Skeleton/Physical Bone footl",
-	Global.BodyPart.FootR : $"root/Skeleton/Physical Bone footr",
-}
+var _has_body_part := {}
+var physical_bone_2_body_part := {}
+var body_part_2_physical_bone := {}
 
 func _ready() -> void:
 	_skeleton = $root/Skeleton
+
+	# Init lookup tables of body parts
+	for part in Global.BodyPart:
+		var value = Global.BodyPart[part]
+		var name = Global.get_bone_names(value)[0]
+		var physical_bone = self.get_node("root/Skeleton/Physical Bone %s" % [name])
+		physical_bone_2_body_part[physical_bone] = value
+		body_part_2_physical_bone[value] = physical_bone
+		_has_body_part[value] = true
 
 	# Get a list of all bone names that have a physical and animation bone
 	var total = _skeleton.get_bone_count()
