@@ -132,13 +132,13 @@ const bone_names := {
 	],
 }
 
-func get_bone_names(body_parts : int) -> Array:
+func body_parts_2_animation_bones(body_parts : int) -> Array:
 	var values := []
 
 	for key in BodyPart.values():
 		if body_parts & key > 0:
-			for x in bone_names[key]:
-				values.append(x)
+			for name in bone_names[key]:
+				values.append(name)
 
 	return values
 

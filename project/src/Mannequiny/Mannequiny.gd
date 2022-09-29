@@ -7,11 +7,11 @@ extends Spatial
 
 signal hit(collider, origin, angle, force, bullet_type)
 
-var is_ragdoll := false
-var _bone_names := []
 onready var _skeleton : Skeleton = $root/Skeleton
 export var is_syncing_bones := true
 
+var is_ragdoll := false
+var _bone_names := []
 var _has_body_part := {}
 
 func _ready() -> void:
@@ -61,7 +61,7 @@ func start_ragdoll() -> void:
 	self.is_ragdoll = true
 
 func apply_force_to_body_part(body_part : int, angle : Vector3, force : float) -> void:
-	var name = Global.get_bone_names(body_part)[0]
+	var name = Global.body_parts_2_animation_bones(body_part)[0]
 	var physical_bone = self.get_node("root/Skeleton/Physical Bone %s" % [name])
 	physical_bone.apply_central_impulse(angle * force)
 
@@ -111,23 +111,23 @@ func hide_body_part(body_part : int) -> void:
 	match body_part:
 		Global.BodyPart.Head:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.get_bone_names(Global.BodyPart.Head)
+			to_hide = Global.body_parts_2_animation_bones(Global.BodyPart.Head)
 		Global.BodyPart.Torso:
 			return
 		Global.BodyPart.Pelvis:
 			return
 		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR, Global.BodyPart.HandR:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.get_bone_names(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR | Global.BodyPart.HandR)
+			to_hide = Global.body_parts_2_animation_bones(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR | Global.BodyPart.HandR)
 		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL, Global.BodyPart.HandL:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.get_bone_names(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL | Global.BodyPart.HandL)
+			to_hide = Global.body_parts_2_animation_bones(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL | Global.BodyPart.HandL)
 		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR, Global.BodyPart.FootR:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.get_bone_names(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR | Global.BodyPart.FootR)
+			to_hide = Global.body_parts_2_animation_bones(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR | Global.BodyPart.FootR)
 		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL, Global.BodyPart.FootL:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.get_bone_names(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL | Global.BodyPart.FootL)
+			to_hide = Global.body_parts_2_animation_bones(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL | Global.BodyPart.FootL)
 		_:
 			push_error("Unexpected Global.BodyPart: %s" % [body_part])
 			return
