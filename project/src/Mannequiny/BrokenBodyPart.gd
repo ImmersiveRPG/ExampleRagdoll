@@ -73,13 +73,13 @@ func start(broken_part : int) -> void:
 	self.global_transform.origin = _mount_bone.global_transform.origin
 
 	# Tuck all animation bones that are not removed into mount bone
-	var pos := _mount_bone.global_transform
-	pos.origin -= self.global_transform.origin
-	pos = Global.transform_shrink(pos, 0.001)
+	var transform := _mount_bone.global_transform
+	transform.origin -= self.global_transform.origin
+	transform = Global.transform_shrink(transform, 0.001)
 	for name in Global.body_parts_2_animation_bones(Global.enum_all_values(Global.BodyPart)):
 		if not _animation_bones.has(name):
 			var bone_id := self.find_bone(name)
-			self.set_bone_global_pose_override(bone_id, pos, 1.0, true)
+			self.set_bone_global_pose_override(bone_id, transform, 1.0, true)
 
 func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, bullet_type : int) -> void:
 	collider.apply_central_impulse(angle * force)

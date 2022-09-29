@@ -33,6 +33,7 @@ func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, 
 	var body_part = Global.physical_bone_2_body_part(name)
 	self.owner.emit_signal("hit_body_part", body_part, origin, angle, force, bullet_type)
 
+# FIXME: This should only need to be done once on ragdoll start
 func _process(delta : float) -> void:
 	if not is_ragdoll: return
 
