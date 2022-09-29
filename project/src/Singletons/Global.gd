@@ -142,6 +142,15 @@ func get_bone_names(body_parts : int) -> Array:
 
 	return values
 
+func physical_bone_2_body_part(name : String) -> int:
+	for body_part_value in bone_names:
+		#print(body_part_value)
+		var animations = bone_names[body_part_value]
+		for animation in animations:
+			if name == animation:
+				return body_part_value
+	return -1
+
 var _is_quitting := false
 var _rng : RandomNumberGenerator
 var _world : Node = null

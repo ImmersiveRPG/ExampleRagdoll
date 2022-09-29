@@ -13,17 +13,11 @@ onready var _skeleton : Skeleton = $root/Skeleton
 export var is_syncing_bones := true
 
 var _has_body_part := {}
-var physical_bone_2_body_part := {}
-var body_part_2_physical_bone := {}
 
 func _ready() -> void:
 	# Init lookup tables of body parts
 	for part in Global.BodyPart:
 		var value = Global.BodyPart[part]
-		var name = Global.get_bone_names(value)[0]
-		var physical_bone = self.get_node("root/Skeleton/Physical Bone %s" % [name])
-		physical_bone_2_body_part[physical_bone] = value
-		body_part_2_physical_bone[value] = physical_bone
 		_has_body_part[value] = true
 
 	# Get a list of all bone names that have a physical and animation bone
@@ -35,7 +29,8 @@ func _ready() -> void:
 
 func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, bullet_type : int) -> void:
 	# Forward hit to NPC with body part info
-	var body_part = physical_bone_2_body_part[collider]
+	var name = collider.name.trim_prefix("Physical Bone ")
+	var body_part = Global.physical_bone_2_body_part(name)
 	self.owner.emit_signal("hit_body_part", body_part, origin, angle, force, bullet_type)
 
 func _on_skeleton_updated() -> void:
@@ -66,8 +61,9 @@ func start_ragdoll() -> void:
 	self.is_ragdoll = true
 
 func apply_force_to_body_part(body_part : int, angle : Vector3, force : float) -> void:
-	var bone = self.body_part_2_physical_bone[body_part]
-	bone.apply_central_impulse(angle * force)
+	var name = Global.get_bone_names(body_part)[0]
+	var physical_bone = self.get_node("root/Skeleton/Physical Bone %s" % [name])
+	physical_bone.apply_central_impulse(angle * force)
 
 func break_off_body_part(body_part : int, origin : Vector3, angle : Vector3, force : float) -> void:
 	# Just return if does not have body part
