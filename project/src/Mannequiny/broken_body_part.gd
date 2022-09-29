@@ -7,6 +7,7 @@ extends Skeleton
 signal hit(collider, origin, angle, force, bullet_type)
 
 var _broken_part := -1
+var _animation_bones := []
 var _mount_bone : PhysicalBone = null
 var _is_first_show := true
 
@@ -20,12 +21,12 @@ func start(broken_part : int) -> void:
 	self.hide()
 
 	_broken_part = broken_part
-	var to_not_remove := []
 
 	match _broken_part:
 		Global.BodyPart.Head:
-			_mount_bone = $"Physical Bone neck_1"
-			to_not_remove = Global.body_parts_2_animation_bones(Global.BodyPart.Head)
+			var name = Global.body_parts_2_animation_bones(Global.BodyPart.Head)[0]
+			_mount_bone = self.get_node("Physical Bone %s" % [name])
+			_animation_bones = Global.body_parts_2_animation_bones(Global.BodyPart.Head)
 
 		Global.BodyPart.Torso:
 			return
@@ -33,17 +34,21 @@ func start(broken_part : int) -> void:
 			return
 
 		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR, Global.BodyPart.HandR:
-			_mount_bone = $"Physical Bone upperarmr"
-			to_not_remove = Global.body_parts_2_animation_bones(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR | Global.BodyPart.HandR)
+			var name = Global.body_parts_2_animation_bones(Global.BodyPart.UpperArmR)[0]
+			_mount_bone = self.get_node("Physical Bone %s" % [name])
+			_animation_bones = Global.body_parts_2_animation_bones(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR | Global.BodyPart.HandR)
 		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL, Global.BodyPart.HandL:
-			_mount_bone = $"Physical Bone upperarml"
-			to_not_remove = Global.body_parts_2_animation_bones(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL | Global.BodyPart.HandL)
+			var name = Global.body_parts_2_animation_bones(Global.BodyPart.UpperArmL)[0]
+			_mount_bone = self.get_node("Physical Bone %s" % [name])
+			_animation_bones = Global.body_parts_2_animation_bones(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL | Global.BodyPart.HandL)
 		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR, Global.BodyPart.FootR:
-			_mount_bone = $"Physical Bone thighr"
-			to_not_remove = Global.body_parts_2_animation_bones(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR | Global.BodyPart.FootR)
+			var name = Global.body_parts_2_animation_bones(Global.BodyPart.UpperLegR)[0]
+			_mount_bone = self.get_node("Physical Bone %s" % [name])
+			_animation_bones = Global.body_parts_2_animation_bones(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR | Global.BodyPart.FootR)
 		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL, Global.BodyPart.FootL:
-			_mount_bone = $"Physical Bone thighl"
-			to_not_remove = Global.body_parts_2_animation_bones(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL | Global.BodyPart.FootL)
+			var name = Global.body_parts_2_animation_bones(Global.BodyPart.UpperLegL)[0]
+			_mount_bone = self.get_node("Physical Bone %s" % [name])
+			_animation_bones = Global.body_parts_2_animation_bones(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL | Global.BodyPart.FootL)
 		_:
 			push_error("Unexpected Global.BodyPart: %s" % [_broken_part])
 			return
@@ -59,7 +64,7 @@ func start(broken_part : int) -> void:
 
 	# Remove all non broken part physical bones
 	for name in Global.body_parts_2_animation_bones(Global.enum_all_values(Global.BodyPart)):
-		if not to_not_remove.has(name):
+		if not _animation_bones.has(name):
 			var physical_bone = self.get_node_or_null("Physical Bone %s" % [name])
 			if physical_bone:
 				physical_bone.queue_free()
@@ -70,35 +75,12 @@ func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, 
 	collider.apply_central_impulse(angle * force)
 
 func _process(_delta : float) -> void:
-	var to_not_remove := []
-
-	match _broken_part:
-		Global.BodyPart.Head:
-			to_not_remove = Global.body_parts_2_animation_bones(Global.BodyPart.Head)
-
-		Global.BodyPart.Torso:
-			return
-		Global.BodyPart.Pelvis:
-			return
-
-		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR, Global.BodyPart.HandR:
-			to_not_remove = Global.body_parts_2_animation_bones(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR | Global.BodyPart.HandR)
-		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL, Global.BodyPart.HandL:
-			to_not_remove = Global.body_parts_2_animation_bones(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL | Global.BodyPart.HandL)
-		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR, Global.BodyPart.FootR:
-			to_not_remove = Global.body_parts_2_animation_bones(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR | Global.BodyPart.FootR)
-		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL, Global.BodyPart.FootL:
-			to_not_remove = Global.body_parts_2_animation_bones(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL | Global.BodyPart.FootL)
-		_:
-			push_error("Unexpected Global.BodyPart: %s" % [_broken_part])
-			return
-
 	# Tuck all animation bones that are not removed into mount bone
 	var pos = _mount_bone.global_transform
 	pos.origin -= self.global_transform.origin
 	pos = Global.transform_shrink(pos, 0.001)
 	for name in Global.body_parts_2_animation_bones(Global.enum_all_values(Global.BodyPart)):
-		if not to_not_remove.has(name):
+		if not _animation_bones.has(name):
 			var bone_id = self.find_bone(name)
 			self.set_bone_global_pose_override(bone_id, pos, 1.0, true)
 
