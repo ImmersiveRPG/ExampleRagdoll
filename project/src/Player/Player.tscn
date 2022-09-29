@@ -21,7 +21,7 @@ albedo_color = Color( 1, 0.494118, 0, 1 )
 size = Vector3( 0.2, 1.25, 0.2 )
 
 [sub_resource type="CapsuleShape" id=5]
-radius = 0.5
+radius = 0.25
 
 [node name="Player" type="KinematicBody"]
 collision_layer = 4
