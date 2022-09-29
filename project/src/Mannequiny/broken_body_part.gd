@@ -32,18 +32,18 @@ func start(broken_part : int) -> void:
 		Global.BodyPart.Pelvis:
 			return
 
-		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
+		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR, Global.BodyPart.HandR:
 			_mount_bone = $"Physical Bone upperarmr"
-			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR)
-		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR | Global.BodyPart.HandR)
+		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL, Global.BodyPart.HandL:
 			_mount_bone = $"Physical Bone upperarml"
-			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL)
-		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL | Global.BodyPart.HandL)
+		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR, Global.BodyPart.FootR:
 			_mount_bone = $"Physical Bone thighr"
-			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR)
-		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR | Global.BodyPart.FootR)
+		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL, Global.BodyPart.FootL:
 			_mount_bone = $"Physical Bone thighl"
-			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL)
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL | Global.BodyPart.FootL)
 		_:
 			push_error("Unexpected Global.BodyPart: %s" % [_broken_part])
 			return
@@ -81,14 +81,14 @@ func _process(_delta : float) -> void:
 		Global.BodyPart.Pelvis:
 			return
 
-		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
-			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR)
-		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
-			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL)
-		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
-			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR)
-		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
-			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL)
+		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR, Global.BodyPart.HandR:
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR | Global.BodyPart.HandR)
+		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL, Global.BodyPart.HandL:
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL | Global.BodyPart.HandL)
+		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR, Global.BodyPart.FootR:
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR | Global.BodyPart.FootR)
+		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL, Global.BodyPart.FootL:
+			to_not_remove = Global.get_bone_names(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL | Global.BodyPart.FootL)
 		_:
 			push_error("Unexpected Global.BodyPart: %s" % [_broken_part])
 			return

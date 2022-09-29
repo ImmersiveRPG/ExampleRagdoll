@@ -20,10 +20,14 @@ var _has_body_part := {
 	Global.BodyPart.UpperArmR : true,
 	Global.BodyPart.LowerArmL : true,
 	Global.BodyPart.LowerArmR : true,
+	Global.BodyPart.HandL : true,
+	Global.BodyPart.HandR : true,
 	Global.BodyPart.UpperLegL : true,
 	Global.BodyPart.UpperLegR : true,
 	Global.BodyPart.LowerLegL : true,
 	Global.BodyPart.LowerLegR : true,
+	Global.BodyPart.FootL : true,
+	Global.BodyPart.FootR : true,
 }
 
 onready var physical_bone_2_body_part := {
@@ -34,14 +38,14 @@ onready var physical_bone_2_body_part := {
 	$"root/Skeleton/Physical Bone upperarmr" : Global.BodyPart.UpperArmR,
 	$"root/Skeleton/Physical Bone lowerarml" : Global.BodyPart.LowerArmL,
 	$"root/Skeleton/Physical Bone lowerarmr" : Global.BodyPart.LowerArmR,
-	$"root/Skeleton/Physical Bone handr" : Global.BodyPart.LowerArmR,
-	$"root/Skeleton/Physical Bone handl" : Global.BodyPart.LowerArmL,
+	$"root/Skeleton/Physical Bone handr" : Global.BodyPart.HandR,
+	$"root/Skeleton/Physical Bone handl" : Global.BodyPart.HandL,
 	$"root/Skeleton/Physical Bone thighl" : Global.BodyPart.UpperLegL,
 	$"root/Skeleton/Physical Bone thighr" : Global.BodyPart.UpperLegR,
 	$"root/Skeleton/Physical Bone calfl" : Global.BodyPart.LowerLegL,
 	$"root/Skeleton/Physical Bone calfr" : Global.BodyPart.LowerLegR,
-	$"root/Skeleton/Physical Bone footl" : Global.BodyPart.LowerLegL,
-	$"root/Skeleton/Physical Bone footr" : Global.BodyPart.LowerLegR,
+	$"root/Skeleton/Physical Bone footl" : Global.BodyPart.FootL,
+	$"root/Skeleton/Physical Bone footr" : Global.BodyPart.FootR,
 }
 
 onready var body_part_2_physical_bone := {
@@ -52,14 +56,14 @@ onready var body_part_2_physical_bone := {
 	Global.BodyPart.UpperArmR : $"root/Skeleton/Physical Bone upperarmr",
 	Global.BodyPart.LowerArmL : $"root/Skeleton/Physical Bone lowerarml",
 	Global.BodyPart.LowerArmR : $"root/Skeleton/Physical Bone lowerarmr",
-	Global.BodyPart.LowerArmR : $"root/Skeleton/Physical Bone handr",
-	Global.BodyPart.LowerArmL : $"root/Skeleton/Physical Bone handl",
+	Global.BodyPart.HandR : $"root/Skeleton/Physical Bone handr",
+	Global.BodyPart.HandL : $"root/Skeleton/Physical Bone handl",
 	Global.BodyPart.UpperLegL : $"root/Skeleton/Physical Bone thighl",
 	Global.BodyPart.UpperLegR : $"root/Skeleton/Physical Bone thighr",
 	Global.BodyPart.LowerLegL : $"root/Skeleton/Physical Bone calfl",
 	Global.BodyPart.LowerLegR : $"root/Skeleton/Physical Bone calfr",
-	Global.BodyPart.LowerLegL : $"root/Skeleton/Physical Bone footl",
-	Global.BodyPart.LowerLegR : $"root/Skeleton/Physical Bone footr",
+	Global.BodyPart.FootL : $"root/Skeleton/Physical Bone footl",
+	Global.BodyPart.FootR : $"root/Skeleton/Physical Bone footr",
 }
 
 func _ready() -> void:
@@ -111,18 +115,22 @@ func break_off_body_part(body_part : int, origin : Vector3, angle : Vector3, for
 			self._has_body_part[Global.BodyPart.Torso] = false
 		Global.BodyPart.Pelvis:
 			self._has_body_part[Global.BodyPart.Pelvis] = false
-		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
+		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR, Global.BodyPart.HandR:
 			self._has_body_part[Global.BodyPart.UpperArmR] = false
 			self._has_body_part[Global.BodyPart.LowerArmR] = false
-		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
+			self._has_body_part[Global.BodyPart.HandR] = false
+		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL, Global.BodyPart.HandL:
 			self._has_body_part[Global.BodyPart.UpperArmL] = false
 			self._has_body_part[Global.BodyPart.LowerArmL] = false
-		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
+			self._has_body_part[Global.BodyPart.HandL] = false
+		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR, Global.BodyPart.FootR:
 			self._has_body_part[Global.BodyPart.UpperLegR] = false
 			self._has_body_part[Global.BodyPart.LowerLegR] = false
-		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
+			self._has_body_part[Global.BodyPart.FootR] = false
+		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL, Global.BodyPart.FootL:
 			self._has_body_part[Global.BodyPart.UpperLegL] = false
 			self._has_body_part[Global.BodyPart.LowerLegL] = false
+			self._has_body_part[Global.BodyPart.FootL] = false
 		_:
 			push_error("Unexpected Global.BodyPart: %s" % [body_part])
 			return
@@ -146,18 +154,18 @@ func hide_body_part(body_part : int) -> void:
 			return
 		Global.BodyPart.Pelvis:
 			return
-		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR:
+		Global.BodyPart.UpperArmR, Global.BodyPart.LowerArmR, Global.BodyPart.HandR:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.get_bone_names(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR)
-		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL:
+			to_hide = Global.get_bone_names(Global.BodyPart.UpperArmR | Global.BodyPart.LowerArmR | Global.BodyPart.HandR)
+		Global.BodyPart.UpperArmL, Global.BodyPart.LowerArmL, Global.BodyPart.HandL:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.get_bone_names(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL)
-		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR:
+			to_hide = Global.get_bone_names(Global.BodyPart.UpperArmL | Global.BodyPart.LowerArmL | Global.BodyPart.HandL)
+		Global.BodyPart.UpperLegR, Global.BodyPart.LowerLegR, Global.BodyPart.FootR:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.get_bone_names(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR)
-		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL:
+			to_hide = Global.get_bone_names(Global.BodyPart.UpperLegR | Global.BodyPart.LowerLegR | Global.BodyPart.FootR)
+		Global.BodyPart.UpperLegL, Global.BodyPart.LowerLegL, Global.BodyPart.FootL:
 			mount_id = _skeleton.find_bone("spine_1")
-			to_hide = Global.get_bone_names(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL)
+			to_hide = Global.get_bone_names(Global.BodyPart.UpperLegL | Global.BodyPart.LowerLegL | Global.BodyPart.FootL)
 		_:
 			push_error("Unexpected Global.BodyPart: %s" % [body_part])
 			return

@@ -140,13 +140,13 @@ func _on_hit_body_part(body_part : int, origin : Vector3, angle : Vector3, force
 		Global.BodyPart.Pelvis:
 			power = 20.0
 			can_break = false
-		Global.BodyPart.LowerArmR, Global.BodyPart.UpperArmR:
+		Global.BodyPart.LowerArmR, Global.BodyPart.UpperArmR, Global.BodyPart.HandR:
 			power = 20.0
-		Global.BodyPart.LowerArmL, Global.BodyPart.UpperArmL:
+		Global.BodyPart.LowerArmL, Global.BodyPart.UpperArmL, Global.BodyPart.HandL:
 			power = 20.0
-		Global.BodyPart.LowerLegR, Global.BodyPart.UpperLegR:
+		Global.BodyPart.LowerLegR, Global.BodyPart.UpperLegR, Global.BodyPart.FootR:
 			power = 20.0
-		Global.BodyPart.LowerLegL, Global.BodyPart.UpperLegL:
+		Global.BodyPart.LowerLegL, Global.BodyPart.UpperLegL, Global.BodyPart.FootL:
 			power = 20.0
 		_:
 			push_error("Unexpected BodyPart: %s" % [body_part])

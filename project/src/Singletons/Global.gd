@@ -29,10 +29,14 @@ enum BodyPart {
 	UpperArmR = 1 << 4,
 	LowerArmL = 1 << 5,
 	LowerArmR = 1 << 6,
-	UpperLegL = 1 << 7,
-	UpperLegR = 1 << 8,
-	LowerLegL = 1 << 9,
-	LowerLegR = 1 << 10,
+	HandL = 1 << 7,
+	HandR = 1 << 8,
+	UpperLegL = 1 << 9,
+	UpperLegR = 1 << 10,
+	LowerLegL = 1 << 11,
+	LowerLegR = 1 << 12,
+	FootL = 1 << 13,
+	FootR = 1 << 14,
 }
 
 var DB = {
@@ -72,6 +76,11 @@ const bone_names := {
 	],
 	BodyPart.LowerArmL : [
 		"lowerarml",
+	],
+	BodyPart.LowerArmR : [
+		"lowerarmr",
+	],
+	BodyPart.HandL : [
 		"handl",
 		"thumb_1_l",
 		"thumb_2_l",
@@ -86,8 +95,7 @@ const bone_names := {
 		"index_2_l",
 		"index_3_l",
 	],
-	BodyPart.LowerArmR : [
-		"lowerarmr",
+	BodyPart.HandR : [
 		"handr",
 		"thumb_1_r",
 		"thumb_2_r",
@@ -110,11 +118,15 @@ const bone_names := {
 	],
 	BodyPart.LowerLegL : [
 		"calfl",
-		"footl",
-		"balll",
 	],
 	BodyPart.LowerLegR : [
 		"calfr",
+	],
+	BodyPart.FootL : [
+		"footl",
+		"balll",
+	],
+	BodyPart.FootR : [
 		"footr",
 		"ballr",
 	],
