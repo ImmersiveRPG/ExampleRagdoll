@@ -3,7 +3,7 @@
 Example of how to ragdoll Godot Skeleton
 
 
-[![Godot ragdoll Skeleton](https://img.youtube.com/vi/jb7nGUzNf7g/0.jpg)](https://www.youtube.com/watch?v=jb7nGUzNf7g, "Godot ragdoll")
+[![Godot ragdoll Skeleton](https://img.youtube.com/vi/OLafc396Rvg/0.jpg)](https://www.youtube.com/watch?v=OLafc396Rvg, "Godot ragdoll")
 
 
 ## TODO:
