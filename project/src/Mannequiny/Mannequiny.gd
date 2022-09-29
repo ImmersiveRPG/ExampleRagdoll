@@ -9,7 +9,7 @@ signal hit(collider, origin, angle, force, bullet_type)
 
 var is_ragdoll := false
 var _bone_names := []
-var _skeleton : Skeleton = null
+onready var _skeleton : Skeleton = $root/Skeleton
 export var is_syncing_bones := true
 
 var _has_body_part := {}
@@ -17,8 +17,6 @@ var physical_bone_2_body_part := {}
 var body_part_2_physical_bone := {}
 
 func _ready() -> void:
-	_skeleton = $root/Skeleton
-
 	# Init lookup tables of body parts
 	for part in Global.BodyPart:
 		var value = Global.BodyPart[part]
@@ -61,6 +59,11 @@ func _on_skeleton_updated() -> void:
 			physical_bone.global_transform = _skeleton.get_bone_global_pose(bone_id)
 			physical_bone.global_transform = physical_bone.global_transform.rotated(Vector3.UP, parent_rotation.y)
 			physical_bone.global_transform.origin += self.global_transform.origin
+
+func start_ragdoll() -> void:
+	$AnimationPlayer.stop()
+	_skeleton.physical_bones_start_simulation()
+	self.is_ragdoll = true
 
 func break_off_body_part(body_part : int, origin : Vector3, angle : Vector3, force : float) -> void:
 	# Just return if does not have body part

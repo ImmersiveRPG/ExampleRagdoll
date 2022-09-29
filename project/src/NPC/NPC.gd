@@ -12,7 +12,8 @@ const ROTATION_SPEED := 10.0
 signal hit_body_part(body_part, origin, angle, force, bullet_type)
 var _is_dead := false
 
-onready var _animation_player = self.get_node("Pivot/Mannequiny/AnimationPlayer")
+onready var _mannequiny = $Pivot/Mannequiny
+onready var _animation_player = $Pivot/Mannequiny/AnimationPlayer
 
 var _hp := HP_MAX
 var _velocity := Vector3.ZERO
@@ -32,9 +33,7 @@ func die() -> void:
 	_is_dead = true
 
 	$CollisionShape.disabled = true
-	_animation_player.stop()
-	$Pivot/Mannequiny/root/Skeleton.physical_bones_start_simulation()
-	$Pivot/Mannequiny.is_ragdoll = true
+	_mannequiny.start_ragdoll()
 	$TimerDie.start()
 
 func set_hp(value : float) -> void:
@@ -49,7 +48,7 @@ func _input(event : InputEvent) -> void:
 
 	# Check for pressing key to pop off parts
 	if Input.is_action_just_released("BreakEverything"):
-		var basis = $Pivot/Mannequiny.global_transform.basis
+		var basis = _mannequiny.global_transform.basis
 		var breaks := {
 			Global.BodyPart.UpperArmR : -basis.x,
 			Global.BodyPart.UpperArmL : basis.x,
@@ -59,22 +58,22 @@ func _input(event : InputEvent) -> void:
 		}
 		for body_part in breaks:
 			var angle = breaks[body_part]
-			$Pivot/Mannequiny.break_off_body_part(body_part, Vector3.ZERO, angle, 5.0)
+			_mannequiny.break_off_body_part(body_part, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakRightArm"):
-		var angle = -$Pivot/Mannequiny.global_transform.basis.x
-		$Pivot/Mannequiny.break_off_body_part(Global.BodyPart.UpperArmR, Vector3.ZERO, angle, 5.0)
+		var angle = -_mannequiny.global_transform.basis.x
+		_mannequiny.break_off_body_part(Global.BodyPart.UpperArmR, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakLeftArm"):
-		var angle = $Pivot/Mannequiny.global_transform.basis.x
-		$Pivot/Mannequiny.break_off_body_part(Global.BodyPart.UpperArmL, Vector3.ZERO, angle, 5.0)
+		var angle = _mannequiny.global_transform.basis.x
+		_mannequiny.break_off_body_part(Global.BodyPart.UpperArmL, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakRightLeg"):
-		var angle = -$Pivot/Mannequiny.global_transform.basis.x
-		$Pivot/Mannequiny.break_off_body_part(Global.BodyPart.UpperLegR, Vector3.ZERO, angle, 5.0)
+		var angle = -_mannequiny.global_transform.basis.x
+		_mannequiny.break_off_body_part(Global.BodyPart.UpperLegR, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakLeftLeg"):
-		var angle = $Pivot/Mannequiny.global_transform.basis.x
-		$Pivot/Mannequiny.break_off_body_part(Global.BodyPart.UpperLegL, Vector3.ZERO, angle, 5.0)
+		var angle = _mannequiny.global_transform.basis.x
+		_mannequiny.break_off_body_part(Global.BodyPart.UpperLegL, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_released("BreakHead"):
-		var angle = $Pivot/Mannequiny.global_transform.basis.y
-		$Pivot/Mannequiny.break_off_body_part(Global.BodyPart.Head, Vector3.ZERO, angle, 5.0)
+		var angle = _mannequiny.global_transform.basis.y
+		_mannequiny.break_off_body_part(Global.BodyPart.Head, Vector3.ZERO, angle, 5.0)
 	elif Input.is_action_just_pressed("MoveNPC"):
 		# Get all the destinations
 		var destinations := Global._world.get_node("Positions").get_children()
@@ -161,8 +160,7 @@ func _on_hit_body_part(body_part : int, origin : Vector3, angle : Vector3, force
 
 	# If dead, add force to the location hit for ragdoll
 	if _is_dead:
-		var skeleton = $Pivot/Mannequiny/root/Skeleton
-		var bone = $Pivot/Mannequiny.body_part_2_physical_bone[body_part]
+		var bone = _mannequiny.body_part_2_physical_bone[body_part]
 		bone.apply_central_impulse(angle * force)
 
 	# Add blood spray
@@ -170,7 +168,7 @@ func _on_hit_body_part(body_part : int, origin : Vector3, angle : Vector3, force
 
 	# if the bullet is powerfull, break off the hit body part
 	if can_break and bullet_type == Global.BulletType._308:
-		$Pivot/Mannequiny.break_off_body_part(body_part, origin, angle, force)
+		_mannequiny.break_off_body_part(body_part, origin, angle, force)
 
 func _on_timer_die_timeout() -> void:
 	self.queue_free()
