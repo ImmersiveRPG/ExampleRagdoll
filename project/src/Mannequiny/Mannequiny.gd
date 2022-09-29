@@ -172,7 +172,7 @@ func hide_body_part(body_part : int) -> void:
 
 	# Hide animation bones by shrinking and tucking them inside mount
 	var transform := _skeleton.get_bone_global_pose(mount_id)
-	transform = Global.shrink_transform(transform, 0.0001)
+	transform = Global.transform_shrink(transform, 0.0001)
 	for name in to_hide:
 		var bone_id := _skeleton.find_bone(name)
 		_skeleton.set_bone_global_pose_override(bone_id, transform, 1.0, true)

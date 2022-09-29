@@ -153,7 +153,7 @@ func _ready() -> void:
 	_rng.randomize()
 
 # Scales a transform without affecting the origin
-func shrink_transform(tran : Transform, percent : float) -> Transform:
+func transform_shrink(tran : Transform, percent : float) -> Transform:
 	var origin := tran.origin
 	tran = tran.scaled(Vector3.ONE * percent)
 	tran.origin = origin
