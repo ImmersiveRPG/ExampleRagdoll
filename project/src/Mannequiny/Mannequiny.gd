@@ -33,6 +33,27 @@ func _on_hit(collider : Node, origin : Vector3, angle : Vector3, force : float, 
 	var body_part = Global.physical_bone_2_body_part(name)
 	self.owner.emit_signal("hit_body_part", body_part, origin, angle, force, bullet_type)
 
+func _process(delta : float) -> void:
+	if not is_ragdoll: return
+
+	# Get the location of the spine animation bone
+	var mount_id := _skeleton.find_bone("spine_1")
+	var transform := _skeleton.get_bone_global_pose(mount_id)
+	transform = Global.transform_shrink(transform, 0.001)
+
+	# Get all broken body parts
+	var to_tuck := 0
+	for part in Global.BodyPart:
+		var body_part = Global.BodyPart[part]
+		if not self._has_body_part[body_part]:
+			to_tuck |= body_part
+
+	# Tuck all animation bones that attach to broken body parts
+	var animation_bones = Global.body_parts_2_animation_bones(to_tuck)
+	for name in animation_bones:
+		var bone_id := _skeleton.find_bone(name)
+		_skeleton.set_bone_global_pose_override(bone_id, transform, 1.0, true)
+
 func _on_skeleton_updated() -> void:
 	if not is_syncing_bones: return
 	if is_ragdoll: return
@@ -165,4 +186,3 @@ func duplicate_body_part_into_own_skeleton(body_part : int) -> Skeleton:
 	skeleton.start(body_part)
 	#RuntimeInstancer.create_marker(skeleton)
 	return skeleton
-
