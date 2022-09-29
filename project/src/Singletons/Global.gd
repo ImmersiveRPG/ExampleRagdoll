@@ -39,7 +39,7 @@ enum BodyPart {
 	FootR = 1 << 14,
 }
 
-var DB = {
+const DB := {
 	"Bullets" : {
 		BulletType._308 : {
 			"mass" : 0.018,
