@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0f33fnycivoi"]
+
+[ext_resource type="Script" path="res://src/Player/player.gd" id="1_lteki"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7d2us"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bfa7x"]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 300.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rmxfm"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_a3s1l"]
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 73
+script = ExtResource("1_lteki")
+
+[node name="HandLocation" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.42455, -2.21483)
+
+[node name="ThrowAngle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 0, 0)
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="RShoulder" type="Node3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.5, 0)
+
+[node name="Arm" type="MeshInstance3D" parent="Pivot/RShoulder"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.5)
+mesh = SubResource("CylinderMesh_7d2us")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot/RShoulder/Arm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 150, 0)
+visible = false
+mesh = SubResource("CylinderMesh_bfa7x")
+
+[node name="BulletStart" type="Node3D" parent="Pivot/RShoulder/Arm"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.5, 0)
+
+[node name="CameraMountFirstPerson" type="Node3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49611, 0)
+
+[node name="z" type="Node3D" parent="Pivot/CameraMountFirstPerson"]
+
+[node name="Camera3D" type="Camera3D" parent="Pivot/CameraMountFirstPerson/z"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22768, -0.0646873)
+
+[node name="AimingAt" type="Node3D" parent="Pivot/CameraMountFirstPerson/z/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_rmxfm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_a3s1l")

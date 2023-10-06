@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5hdi8jbrguk3"]
+
+[ext_resource type="Texture2D" uid="uid://du2fgctptabbl" path="res://assets/sand.png" id="1_33eu6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3fbxs"]
+size = Vector3(1000, 2, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gc774"]
+albedo_texture = ExtResource("1_33eu6")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_xbutq"]
+material = SubResource("StandardMaterial3D_gc774")
+size = Vector3(1000, 2, 1000)
+
+[node name="Floor" type="StaticBody3D"]
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_3fbxs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_xbutq")

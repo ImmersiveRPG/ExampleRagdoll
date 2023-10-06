@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://3m43sql38uyt"]
+
+[ext_resource type="Script" path="res://src/NPC/npc.gd" id="1_dc10r"]
+[ext_resource type="PackedScene" uid="uid://dpkf4sjfur2by" path="res://src/Mannequin/mannequin.tscn" id="2_he74v"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yhvyp"]
+
+[node name="NPC" type="CharacterBody3D"]
+collision_layer = 8
+collision_mask = 65
+script = ExtResource("1_dc10r")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="Mannequin" parent="Pivot" instance=ExtResource("2_he74v")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_yhvyp")
+
+[connection signal="hit_body_part" from="." to="." method="_on_hit_body_part"]
