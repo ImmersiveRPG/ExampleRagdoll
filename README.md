@@ -1,7 +1,7 @@
-# Godot Ragdoll demo 1
+# Godot Ragdoll Example
 
 
 # Checkout project
 ```bash
-git clone https://github.com/workhorsy/PatreonRagdolls1
+git clone https://github.com/ImmersiveRPG/ExampleRagdoll
 ```

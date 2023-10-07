@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Ragdoll Demo 1"
+config/name="Ragdoll Example"
 run/main_scene="res://src/World/world.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
