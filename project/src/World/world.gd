@@ -4,6 +4,17 @@
 
 extends Node3D
 
+# TODO:
+#. make body part collision shapes correct
+#. rename branch v1 and v2 to godot_v1 and godot_v2
+#. remove unused functions like apply_force_to_body_part
+#. Add 2 NPCs to make sure they are separate.
+#. Add basic projectile that can damage npc and body parts
+#. _duplicate_body_part_into_own_skeleton calls BrokenBodyPart.start. Combine both into one function.
+#. make mannequin limbs appropriate sizes and with correct hinge ranges
+#. Make broken off limbs so they can be grabbed, thrown, and used as a melee weapon
+#. Add moving fog particles for dust storms
+
 
 func _init() -> void:
 	Global._world = self
