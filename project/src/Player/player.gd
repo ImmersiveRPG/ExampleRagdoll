@@ -11,6 +11,7 @@ const VELOCITY_SPRINT := 20.0
 const VELOCITY_WALK := 10.0
 const JUMP_IMPULSE := 20.0
 const ROTATION_SPEED := 10.0
+var GRAVITY : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # Get the gravity from the project settings to be synced with RigidBody nodes
 #var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -102,6 +103,7 @@ func _physics_process(delta : float) -> void:
 			self.velocity.z = self.velocity.move_toward(input_direction * max_velocity, Global.AIR_FRICTION * delta).z
 
 	# Gravity
-	self.velocity.y = clamp(self.velocity.y + Global.GRAVITY * delta, Global.GRAVITY, JUMP_IMPULSE)
+	if not self.is_on_floor():
+		self.velocity.y = clamp(self.velocity.y - GRAVITY * delta, -GRAVITY, JUMP_IMPULSE)
 
 	self.move_and_slide()
