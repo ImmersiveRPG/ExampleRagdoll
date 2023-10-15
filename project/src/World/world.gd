@@ -6,11 +6,10 @@ extends Node3D
 
 # TODO:
 #. make body part collision shapes correct
+#. make mannequin limbs have approprate hinge type and ranges
 #. rename branch v1 and v2 to part1_godot3 and part2_godot3
 #. Add 2 NPCs to make sure they are separate.
-#. Add basic projectile that can damage npc and body parts
 #. _duplicate_body_part_into_own_skeleton calls BrokenBodyPart.start. Combine both into one function.
-#. make mannequin limbs appropriate sizes and with correct hinge ranges
 #. Make broken off limbs so they can be grabbed, thrown, and used as a melee weapon
 
 
