@@ -88,11 +88,6 @@ func _process(_delta : float) -> void:
 		var bone_id := _physics_skeleton.find_bone(entry)
 		_physics_skeleton.set_bone_global_pose_override(bone_id, trans, 1.0, true)
 
-func apply_force_to_body_part(body_part : Global.BodyPart, angle : Vector3, force : float) -> void:
-	var entry = Global.body_parts_2_animation_bones(body_part)[0]
-	var physical_bone = self.get_node("root/Skeleton/Physical Bone %s" % [entry])
-	physical_bone.apply_central_impulse(angle * force)
-
 func push_at_angle(angle : Vector3, force : float) -> void:
 	# Get the physical bones of all the large parts
 	var bones := []
