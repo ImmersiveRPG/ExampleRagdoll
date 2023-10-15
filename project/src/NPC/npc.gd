@@ -24,6 +24,8 @@ var _hp := HP_MAX
 var _speed := SPEED_WALK
 var _path_marker := []
 var _body_part_health := {}
+var _velocity := Vector3.ZERO
+var _velocity_gravity := Vector3.ZERO
 
 func _ready() -> void:
 	_animation_player.play("idle")
@@ -35,9 +37,9 @@ func _process(_delta : float) -> void:
 	if _is_dead: return
 
 	# Update the velocity
-	var prev_velocity := self.velocity
+	var prev_velocity := _velocity
 	if not _path_marker.is_empty():
-		var direction = _path_marker[0] - self.global_transform.origin
+		var direction : Vector3 = _path_marker[0] - self.global_transform.origin
 		var direction_xz := Vector2(direction.x, direction.z)
 		var distance_xz := absf(direction_xz.length())
 		var distance_y := absf(direction.y)
@@ -47,14 +49,14 @@ func _process(_delta : float) -> void:
 		if distance_xz < threshold_xz and distance_y < threshold_y:
 			_path_marker.pop_front()
 		else:
-			self.velocity = direction.normalized() * _speed
+			_velocity = direction.normalized() * _speed
 	else:
 		# Stop moving
-		self.velocity = Vector3.ZERO
+		_velocity = Vector3.ZERO
 
 	# Update the animation
-	if prev_velocity != self.velocity:
-		if self.velocity.is_equal_approx(Vector3.ZERO):
+	if prev_velocity != _velocity:
+		if _velocity.is_equal_approx(Vector3.ZERO):
 			_animation_player.play("idle")
 		else:
 			if _speed > SPEED_WALK:
@@ -70,12 +72,16 @@ func _physics_process(delta : float) -> void:
 	if _is_dead: return
 
 	# Add the gravity
-	if not is_on_floor():
-		self.velocity.y -= GRAVITY * delta
-		self.velocity.y = clamp(self.velocity.y - GRAVITY * delta, -GRAVITY, JUMP_IMPULSE)
+	if not self.is_on_floor():
+		_velocity_gravity.y = clampf(_velocity_gravity.y - GRAVITY * delta, -GRAVITY, 0.0)
+	else:
+		_velocity_gravity.y = 0.0
 
-	self.rotation.y = lerp_angle(self.rotation.y, atan2(self.velocity.x, self.velocity.z), ROTATION_SPEED * delta)
+	# Rotate to direction moving in
+	self.rotation.y = lerp_angle(self.rotation.y, atan2(_velocity.x, _velocity.z), ROTATION_SPEED * delta)
 
+	# Actually move
+	self.velocity = _velocity + _velocity_gravity
 	self.move_and_slide()
 
 func _on_hit_body_part(collider : Node, body_part : Global.BodyPart, origin : Vector3, angle : Vector3, force : float, bullet_type : int) -> void:
