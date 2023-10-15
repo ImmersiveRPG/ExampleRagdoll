@@ -28,7 +28,7 @@ func _input(event : InputEvent) -> void:
 	# Rotate camera with mouse
 	if event is InputEventMouseMotion:
 		_camera_x -= event.relative.x * Global.MOUSE_SENSITIVITY
-		_camera_y = clamp(_camera_y - event.relative.y * Global.MOUSE_SENSITIVITY, Global.MOUSE_Y_MIN, Global.MOUSE_Y_MAX)
+		_camera_y = clampf(_camera_y - event.relative.y * Global.MOUSE_SENSITIVITY, Global.MOUSE_Y_MIN, Global.MOUSE_Y_MAX)
 
 	# Update the latest mouse position
 	if event is InputEventMouse:
@@ -104,6 +104,6 @@ func _physics_process(delta : float) -> void:
 
 	# Gravity
 	if not self.is_on_floor():
-		self.velocity.y = clamp(self.velocity.y - GRAVITY * delta, -GRAVITY, JUMP_IMPULSE)
+		self.velocity.y = clampf(self.velocity.y - GRAVITY * delta, -GRAVITY, JUMP_IMPULSE)
 
 	self.move_and_slide()

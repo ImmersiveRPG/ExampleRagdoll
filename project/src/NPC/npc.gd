@@ -136,7 +136,7 @@ func _on_hit_body_part(collider : Node, body_part : Global.BodyPart, origin : Ve
 		_body_part_health[body_part_root] = health
 
 func set_hp(value : float) -> void:
-	_hp = clamp(value, 0, HP_MAX)
+	_hp = clampf(value, 0, HP_MAX)
 
 	# Die if has no health
 	if _hp == 0.0:
