@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqnr822reuy5i"]
+
+[ext_resource type="Script" path="res://src/BulletGlow/bullet_glow.gd" id="1_fnef4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2tka4"]
+transparency = 1
+albedo_color = Color(1, 0.654902, 0, 1)
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 8.0
+emission_on_uv2 = true
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_2r8of"]
+resource_local_to_scene = true
+
+[node name="BulletGlow" type="MeshInstance3D"]
+material_override = SubResource("StandardMaterial3D_2tka4")
+mesh = SubResource("ImmediateMesh_2r8of")
+script = ExtResource("1_fnef4")

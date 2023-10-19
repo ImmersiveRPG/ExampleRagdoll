@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3kn873utmgu2"]
+
+[ext_resource type="Script" path="res://src/BulletSpark/bullet_spark.gd" id="1_oewmt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5pm02"]
+transparency = 1
+albedo_color = Color(1, 0.654902, 0, 1)
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 8.0
+emission_on_uv2 = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_3dchx"]
+material = SubResource("StandardMaterial3D_5pm02")
+radius = 0.1
+height = 0.2
+radial_segments = 16
+rings = 8
+
+[node name="BulletSpark" type="MeshInstance3D"]
+mesh = SubResource("SphereMesh_3dchx")
+script = ExtResource("1_oewmt")
+
+[node name="TimerDie" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="TimerDie" to="." method="_on_timer_die_timeout"]

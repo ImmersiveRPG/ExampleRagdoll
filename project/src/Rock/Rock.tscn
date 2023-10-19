@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://cbaya4s3caaxn"]
+
+[ext_resource type="Script" path="res://src/Rock/Rock.gd" id="1_gmr2c"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_k8vju"]
+height = 0.122
+radius = 0.033
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vohx8"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_o86g4"]
+material = SubResource("StandardMaterial3D_vohx8")
+top_radius = 0.033
+bottom_radius = 0.033
+height = 0.122
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ylg3"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_duukx"]
+material = SubResource("StandardMaterial3D_0ylg3")
+top_radius = 0.033
+bottom_radius = 0.033
+height = 0.122
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_n6k3s"]
+height = 0.122
+radius = 0.033
+
+[node name="Rock" type="RigidBody3D" groups=["item"]]
+collision_layer = 2
+collision_mask = 8295
+mass = 0.38
+max_contacts_reported = 3
+contact_monitor = true
+script = ExtResource("1_gmr2c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_k8vju")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CylinderMesh_o86g4")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CollisionShape3D"]
+visible = false
+mesh = SubResource("CylinderMesh_duukx")
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+shape = SubResource("CylinderShape3D_n6k3s")
+target_position = Vector3(0, 0, 0)
+collision_mask = 8295
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://chcausi51uaf6"]
+
+[ext_resource type="Material" uid="uid://qu667h24wu1g" path="res://src/CannedColaSoda/standard_material.tres" id="1_qxco8"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vpalr"]
+height = 0.122
+radius = 0.033
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gk3pp"]
+material = ExtResource("1_qxco8")
+top_radius = 0.033
+bottom_radius = 0.033
+height = 0.122
+radial_segments = 16
+rings = 1
+
+[node name="CannedColaSoda" type="RigidBody3D" groups=["item"]]
+collision_layer = 2
+collision_mask = 8295
+mass = 0.38
+sleeping = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.061, 0)
+shape = SubResource("CylinderShape3D_vpalr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CylinderMesh_gk3pp")

@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://casialoq8fi2d"]
+
+[ext_resource type="Script" path="res://src/Bullet/bullet.gd" id="1_jyo32"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3evlp"]
+radius = 0.006
+height = 0.025
+radial_segments = 16
+rings = 1
+
+[node name="Bullet" type="Node3D"]
+script = ExtResource("1_jyo32")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_3evlp")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(0, 0, 0)
+collision_mask = 25443
+collide_with_areas = true
