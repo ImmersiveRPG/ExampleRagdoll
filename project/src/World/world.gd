@@ -5,12 +5,17 @@
 extends Node3D
 
 # TODO:
-#. make body part collision shapes correct
-#. make mannequin limbs have approprate hinge type and ranges
 #. rename branch v1 and v2 to part1_godot3 and part2_godot3
 #. Add 2 NPCs to make sure they are separate.
 #. _duplicate_body_part_into_own_skeleton calls BrokenBodyPart.start. Combine both into one function.
 #. Make broken off limbs so they can be grabbed, thrown, and used as a melee weapon
+#. Fix gaps between floppy limb joints
+#. Blood splatter and decals
+#. Add animation for NPC:
+#	. Getting up off ground
+#	. Walking with injured leg
+#	. Holding injured arm
+# Add dragging bodies like in Deus Ex
 
 
 func _init() -> void:
