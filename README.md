@@ -1,10 +1,10 @@
 # Godot Ragdoll Example
 
 
-# Checkout project
-```bash
-git clone https://github.com/ImmersiveRPG/ExampleRagdoll
-```
+
+👇👇👇Link to Youtube video 👇👇👇
+
+[![Raycast bullets in Godot](https://img.youtube.com/vi/vyWlwVPRODA/0.jpg)](https://www.youtube.com/watch?v=vyWlwVPRODA, "Godot Active ragdolls with breakable floppy limbs")
 
 
 ## NPC mannequin and animations are from Mixamo
