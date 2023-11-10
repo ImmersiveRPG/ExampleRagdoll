@@ -49,6 +49,47 @@ theme_override_colors/font_color = Color(0.901961, 1, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 text = "FPS: ?"
 
+[node name="LabelProgram" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 40.0
+offset_right = 213.0
+offset_bottom = 135.0
+text = "ESC - Exit
+F11 - Toggle full screen
+Q - Toggle mouse lock"
+
+[node name="LabelPlayer" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 200.0
+offset_right = 149.0
+offset_bottom = 304.0
+text = "Player:
+WASD - Move
+Left Click - Shoot
+F - Throw soda
+"
+
+[node name="LabelNPC" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -268.0
+offset_top = 20.0
+offset_right = -57.0
+offset_bottom = 236.0
+grow_horizontal = 0
+text = "NPC:
+M - Add new destinations
+P - Push NPC
+E - Toggle NPC Dead/Alive
+
+R - Break right arm
+T - Break left arm
+Y - Break right leg
+U - Break left leg
+I - Break head
+O - Break everything"
+
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
@@ -91,47 +132,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 1, -22.276)
 size = Vector3(20, 5, 20)
 shape = 2
 material = SubResource("FogMaterial_dsst4")
-
-[node name="Label" type="Label" parent="."]
-offset_left = 20.0
-offset_top = 40.0
-offset_right = 213.0
-offset_bottom = 135.0
-text = "ESC - Exit
-F11 - Toggle full screen
-Q - Toggle mouse lock"
-
-[node name="Label2" type="Label" parent="."]
-offset_left = 20.0
-offset_top = 200.0
-offset_right = 149.0
-offset_bottom = 304.0
-text = "Player:
-WASD - Move
-Left Click - Shoot
-F - Throw soda
-"
-
-[node name="Label3" type="Label" parent="."]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -268.0
-offset_top = 20.0
-offset_right = -57.0
-offset_bottom = 236.0
-grow_horizontal = 0
-text = "NPC:
-M - Add new destinations
-P - Push NPC
-E - Toggle NPC Dead/Alive
-
-R - Break right arm
-T - Break left arm
-Y - Break right leg
-U - Break left leg
-I - Break head
-O - Break everything"
 
 [node name="ShootingDisplayOfCans" parent="." instance=ExtResource("7_wan5n")]
 
