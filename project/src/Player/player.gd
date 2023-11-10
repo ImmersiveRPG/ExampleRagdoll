@@ -34,6 +34,42 @@ func _input(event : InputEvent) -> void:
 	if event is InputEventMouse:
 		_latest_mouse_pos = event.position
 
+	# Just return if it is a keypress release or echo
+	var key_event := event as InputEventKey
+	if key_event and (not key_event.pressed or key_event.echo):
+		return
+
+	# Just return if it is a mouse button release
+	var mouse_event := event as InputEventMouseButton
+	if mouse_event and not mouse_event.pressed:
+		return
+
+	match Global.get_input_action_name(event):
+		"ThrowCola":
+			var force := 5.0
+			#Engine.time_scale = 0.1
+			var cb := func(org : Vector3, angle : Vector3, force : float):
+				var rock_scene : PackedScene = ResourceLoader.load("res://src/Rock/Rock.tscn")
+				var rock := rock_scene.instantiate()
+				Global._world.add_child(rock)
+				rock.start(org, angle * force)
+
+			var org : Vector3 = $HandLocation.global_transform.origin
+			var angle : Vector3 = -$Pivot/CameraMountFirstPerson/z.global_transform.basis.z
+			for i in 10:
+				cb.call(org, angle, 5.0)
+		"ShootBullet":
+			var cb := func(start_pos : Vector3, target_pos : Vector3):
+				# Create bullet
+				var spread := 0.0
+				var bullet_type := Global.BulletType._308
+				Global.create_bullet(Global._world, start_pos, target_pos, bullet_type, spread)
+
+			var start_pos = $Pivot/RShoulder/Arm/BulletStart.global_transform.origin
+			var target_pos = _target_pos
+			for i in 1:
+				cb.call(start_pos, target_pos)
+
 func _process(delta : float) -> void:
 	var camera : Camera3D = $Pivot/CameraMountFirstPerson/z/Camera3D
 

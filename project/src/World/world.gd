@@ -39,29 +39,6 @@ func _input(event : InputEvent) -> void:
 	var man = $NPC._mannequin
 	var force := 5.0
 	match Global.get_input_action_name(event):
-		"ThrowCola":
-			#Engine.time_scale = 0.1
-			var cb := func(org : Vector3, angle : Vector3, force : float):
-				var rock_scene : PackedScene = ResourceLoader.load("res://src/Rock/Rock.tscn")
-				var rock := rock_scene.instantiate()
-				Global._world.add_child(rock)
-				rock.start(org, angle * force)
-
-			var org : Vector3 = $Player/HandLocation.global_transform.origin
-			var angle : Vector3 = -$Player/Pivot/CameraMountFirstPerson/z.global_transform.basis.z
-			for i in 10:
-				cb.call(org, angle, 5.0)
-		"ShootBullet":
-			var cb := func(start_pos : Vector3, target_pos : Vector3):
-				# Create bullet
-				var spread := 0.0
-				var bullet_type := Global.BulletType._308
-				Global.create_bullet(Global._world, start_pos, target_pos, bullet_type, spread)
-
-			var start_pos = $Player/Pivot/RShoulder/Arm/BulletStart.global_transform.origin
-			var target_pos = $Player._target_pos
-			for i in 1:
-				cb.call(start_pos, target_pos)
 		"ThrowNPC":
 			$NPC.die()
 			var angle = -$Player/ThrowAngle.global_transform.basis.z
