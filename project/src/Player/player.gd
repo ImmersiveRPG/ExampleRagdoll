@@ -25,14 +25,15 @@ var _target_pos := Vector3.ZERO
 var _input_vector := Vector3.ZERO
 
 func _input(event : InputEvent) -> void:
-	# Rotate camera with mouse
-	if event is InputEventMouseMotion:
-		_camera_x -= event.relative.x * Global.MOUSE_SENSITIVITY
-		_camera_y = clampf(_camera_y - event.relative.y * Global.MOUSE_SENSITIVITY, Global.MOUSE_Y_MIN, Global.MOUSE_Y_MAX)
+	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		# Rotate camera with mouse
+		if event is InputEventMouseMotion:
+			_camera_x -= event.relative.x * Global.MOUSE_SENSITIVITY
+			_camera_y = clampf(_camera_y - event.relative.y * Global.MOUSE_SENSITIVITY, Global.MOUSE_Y_MIN, Global.MOUSE_Y_MAX)
 
-	# Update the latest mouse position
-	if event is InputEventMouse:
-		_latest_mouse_pos = event.position
+		# Update the latest mouse position
+		if event is InputEventMouse:
+			_latest_mouse_pos = event.position
 
 	# Just return if it is a keypress release or echo
 	var key_event := event as InputEventKey
