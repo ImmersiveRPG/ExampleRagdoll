@@ -132,14 +132,6 @@ func rand_vector(min_val : float, max_val : float) -> Vector3:
 		randf_range(min_val, max_val)
 	)
 
-func array_random_index(array : Array) -> int:
-	var i : int = randi_range(0, array.size() - 1)
-	return i
-
-func array_random_value(array : Array):
-	var i : int = array_random_index(array)
-	return array[i]
-
 func enum_all_values(the_enum : Dictionary) -> int:
 	var retval := 0
 	for values in the_enum.values():
