@@ -6,20 +6,20 @@
 height = 0.122
 radius = 0.033
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vohx8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nnl4l"]
 albedo_color = Color(0, 0, 1, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_o86g4"]
-material = SubResource("StandardMaterial3D_vohx8")
+material = SubResource("StandardMaterial3D_nnl4l")
 top_radius = 0.033
 bottom_radius = 0.033
 height = 0.122
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ylg3"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0cx3g"]
 albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_duukx"]
-material = SubResource("StandardMaterial3D_0ylg3")
+material = SubResource("StandardMaterial3D_0cx3g")
 top_radius = 0.033
 bottom_radius = 0.033
 height = 0.122

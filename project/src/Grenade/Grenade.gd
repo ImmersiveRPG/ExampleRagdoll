@@ -9,6 +9,7 @@ extends RigidBody3D
 var _prev_origin := Vector3.INF
 var _is_shape_casting := true
 var _is_started := false
+var _is_red := false
 
 func start(origin : Vector3, impulse : Vector3) -> void:
 	self.global_transform.origin = origin
@@ -43,12 +44,9 @@ func _physics_process(delta : float) -> void:
 func set_is_shape_casting(value : bool) -> void:
 	_is_shape_casting = value
 
-	$CollisionShape3D/MeshInstance3D.visible = _is_shape_casting
-	$CollisionShape3D/MeshInstance3D2.visible = not _is_shape_casting
 	$CollisionShape3D.disabled = _is_shape_casting
 	$ShapeCast3D.enabled = _is_shape_casting
 
-# FIXME: This is used to apply force to things it hits, so it doesn't need to be body_entered event?
 func _on_body_entered(body, direction := Vector3.INF) -> void:
 	#print(["_on_body_entered", body, direction])
 	if direction != Vector3.INF and _is_shape_casting and body.has_method("apply_central_impulse"):
@@ -60,3 +58,21 @@ func _on_body_entered(body, direction := Vector3.INF) -> void:
 		body.apply_central_impulse(force * angle)
 
 	self.set_is_shape_casting(false)
+
+
+func _on_timer_boom_timeout() -> void:
+	var scene : PackedScene = ResourceLoader.load("res://src/Explosion/Explosion.tscn")
+	var explosion := scene.instantiate()
+	Global._world.add_child(explosion)
+	explosion.global_transform.origin = self.global_transform.origin
+	explosion.start()
+
+	self.queue_free()
+
+
+func _on_timer_flash_timeout() -> void:
+	_is_red = not _is_red
+
+	$OmniLight3D.visible = _is_red
+	$CollisionShape3D/MeshInstanceNormal.visible = not _is_red
+	$CollisionShape3D/MeshInstanceRed.visible = _is_red

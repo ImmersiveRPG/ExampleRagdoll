@@ -61,12 +61,13 @@ Q - Toggle mouse lock"
 [node name="LabelPlayer" type="Label" parent="."]
 offset_left = 20.0
 offset_top = 200.0
-offset_right = 149.0
-offset_bottom = 304.0
+offset_right = 186.0
+offset_bottom = 345.0
 text = "Player:
 WASD - Move
 Left Click - Shoot
 F - Throw soda
+G - Throw grenade
 "
 
 [node name="LabelNPC" type="Label" parent="."]

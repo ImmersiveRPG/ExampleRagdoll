@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://mwkocc8hc8oj"]
+
+[ext_resource type="Script" path="res://src/Explosion/Explosion.gd" id="1_4yh2x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qi8et"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.156863)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ghe1o"]
+material = SubResource("StandardMaterial3D_qi8et")
+radius = 5.0
+height = 10.0
+
+[node name="Explosion" type="Node3D"]
+script = ExtResource("1_4yh2x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_ghe1o")
+
+[node name="TimerDie" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="TimerDie" to="." method="_on_timer_die_timeout"]

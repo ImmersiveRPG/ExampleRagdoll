@@ -46,6 +46,18 @@ func _input(event : InputEvent) -> void:
 		return
 
 	match Global.get_input_action_name(event):
+		"ThrowGrenade":
+			var force := 5.0
+			var cb := func(org : Vector3, angle : Vector3, force : float):
+				var grenade_scene : PackedScene = ResourceLoader.load("res://src/Grenade/Grenade.tscn")
+				var grenade := grenade_scene.instantiate()
+				Global._world.add_child(grenade)
+				grenade.start(org, angle * force)
+
+			var org : Vector3 = $HandLocation.global_transform.origin
+			var angle : Vector3 = -$Pivot/CameraMountFirstPerson/z.global_transform.basis.z
+			for i in 1:
+				cb.call(org, angle, 5.0)
 		"ThrowCola":
 			var force := 5.0
 			#Engine.time_scale = 0.1

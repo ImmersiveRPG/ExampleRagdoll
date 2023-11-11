@@ -181,7 +181,7 @@ func recursively_get_all_children_in_filter(target : Node, filter_cb : Callable)
 
 	return matches
 
-func recursively_get_all_children_in_group(target : Node, group_name : String) -> Array:
+func recursively_get_all_children_in_groups(target : Node, group_names : Array) -> Array:
 	var matches := []
 	var to_search := [target]
 	while not to_search.is_empty():
@@ -190,8 +190,10 @@ func recursively_get_all_children_in_group(target : Node, group_name : String) -
 		for child in entry.get_children():
 			to_search.append(child)
 
-		if entry.is_in_group(group_name):
-			matches.append(entry)
+		for group_name in group_names:
+			if entry.is_in_group(group_name):
+				if entry not in matches:
+					matches.append(entry)
 
 	return matches
 

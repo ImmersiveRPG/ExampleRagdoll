@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=3 uid="uid://c16ygs3qjdutj"]
+
+[ext_resource type="Script" path="res://src/Grenade/Grenade.gd" id="1_2ghr3"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_uqshs"]
+height = 0.122
+radius = 0.033
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vohx8"]
+albedo_color = Color(1, 0.984314, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wgnnm"]
+material = SubResource("StandardMaterial3D_vohx8")
+top_radius = 0.033
+bottom_radius = 0.033
+height = 0.122
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ylg3"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ftl6r"]
+material = SubResource("StandardMaterial3D_0ylg3")
+top_radius = 0.033
+bottom_radius = 0.033
+height = 0.122
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7jxsk"]
+height = 0.122
+radius = 0.033
+
+[node name="Grenade" type="RigidBody3D" groups=["item"]]
+collision_layer = 2
+collision_mask = 8295
+mass = 0.38
+max_contacts_reported = 3
+contact_monitor = true
+script = ExtResource("1_2ghr3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_uqshs")
+disabled = true
+
+[node name="MeshInstanceNormal" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CylinderMesh_wgnnm")
+
+[node name="MeshInstanceRed" type="MeshInstance3D" parent="CollisionShape3D"]
+visible = false
+mesh = SubResource("CylinderMesh_ftl6r")
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+shape = SubResource("CylinderShape3D_7jxsk")
+target_position = Vector3(0, 0, 0)
+collision_mask = 8295
+
+[node name="TimerBoom" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="TimerFlash" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+visible = false
+light_color = Color(1, 0, 0, 1)
+shadow_enabled = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="TimerBoom" to="." method="_on_timer_boom_timeout"]
+[connection signal="timeout" from="TimerFlash" to="." method="_on_timer_flash_timeout"]
