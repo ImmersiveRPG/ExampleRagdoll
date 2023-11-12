@@ -31,7 +31,10 @@ func start() -> void:
 			elif node.is_in_group("item"):
 				node.apply_central_impulse(force * angle)
 
-
+@onready var _light := $OmniLight3D as OmniLight3D
+func _physics_process(delta : float) -> void:
+	_light.light_energy = clampf(_light.light_energy - delta * 1.0, 0.0, 100.0)
+	_light.light_indirect_energy = clampf(_light.light_indirect_energy - delta * 1.0, 0.0, 100.0)
 
 
 func _on_timer_die_timeout() -> void:
@@ -39,3 +42,7 @@ func _on_timer_die_timeout() -> void:
 
 	#Engine.time_scale = 1.0
 	self.queue_free()
+
+
+func _on_timer_stop_particles_timeout() -> void:
+	$GPUParticles3D.emitting = false

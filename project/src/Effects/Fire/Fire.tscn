@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://dslwyq0yvu1qd"]
+
+[ext_resource type="Material" uid="uid://cutas5epok4sq" path="res://src/Effects/Fire/flame_spatial_material.tres" id="1"]
+[ext_resource type="Material" uid="uid://dtxm7npsfhj4q" path="res://src/Effects/Fire/flame_particles_material.tres" id="2"]
+[ext_resource type="Script" path="res://src/Effects/Fire/Fire.gd" id="3"]
+[ext_resource type="Material" uid="uid://dymyosroaakoo" path="res://src/Effects/Fire/smoke_particles_material.tres" id="4"]
+[ext_resource type="Material" uid="uid://dgtmliv1h22bk" path="res://src/Effects/Fire/smoke_spatial_material.tres" id="5"]
+
+[sub_resource type="SphereShape3D" id="12"]
+
+[sub_resource type="QuadMesh" id="3"]
+size = Vector2(0.25, 0.25)
+
+[node name="Fire" type="Area3D"]
+collision_layer = 0
+collision_mask = 4096
+script = ExtResource("3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("12")
+
+[node name="Flame" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+material_override = ExtResource("1")
+amount = 16
+process_material = ExtResource("2")
+draw_pass_1 = SubResource("3")
+
+[node name="Smoke" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+material_override = ExtResource("5")
+amount = 32
+lifetime = 3.0
+process_material = ExtResource("4")
+draw_pass_1 = SubResource("3")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

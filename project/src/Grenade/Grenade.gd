@@ -61,11 +61,18 @@ func _on_body_entered(body, direction := Vector3.INF) -> void:
 
 
 func _on_timer_boom_timeout() -> void:
-	var scene : PackedScene = ResourceLoader.load("res://src/Explosion/Explosion.tscn")
-	var explosion := scene.instantiate()
+	# Add explosion
+	var explosion_scene : PackedScene = ResourceLoader.load("res://src/Explosion/Explosion.tscn")
+	var explosion := explosion_scene.instantiate()
 	Global._world.add_child(explosion)
 	explosion.global_transform.origin = self.global_transform.origin
 	explosion.start()
+
+	# Add fire
+	var fire_scene : PackedScene = ResourceLoader.load("res://src/Effects/Fire/Fire.tscn")
+	var fire := fire_scene.instantiate()
+	Global._world.add_child(fire)
+	fire.global_transform.origin = self.global_transform.origin
 
 	self.queue_free()
 
