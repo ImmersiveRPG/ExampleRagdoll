@@ -3,8 +3,8 @@
 [ext_resource type="Material" uid="uid://cutas5epok4sq" path="res://src/Effects/Fire/flame_spatial_material.tres" id="1"]
 [ext_resource type="Material" uid="uid://dtxm7npsfhj4q" path="res://src/Effects/Fire/flame_particles_material.tres" id="2"]
 [ext_resource type="Script" path="res://src/Effects/Fire/Fire.gd" id="3"]
-[ext_resource type="Material" uid="uid://dymyosroaakoo" path="res://src/Effects/Fire/smoke_particles_material.tres" id="4"]
-[ext_resource type="Material" uid="uid://dgtmliv1h22bk" path="res://src/Effects/Fire/smoke_spatial_material.tres" id="5"]
+[ext_resource type="Material" uid="uid://cxh1ukhha2wbs" path="res://src/Effects/Fire/smoke_particles_material.tres" id="4"]
+[ext_resource type="Material" uid="uid://dgtmliv1h22bk" path="res://src/Effects/Smoke/smoke_spatial_material.tres" id="5"]
 
 [sub_resource type="SphereShape3D" id="12"]
 

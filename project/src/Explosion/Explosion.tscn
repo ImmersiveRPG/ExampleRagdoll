@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" path="res://src/Explosion/Explosion.gd" id="1_4yh2x"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qi8et"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pwmmm"]
 transparency = 1
 albedo_color = Color(1, 0, 0, 0.156863)
 
 [sub_resource type="SphereMesh" id="SphereMesh_ghe1o"]
-material = SubResource("StandardMaterial3D_qi8et")
+material = SubResource("StandardMaterial3D_pwmmm")
 radius = 5.0
 height = 10.0
 

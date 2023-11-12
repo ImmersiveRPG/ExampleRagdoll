@@ -68,6 +68,12 @@ func _on_timer_boom_timeout() -> void:
 	explosion.global_transform.origin = self.global_transform.origin
 	explosion.start()
 
+	# Add smoke
+	var smoke_scene : PackedScene = ResourceLoader.load("res://src/Effects/Smoke/Smoke.tscn")
+	var smoke := smoke_scene.instantiate()
+	Global._world.add_child(smoke)
+	smoke.global_transform.origin = self.global_transform.origin
+
 	# Add fire
 	var fire_scene : PackedScene = ResourceLoader.load("res://src/Effects/Fire/Fire.tscn")
 	var fire := fire_scene.instantiate()
