@@ -12,3 +12,13 @@ func _on_area_entered(area : Area3D) -> void:
 	if area.is_in_group("liquid"):
 		self.emit_signal("extinguish")
 		self.queue_free()
+
+
+func _on_timer_stop_emitting_timeout() -> void:
+	$Flame.emitting = false
+	$Smoke.emitting = false
+	$OmniLight3D.visible = false
+
+
+func _on_timer_die_timeout() -> void:
+	self.queue_free()
