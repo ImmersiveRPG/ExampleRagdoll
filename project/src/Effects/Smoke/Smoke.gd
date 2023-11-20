@@ -1,7 +1,6 @@
 # Copyright (c) 2021-2023 Matthew Brennan Jones <matthew.brennan.jones@gmail.com>
-# All rights reserved. Proprietary and confidential
-# Unauthorized copying of this file, via any medium is strictly prohibited
-# https://github.com/workhorsy/ImmersiveRPG
+# This file is licensed under the MIT License
+# https://github.com/ImmersiveRPG/ExampleRagdoll
 
 extends Node3D
 
