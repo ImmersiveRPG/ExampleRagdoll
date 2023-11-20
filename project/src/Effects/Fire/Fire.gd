@@ -4,14 +4,6 @@
 
 extends Area3D
 
-signal extinguish
-
-func _on_area_entered(area : Area3D) -> void:
-	# Put out fire if in liquid
-	if area.is_in_group("liquid"):
-		self.emit_signal("extinguish")
-		self.queue_free()
-
 
 func _on_timer_stop_emitting_timeout() -> void:
 	$Flame.emitting = false
