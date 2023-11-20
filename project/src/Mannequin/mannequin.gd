@@ -101,7 +101,7 @@ func push_at_angle(angle : Vector3, force : float) -> void:
 	for bone in bones:
 		bone.apply_central_impulse(angle * force)
 
-func set_body_part_status(body_part : Global.BodyPart, status : Global.BodyPartStatus) -> void:
+func set_body_part_status(body_part : Global.BodyPart, status : Global.BodyPartStatus) -> Skeleton3D:
 	# Just return if the current part status is worse than the new body part status
 	var prev_status = self._body_part_status[body_part]
 	if prev_status >= status: return
@@ -145,9 +145,11 @@ func set_body_part_status(body_part : Global.BodyPart, status : Global.BodyPartS
 		Global.BodyPartStatus.Destroyed:
 			if prev_status == Global.BodyPartStatus.Normal:
 				self._set_body_part_crippled(body_part)
-			self._set_body_part_destroyed(body_part)
+			return self._set_body_part_destroyed(body_part)
 		_:
 			push_error("Unexpected Global.BodyPartStatus: %s" % [body_part])
+
+	return null
 
 
 func _set_body_part_crippled(body_part : Global.BodyPart) -> void:
@@ -162,7 +164,7 @@ func _set_body_part_crippled(body_part : Global.BodyPart) -> void:
 	# Hide the original body part
 	self._hide_body_part(to_hide, tuck_bone_id)
 
-func _set_body_part_destroyed(body_part : Global.BodyPart) -> void:
+func _set_body_part_destroyed(body_part : Global.BodyPart) -> Skeleton3D:
 	# Disconnect the body part from the mount
 	var pin_joint = null
 	match body_part:
@@ -183,6 +185,9 @@ func _set_body_part_destroyed(body_part : Global.BodyPart) -> void:
 		var broken_skeleton = get_node(pin_joint.node_b).owner
 		broken_skeleton._is_attached_to_parent_skeleton = false
 		pin_joint.node_b = NodePath()
+		return broken_skeleton
+
+	return null
 
 func _hide_body_part(to_hide : Array, tuck_bone_id : int) -> void:
 	# Hide animation bones by shrinking and tucking them inside the tuck bone
