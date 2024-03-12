@@ -2,10 +2,9 @@ extends Node3D
 
 
 # FIXME:
-# 1. Make it apply force to broken off body parts
-# 2. Make it dismemeber random parts from body
-# 3. Add explosion with volumetric smoke
+# 1. Cleanup of start to use signals to each part?
 
+# FIXME: This is warning, because start is called before this explosion is inside the tree
 func start() -> void:
 	#Engine.time_scale = 0.1
 
